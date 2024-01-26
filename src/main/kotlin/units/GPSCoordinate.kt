@@ -11,6 +11,12 @@ interface Coordinate {
     val latitudeRadians: Double
     val longitudeRadians: Double
 
+    val latitudeDegrees: Double
+        get() = latitudeRadians * 180 / PI
+
+    val longitudeDegrees: Double
+        get() = longitudeRadians * 180 / PI
+
     fun distance(other: Coordinate): Distance
 }
 
@@ -32,6 +38,10 @@ class GPSCoordinate(
         val normalized = 2 * asin(sqrt(haversine))
         val earthRadius = 6371.kilometers
         return earthRadius * normalized
+    }
+
+    override fun toString(): String {
+        return "$latitudeDegrees°N $longitudeDegrees°E"
     }
 
     companion object {
