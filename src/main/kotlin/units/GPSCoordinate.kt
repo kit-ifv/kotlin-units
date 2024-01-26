@@ -47,7 +47,7 @@ class GPSCoordinate(
     companion object {
         fun degrees(lat: Double, long: Double): GPSCoordinate {
             assert(lat in -90.0..90.0)
-            assert(long in 0.0..180.0)
+            assert(long in -180.0..180.0)
             return GPSCoordinate(PI / 180 * lat, PI / 180 * long)
         }
     }
