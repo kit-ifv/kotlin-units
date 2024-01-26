@@ -24,6 +24,14 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
         val signature: Map<Class<out NumericUnit<*>>, Int> = mapOf(Distance::class.java to 1)
 
 
+        fun parse(text: String): Distance {
+            val index = text.indexOfFirst { it !in '0'..'9' && it !in setOf('.')}
+            val numericComponent = text.substring(0, index).toDouble()
+            val unitComponent = DistanceUnit.parseUnit(text.substring(index))
+
+            return numericComponent.toDistance(unitComponent)
+        }
+
         fun ofMeters(i: Int): Distance {
             return i.toDistance(DistanceUnit.METERS)
         }
@@ -93,18 +101,17 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
                 / t.toDouble(DurationUnit.SECONDS)).toSpeed(SpeedUnit.METER_PER_SECOND)
     }
 }
-
-enum class DistanceUnit(override val scale: Long) : LongUnitScale {
-    MICROMETERS(1L),
-    MILLIMETERS(1000L),
-    CENTIMETERS(10_000L),
-    INCH(25_400L),
-    DECIMETERS(100_000L),
-    YARD(914_400L),
-    METERS(1_000_000L),
-    KILOMETERS(1_000_000_000L),
-    MILE(1_609_340_000L),
-    SEA_MILE(1_852_000_000L);
+enum class DistanceUnit(override val scale: Long, val symbol: String) : LongUnitScale {
+    MICROMETERS(1L, "µm"),
+    MILLIMETERS(1000L,"mm"),
+    CENTIMETERS(10_000L, "cm"),
+    INCH(25_400L, "\""),
+    DECIMETERS(100_000L, "dm"),
+    YARD(914_400L, "yd"),
+    METERS(1_000_000L, "m"),
+    KILOMETERS(1_000_000_000L,"km"),
+    MILE(1_609_340_000L, "mi"),
+    SEA_MILE(1_852_000_000L, "nmi");
 
     companion object {
         /**
@@ -115,9 +122,10 @@ enum class DistanceUnit(override val scale: Long) : LongUnitScale {
             assert(atomic.scale == 1L)
             return atomic
         }
+
+        fun parseUnit(text: String): DistanceUnit = entries.first {it.symbol == text}
     }
 }
-
 
 /**
  *

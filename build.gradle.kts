@@ -3,7 +3,7 @@ plugins {
     id("maven-publish")
 }
 group = "edu.kit.ifv.mobitopp"
-version = "1.0.0"
+version = "1.0.2"
 
 
 
