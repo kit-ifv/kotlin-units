@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 
 
 class TemperatureTest : GenericUnitTest<TemperatureUnit, Temperature>(
-    TemperatureUnit.values(),
+    TemperatureUnit.entries.toTypedArray(),
     Int::toTemperature,
     Long::toTemperature,
     Double::toTemperature

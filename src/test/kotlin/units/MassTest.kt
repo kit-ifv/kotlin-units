@@ -4,7 +4,8 @@ package units
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MassTest : GenericUnitTest<MassUnit, Mass>(MassUnit.values(), Int::toMass, Long::toMass, Double::toMass) {
+class MassTest :
+    GenericUnitTest<MassUnit, Mass>(MassUnit.entries.toTypedArray(), Int::toMass, Long::toMass, Double::toMass) {
     @Test
     fun reasonableNumbers() {
         val massFromDouble = 10.0.toMass(MassUnit.GRAM)

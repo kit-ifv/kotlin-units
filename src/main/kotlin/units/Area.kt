@@ -27,7 +27,9 @@ value class Area internal constructor(override val rawValue: Double) : FloatUnit
     override fun unaryMinus(): Area {
         return Area(-this.rawValue)
     }
-
+    operator fun times(distance: Distance): Volume {
+        return Volume(rawValue * distance.toDouble(DistanceUnit.METERS))
+    }
     /**
      * Since Area is a representation of a higher order type that can be specified we need to override the generic
      * multiplication rules to accommodate the fact that we have factually two distances to specify an area

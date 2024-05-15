@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 
 class CurrencyTest : GenericUnitTest<CurrencyUnit, Currency>(
-    CurrencyUnit.values(),
+    CurrencyUnit.entries.toTypedArray(),
     Int::toCurrency,
     Long::toCurrency,
     Double::toCurrency

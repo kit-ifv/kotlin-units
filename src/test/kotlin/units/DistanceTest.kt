@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class DistanceTest : GenericUnitTest<DistanceUnit, Distance>(
-    DistanceUnit.values(),
+    DistanceUnit.entries.toTypedArray(),
     Int::toDistance,
     Long::toDistance,
     Double::toDistance

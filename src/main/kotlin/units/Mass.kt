@@ -85,14 +85,19 @@ fun Double.toMass(unit: MassUnit): Mass {
     return Mass(convertUnit(x, 1L))
 }
 
+fun Number.toMass(unit: MassUnit): Mass {
+    return toDouble().toMass(unit)
+}
+
+
 operator fun Int.times(mass: Mass): Mass {
     return mass * this
 }
 
-inline val Int.grams: Mass
+inline val Number.grams: Mass
     get() = this.toMass(MassUnit.GRAM)
 
-inline val Int.kilograms: Mass
+inline val Number.kilograms: Mass
     get() = this.toMass(MassUnit.KILOGRAM)
 
 

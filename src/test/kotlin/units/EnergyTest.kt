@@ -7,7 +7,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class EnergyTest :
     GenericUnitTest<EnergyUnit, Energy>(
-        EnergyUnit.values(),
+        EnergyUnit.entries.toTypedArray(),
         Int::toEnergy,
         Long::toEnergy,
         Double::toEnergy
