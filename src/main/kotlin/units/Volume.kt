@@ -28,6 +28,8 @@ value class Volume internal constructor(override val rawValue: Double) : FloatUn
         return Volume(-this.rawValue)
     }
 
+    val benzene: Energy get() = this.toDouble(VolumeUnit.LITER).toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
+
     /**
      * Since Area is a representation of a higher order type that can be specified we need to override the generic
      * multiplication rules to accommodate the fact that we have factually two distances to specify an area
@@ -64,6 +66,9 @@ fun Double.toVolume(units: VolumeUnit): Volume {
 fun Number.toVolume(units: VolumeUnit): Volume {
     return toDouble().toVolume(units)
 }
+
+val Number.liters: Volume get() = toVolume(VolumeUnit.LITER)
+val Number.cubicMeters: Volume get() = toVolume(VolumeUnit.CUBIC_METER)
 
 enum class VolumeUnit(override val scale: Double) : FloatUnitScale {
     CUBIC_METER(1.0),

@@ -34,7 +34,11 @@ value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit> {
     override fun unaryMinus(): Energy {
         return Energy(-rawValue)
     }
+    operator fun div(other: Distance): Efficiency {
+        return Efficiency(rawValue / other.toDouble(DistanceUnit.METERS))
+    }
 
+    val asLitersBenzene: Volume get() = this.toDouble(EnergyUnit.BENZENE_EQUIVALENT).toVolume(VolumeUnit.LITER)
 }
 
 fun Int.toEnergy(units: EnergyUnit): Energy {
@@ -59,10 +63,16 @@ val Number.joule: Energy
 
 val Number.kilowatthours: Energy
     get() = toEnergy(EnergyUnit.KILOWATTHOUR)
+
+
+val Number.litersBenzene: Energy
+    get() = toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
+
 enum class EnergyUnit(override val scale: Double) : FloatUnitScale {
     JOULE(1.0),
     KILOJOULE(1000.0),
-    KILOWATTHOUR(3_600_000.0);
+    KILOWATTHOUR(3_600_000.0),
+    BENZENE_EQUIVALENT(32_000_000.0)
 
 
 }
