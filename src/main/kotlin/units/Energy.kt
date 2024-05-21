@@ -38,6 +38,10 @@ value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit> {
         return Efficiency(rawValue / other.toDouble(DistanceUnit.METERS))
     }
 
+    operator fun div(other: Efficiency): Distance {
+        return (rawValue / other.rawValue).toDistance(DistanceUnit.METERS)
+    }
+
     val asLitersBenzene: Volume get() = this.toDouble(EnergyUnit.BENZENE_EQUIVALENT).toVolume(VolumeUnit.LITER)
 }
 
