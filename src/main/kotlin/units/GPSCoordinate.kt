@@ -1,9 +1,11 @@
 package units
 
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
@@ -50,11 +52,25 @@ class GPSCoordinate(
         return Converter.toUtm(latitudeRadians.toDegrees(), longitudeRadians.toDegrees())
     }
 
+    override fun equals(other: Any?): Boolean {
+
+        return other is GPSCoordinate
+                && abs(latitudeRadians.toDouble() - other.latitudeRadians.toDouble()) < DEVIATION_MILLIMETERS
+                && abs(longitudeRadians.toDouble() - other.longitudeRadians.toDouble()) < DEVIATION_MILLIMETERS
+
+    }
+
+    override fun hashCode(): Int {
+        var result = (latitudeRadians.toDouble() * INVERSE_UPPER_BOUND_DEVIATION).roundToInt().hashCode()
+        result = 31 * result + (longitudeRadians.toDouble() * INVERSE_UPPER_BOUND_DEVIATION).roundToInt().hashCode()
+        return result
+    }
+
     companion object {
         fun decimalDegree(lat: Double, lon: Double): GPSCoordinate {
             assert(lat in MIN_LAT..MAX_LAT)
             assert(lon in MIN_LONG..MAX_LON)
-            return GPSCoordinate(lat.radians, lon.radians)
+            return GPSCoordinate(lat.degrees.toRadians(), lon.degrees.toRadians())
         }
         fun degreesMinutes(lat: Int, latMinute : Double, lon: Int, lonMinute: Double): GPSCoordinate {
             assert(latMinute in 0.0..<60.0)
@@ -156,8 +172,8 @@ object Converter {
     /**
      * For many UTM calculations the center meridian of the zone is required, sitting at in the middle of a 6° zone
      */
-    private fun centralMeridian(i: Int): Double {
-        return (i - 1) * 6.0 - 180 + 3
+    private fun centralMeridian(i: Int): Degrees {
+        return Degrees((i - 1) * 6.0 - 180 + 3)
     }
 
     /**
@@ -189,7 +205,7 @@ object Converter {
         val latTan4 = latTan.pow(4)
 
         val lonRad = lon.toRadians().toDouble()
-        val centerRad = centralMeridian(zone).degrees.toRadians().toDouble()
+        val centerRad = centralMeridian(zone).toRadians().toDouble()
 
         val n = R / sqrt(1 - E * latSin.pow(2))
         val c = E_P2 * latCos.pow(2)
@@ -274,7 +290,7 @@ object Converter {
                 d3 / 6 * (1 + 2 * pTan2 + c) +
                 d5 / 120 * (5 - 2 * c + 28 * pTan2 - 3 * c2 + 8 * E_P2 + 24 * pTan4)) / pCos
 
-        val l2 = angle(longitude + centralMeridian(zone).radians.toDouble())
+        val l2 = angle(longitude + centralMeridian(zone).toRadians().toDouble())
         return GPSCoordinate(Radians(latitude), Radians(l2))
     }
 
