@@ -49,6 +49,15 @@ value class Area internal constructor(override val rawValue: Double) : FloatUnit
         return Area(rawValue  * scalar)
     }
 
+    override fun times(scalar: Number): Area {
+        return this * scalar.toDouble()
+    }
+
+
+    override fun div(scalar: Number): Area {
+        return this / scalar.toDouble()
+    }
+
 
     override fun div(scalar: Double): Area {
         return Area(rawValue  / scalar)

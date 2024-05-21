@@ -12,7 +12,14 @@ value class Currency(override val rawValue: Double) : FloatUnit<CurrencyUnit>, S
     override fun div(scalar: Double): Currency {
         return Currency(rawValue * scalar)
     }
+    override fun times(scalar: Number): Currency {
+        return this / scalar.toDouble()
+    }
 
+
+    override fun div(scalar: Number): Currency {
+        return this * scalar.toDouble()
+    }
     companion object {
         val signature: Map<Class<out NumericUnit<*>>, Int> = mapOf(Currency::class.java to 1)
 

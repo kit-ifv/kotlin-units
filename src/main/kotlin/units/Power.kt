@@ -45,7 +45,14 @@ value class Power(override val rawValue: Double) : FloatUnit<PowerUnit>, ScalarU
     override fun times(scalar: Double): Power {
         return Power(rawValue * scalar)
     }
+    override fun times(scalar: Number): Power {
+        return this * scalar.toDouble()
+    }
 
+
+    override fun div(scalar: Number): Power {
+        return this / scalar.toDouble()
+    }
     override fun div(scalar: Double): Power {
         return Power(rawValue / scalar)
     }

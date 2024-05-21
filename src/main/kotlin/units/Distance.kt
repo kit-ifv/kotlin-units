@@ -56,7 +56,14 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
     override fun times(scalar: Double): Distance {
         return Distance((scalar * rawValue).roundToLong())
     }
+    override fun times(scalar: Number): Distance {
+        return this * scalar.toDouble()
+    }
 
+
+    override fun div(scalar: Number): Distance {
+        return this / scalar.toDouble()
+    }
 
     override fun div(scalar: Double): Distance {
         return Distance((rawValue / scalar).roundToLong())

@@ -42,7 +42,14 @@ value class Speed(override val rawValue: Double) : FloatUnit<SpeedUnit>, ScalarU
     override fun times(scalar: Double): Speed {
         return Speed(rawValue * scalar)
     }
+    override fun times(scalar: Number): Speed {
+        return this * scalar.toDouble()
+    }
 
+
+    override fun div(scalar: Number): Speed {
+        return this / scalar.toDouble()
+    }
     override fun div(scalar: Double): Speed {
         return Speed(rawValue / scalar)
     }

@@ -81,15 +81,11 @@ interface LongUnitScale : NumericUnitScale {
  *  Adds scaling to the set of operations on the underlying unit. *
  */
 interface ScalarUnit<F : NumericUnitScale> {
-    operator fun times(scalar: Number): ScalarUnit<F> {
-        return times(scalar.toDouble())
-    }
+    operator fun times(scalar: Number): ScalarUnit<F>
 
     operator fun times(scalar: Double): ScalarUnit<F>
 
-    operator fun div(scalar: Number): ScalarUnit<F> {
-        return div(scalar.toDouble())
-    }
+    operator fun div(scalar: Number): ScalarUnit<F>
     operator fun div(scalar: Double): ScalarUnit<F>
 
 }

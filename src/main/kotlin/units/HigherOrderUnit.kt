@@ -47,6 +47,14 @@ class HigherOrderUnit(
         return HigherOrderUnit(type, rawValue * scalar)
     }
 
+    override fun times(scalar: Number): HigherOrderUnit {
+        return this * scalar.toDouble()
+    }
+
+
+    override fun div(scalar: Number): HigherOrderUnit {
+        return this / scalar.toDouble()
+    }
     override fun div(scalar: Double): HigherOrderUnit {
         return HigherOrderUnit(type, rawValue / scalar)
     }

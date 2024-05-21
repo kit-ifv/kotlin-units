@@ -25,6 +25,14 @@ value class DurationImitator(override val rawValue: Double) : FloatUnit<Duration
     override fun times(scalar: Double): DurationImitator {
         return DurationImitator(rawValue * scalar)
     }
+    override fun times(scalar: Number): DurationImitator {
+        return this * scalar.toDouble()
+    }
+
+
+    override fun div(scalar: Number): DurationImitator {
+        return this * scalar.toDouble()
+    }
 
     override fun div(scalar: Double): DurationImitator {
         return DurationImitator(rawValue / scalar)

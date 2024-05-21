@@ -52,7 +52,14 @@ value class Volume internal constructor(override val rawValue: Double) : FloatUn
     override fun times(scalar: Double): Volume {
         return Volume(rawValue * scalar)
     }
+    override fun times(scalar: Number): Volume {
+        return this * scalar.toDouble()
+    }
 
+
+    override fun div(scalar: Number): Volume {
+        return this / scalar.toDouble()
+    }
     override fun div(scalar: Double): Volume {
         return Volume(rawValue / scalar)
     }

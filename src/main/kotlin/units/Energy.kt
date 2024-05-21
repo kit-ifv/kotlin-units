@@ -38,6 +38,15 @@ value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit>, Scala
     override fun times(scalar: Double): Energy {
         return Energy(rawValue * scalar)
     }
+
+    override fun times(scalar: Number): Energy {
+        return this * scalar.toDouble()
+    }
+
+
+    override fun div(scalar: Number): Energy {
+        return this / scalar.toDouble()
+    }
     override fun div(scalar: Double): Energy {
         return Energy(rawValue / scalar)
     }

@@ -20,6 +20,15 @@ value class Mass(override val rawValue: Long) : LongUnit<MassUnit>, ScalarUnit<M
     override fun times(scalar: Double): Mass {
         return Mass((scalar * rawValue).roundToLong())
     }
+
+    override fun times(scalar: Number): Mass {
+        return this * scalar.toDouble()
+    }
+
+
+    override fun div(scalar: Number): Mass {
+        return this / scalar.toDouble()
+    }
     override fun div(scalar: Double): Mass {
         return Mass((rawValue / scalar).roundToLong())
     }

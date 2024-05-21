@@ -19,6 +19,16 @@ value class Efficiency(override val rawValue: Double): FloatUnit<EfficiencyUnit>
     override fun times(scalar: Double): Efficiency {
         return Efficiency(rawValue * scalar)
     }
+    override fun times(scalar: Number): Efficiency {
+        return this * scalar.toDouble()
+    }
+
+
+    override fun div(scalar: Number): Efficiency {
+        return this / scalar.toDouble()
+    }
+
+
     override fun div(scalar: Double): Efficiency {
         return Efficiency(rawValue / scalar)
     }
