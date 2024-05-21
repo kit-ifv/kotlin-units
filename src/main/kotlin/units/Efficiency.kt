@@ -4,19 +4,24 @@ package units
  * Raw value should be energy needed to traverse 1 meter
  */
 @JvmInline
-value class Efficiency(override val rawValue: Double): FloatUnit<EfficiencyUnit> {
-    override fun plus(other: FloatUnit<EfficiencyUnit>): FloatUnit<EfficiencyUnit> {
+value class Efficiency(override val rawValue: Double): FloatUnit<EfficiencyUnit>, ScalarUnit<EfficiencyUnit> {
+    override fun plus(other: FloatUnit<EfficiencyUnit>): Efficiency {
         return Efficiency(rawValue + other.rawValue)
     }
 
-    override fun minus(other: FloatUnit<EfficiencyUnit>): FloatUnit<EfficiencyUnit> {
+    override fun minus(other: FloatUnit<EfficiencyUnit>): Efficiency {
         return Efficiency(rawValue - other.rawValue)
     }
 
-    override fun unaryMinus(): FloatUnit<EfficiencyUnit> {
+    override fun unaryMinus(): Efficiency {
         return Efficiency(-rawValue)
     }
-
+    override fun times(scalar: Double): Efficiency {
+        return Efficiency(rawValue * scalar)
+    }
+    override fun div(scalar: Double): Efficiency {
+        return Efficiency(rawValue / scalar)
+    }
     /**
      * How much energy is needed to traverse the given distance
      */
@@ -27,7 +32,9 @@ value class Efficiency(override val rawValue: Double): FloatUnit<EfficiencyUnit>
         get() = mapOf(Energy::class.java to 3, Distance::class.java to -1)
 
 }
-
+operator fun Number.times(element: Efficiency): Efficiency {
+    return element * this.toDouble()
+}
 val Pair<Energy, Distance>.efficiency: Efficiency
     get() {
         return first / second

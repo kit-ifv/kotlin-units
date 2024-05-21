@@ -23,4 +23,6 @@ class EfficiencyTest {
         val distance = capacity / efficiency
         assertEquals(distance, 1000.kilometers)
     }
+
+
 }

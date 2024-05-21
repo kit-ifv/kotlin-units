@@ -9,6 +9,7 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
 
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = signature
+
     val inWholeMillimeters: Long
         get() = toLong(DistanceUnit.MILLIMETERS)
 
@@ -50,35 +51,12 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
         return Distance(-rawValue)
     }
 
-    override fun times(scalar: Int): Distance {
-        if (isInfinite()) {
-            return when {
-                scalar == 0 -> throw IllegalArgumentException("Multiplying infinity with 0 is an undefined operation")
-                scalar > 0 -> INFINITE
-                else -> -INFINITE
-            }
-        }
-        if (scalar == 0) {
-            return Distance(0)
-        }
-        return Distance(scalar * rawValue)
-    }
+
 
     override fun times(scalar: Double): Distance {
         return Distance((scalar * rawValue).roundToLong())
     }
 
-    override fun div(scalar: Int): Distance {
-        if (scalar == 0) {
-            return when {
-                rawValue > 0 -> INFINITE
-                rawValue < 0 -> -INFINITE
-                else -> throw IllegalArgumentException("Dividing 0 by 0 is an undefined mathematical operation")
-            }
-        }
-        return Distance(rawValue / scalar)
-
-    }
 
     override fun div(scalar: Double): Distance {
         return Distance((rawValue / scalar).roundToLong())
@@ -100,6 +78,8 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
         return (this.toDouble(DistanceUnit.METERS)
                 / t.toDouble(DurationUnit.SECONDS)).toSpeed(SpeedUnit.METER_PER_SECOND)
     }
+
+
 }
 enum class DistanceUnit(override val scale: Long, val symbol: String) : LongUnitScale {
     MICROMETERS(1L, "µm"),

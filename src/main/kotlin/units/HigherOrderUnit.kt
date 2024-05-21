@@ -8,7 +8,7 @@ class HigherOrderUnit(
     override val type: Map<Class<out NumericUnit<*>>, Int> = mapOf(),
     override val rawValue: Double = 1.0
 
-) : NumericUnit<FakeScale> {
+) : NumericUnit<FakeScale>, ScalarUnit<FakeScale> {
     constructor(
         numerators: List<NumericUnit<*>> = listOf(),
         denominators: List<NumericUnit<*>> = listOf()
@@ -25,21 +25,32 @@ class HigherOrderUnit(
 
 
     override fun toDouble(unit: FakeScale): Double {
-        TODO("Not yet implemented")
+        return rawValue
     }
 
     override fun toLong(unit: FakeScale): Long {
-        TODO("Not yet implemented")
+        return rawValue.toLong()
     }
 
     override fun toInt(unit: FakeScale): Int {
-        TODO("Not yet implemented")
+        return rawValue.toInt()
     }
 
 
     override fun unaryMinus(): NumericUnit<FakeScale> {
         return this
     }
+
+
+
+    override fun times(scalar: Double): HigherOrderUnit {
+        return HigherOrderUnit(type, rawValue * scalar)
+    }
+
+    override fun div(scalar: Double): HigherOrderUnit {
+        return HigherOrderUnit(type, rawValue / scalar)
+    }
+
 
 
     override operator fun times(other: NumericUnit<*>): NumericUnit<*> {

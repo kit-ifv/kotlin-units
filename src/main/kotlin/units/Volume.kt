@@ -1,7 +1,7 @@
 package units
 
 @JvmInline
-value class Volume internal constructor(override val rawValue: Double) : FloatUnit<VolumeUnit> {
+value class Volume internal constructor(override val rawValue: Double) : FloatUnit<VolumeUnit>, ScalarUnit<VolumeUnit> {
     companion object {
         /**
          * Create the area defined by two distances spanning a rectangle
@@ -49,6 +49,17 @@ value class Volume internal constructor(override val rawValue: Double) : FloatUn
         return Area(rawValue / other.toDouble(DistanceUnit.METERS))
     }
 
+    override fun times(scalar: Double): Volume {
+        return Volume(rawValue * scalar)
+    }
+
+    override fun div(scalar: Double): Volume {
+        return Volume(rawValue / scalar)
+    }
+
+}
+operator fun Number.times(element: Volume): Volume {
+    return element * this.toDouble()
 }
 
 fun Int.toVolume(units: VolumeUnit): Volume {

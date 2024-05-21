@@ -1,9 +1,17 @@
 package units
 
 @JvmInline
-value class Currency(override val rawValue: Double) : FloatUnit<CurrencyUnit> {
+value class Currency(override val rawValue: Double) : FloatUnit<CurrencyUnit>, ScalarUnit<CurrencyUnit> {
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = signature
+
+    override fun times(scalar: Double): Currency {
+        return Currency(rawValue * scalar)
+    }
+
+    override fun div(scalar: Double): Currency {
+        return Currency(rawValue * scalar)
+    }
 
     companion object {
         val signature: Map<Class<out NumericUnit<*>>, Int> = mapOf(Currency::class.java to 1)
@@ -37,7 +45,9 @@ fun Long.toCurrency(units: CurrencyUnit): Currency {
 fun Double.toCurrency(units: CurrencyUnit): Currency {
     return Currency(this * units.scale)
 }
-
+operator fun Number.times(element: Currency): Currency {
+    return element * this.toDouble()
+}
 inline val Int.euros: Currency
     get() = this.toCurrency(CurrencyUnit.EUROS)
 

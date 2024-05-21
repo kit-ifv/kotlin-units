@@ -4,7 +4,7 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
 @JvmInline
-value class Speed(override val rawValue: Double) : FloatUnit<SpeedUnit> {
+value class Speed(override val rawValue: Double) : FloatUnit<SpeedUnit>, ScalarUnit<SpeedUnit> {
 
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = signature
@@ -39,6 +39,18 @@ value class Speed(override val rawValue: Double) : FloatUnit<SpeedUnit> {
         return Speed(-rawValue)
     }
 
+    override fun times(scalar: Double): Speed {
+        return Speed(rawValue * scalar)
+    }
+
+    override fun div(scalar: Double): Speed {
+        return Speed(rawValue / scalar)
+    }
+
+}
+
+operator fun Number.times(element: Speed): Speed {
+    return element * this.toDouble()
 }
 
 fun Int.toSpeed(units: SpeedUnit): Speed {

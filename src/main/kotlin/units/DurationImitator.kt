@@ -5,7 +5,7 @@ import kotlin.time.DurationUnit
 
 
 @JvmInline
-value class DurationImitator(override val rawValue: Double) : FloatUnit<DurationImitatorUnit> {
+value class DurationImitator(override val rawValue: Double) : FloatUnit<DurationImitatorUnit>, ScalarUnit<DurationImitatorUnit> {
     override fun plus(other: FloatUnit<DurationImitatorUnit>): DurationImitator {
         return DurationImitator(this.rawValue + other.rawValue)
     }
@@ -18,10 +18,21 @@ value class DurationImitator(override val rawValue: Double) : FloatUnit<Duration
         return DurationImitator(-rawValue)
     }
 
+
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = mapOf(DurationImitator::class.java to 1)
-}
 
+    override fun times(scalar: Double): DurationImitator {
+        return DurationImitator(rawValue * scalar)
+    }
+
+    override fun div(scalar: Double): DurationImitator {
+        return DurationImitator(rawValue / scalar)
+    }
+}
+operator fun Number.times(element: DurationImitator): DurationImitator {
+    return element * this.toDouble()
+}
 fun Double.toFakeDuration(units: DurationImitatorUnit): DurationImitator {
     return DurationImitator(this * units.scale)
 }

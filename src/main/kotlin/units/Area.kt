@@ -1,7 +1,7 @@
 package units
 
 @JvmInline
-value class Area internal constructor(override val rawValue: Double) : FloatUnit<AreaUnit> {
+value class Area internal constructor(override val rawValue: Double) : FloatUnit<AreaUnit>, ScalarUnit<AreaUnit> {
     companion object {
         /**
          * Create the area defined by two distances spanning a rectangle
@@ -38,17 +38,30 @@ value class Area internal constructor(override val rawValue: Double) : FloatUnit
         return HigherOrderUnit(rawValue.toDistance(DistanceUnit.atomic()), 1.toDistance(DistanceUnit.atomic()), other)
     }
 
+
     override operator fun div(other: NumericUnit<*>): HigherOrderUnit {
         return HigherOrderUnit(
             listOf(rawValue.toDistance(DistanceUnit.atomic()), 1.toDistance(DistanceUnit.atomic())),
             listOf(other)
         )
     }
+    override fun times(scalar: Double): Area {
+        return Area(rawValue  * scalar)
+    }
+
+
+    override fun div(scalar: Double): Area {
+        return Area(rawValue  / scalar)
+    }
 
     operator fun div(other: Distance): Distance {
         return Distance((rawValue / other.rawValue).toLong())
     }
 
+}
+
+operator fun Number.times(area: Area): Area {
+    return area * this.toDouble()
 }
 
 fun Int.toArea(units: AreaUnit): Area {

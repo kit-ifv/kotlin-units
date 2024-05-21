@@ -16,36 +16,10 @@ value class Mass(override val rawValue: Long) : LongUnit<MassUnit>, ScalarUnit<M
         return Mass(-rawValue)
     }
 
-    override fun times(scalar: Int): Mass {
-        if (isInfinite()) {
-            return when {
-                scalar == 0 -> throw IllegalArgumentException("Multiplying infinity with 0 is an undefined operation")
-                scalar > 0 -> Mass(Long.MAX_VALUE)
-                else -> Mass(-Long.MAX_VALUE)
-            }
-        }
-        if (scalar == 0) {
-            return Mass(0)
-        }
-        return Mass(scalar * rawValue)
-    }
 
     override fun times(scalar: Double): Mass {
         return Mass((scalar * rawValue).roundToLong())
     }
-
-    override fun div(scalar: Int): Mass {
-        if (scalar == 0) {
-            return when {
-                rawValue > 0 -> Mass(Long.MAX_VALUE)
-                rawValue < 0 -> Mass(-Long.MAX_VALUE)
-                else -> throw IllegalArgumentException("Dividing 0 by 0 is an undefined mathematical operation")
-            }
-        }
-        return Mass(rawValue / scalar)
-
-    }
-
     override fun div(scalar: Double): Mass {
         return Mass((rawValue / scalar).roundToLong())
     }
@@ -89,11 +63,9 @@ fun Number.toMass(unit: MassUnit): Mass {
     return toDouble().toMass(unit)
 }
 
-
-operator fun Int.times(mass: Mass): Mass {
-    return mass * this
+operator fun Number.times(element: Mass): Mass {
+    return element * this.toDouble()
 }
-
 inline val Number.grams: Mass
     get() = this.toMass(MassUnit.GRAM)
 

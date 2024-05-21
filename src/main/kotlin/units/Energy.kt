@@ -4,7 +4,7 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
 @JvmInline
-value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit> {
+value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit>, ScalarUnit<EnergyUnit> {
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = signature
 
@@ -34,6 +34,13 @@ value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit> {
     override fun unaryMinus(): Energy {
         return Energy(-rawValue)
     }
+
+    override fun times(scalar: Double): Energy {
+        return Energy(rawValue * scalar)
+    }
+    override fun div(scalar: Double): Energy {
+        return Energy(rawValue / scalar)
+    }
     operator fun div(other: Distance): Efficiency {
         return Efficiency(rawValue / other.toDouble(DistanceUnit.METERS))
     }
@@ -44,7 +51,9 @@ value class Energy(override val rawValue: Double) : FloatUnit<EnergyUnit> {
 
     val asLitersBenzene: Volume get() = this.toDouble(EnergyUnit.BENZENE_EQUIVALENT).toVolume(VolumeUnit.LITER)
 }
-
+operator fun Number.times(element: Energy): Energy {
+    return element * this.toDouble()
+}
 fun Int.toEnergy(units: EnergyUnit): Energy {
     return Energy(this * units.scale)
 }

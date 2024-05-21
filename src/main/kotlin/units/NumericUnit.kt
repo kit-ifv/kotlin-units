@@ -20,6 +20,7 @@ sealed interface NumericUnit<SCALE : NumericUnitScale> {
         return HigherOrderUnit(listOf(this, other.fakeDuration))
     }
 
+
     operator fun div(other: Duration): NumericUnit<*> {
         return HigherOrderUnit(listOf(this), listOf(other.fakeDuration))
     }

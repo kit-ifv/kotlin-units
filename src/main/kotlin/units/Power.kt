@@ -5,7 +5,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 
 @JvmInline
-value class Power(override val rawValue: Double) : FloatUnit<PowerUnit> {
+value class Power(override val rawValue: Double) : FloatUnit<PowerUnit>, ScalarUnit<PowerUnit> {
 
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = signature
@@ -41,8 +41,19 @@ value class Power(override val rawValue: Double) : FloatUnit<PowerUnit> {
             listOf(1.seconds.fakeDuration, 1.seconds.fakeDuration)
         )
     }
+
+    override fun times(scalar: Double): Power {
+        return Power(rawValue * scalar)
+    }
+
+    override fun div(scalar: Double): Power {
+        return Power(rawValue / scalar)
+    }
 }
 
+operator fun Number.times(element: Power): Power {
+    return element * this.toDouble()
+}
 fun Int.toPower(units: PowerUnit): Power {
     return Power(this * units.scale)
 }

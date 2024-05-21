@@ -80,15 +80,22 @@ interface LongUnitScale : NumericUnitScale {
 /**
  *  Adds scaling to the set of operations on the underlying unit. *
  */
-internal interface ScalarUnit<F : NumericUnitScale> {
-    operator fun times(scalar: Int): ScalarUnit<F>
+interface ScalarUnit<F : NumericUnitScale> {
+    operator fun times(scalar: Number): ScalarUnit<F> {
+        return times(scalar.toDouble())
+    }
 
     operator fun times(scalar: Double): ScalarUnit<F>
 
-    operator fun div(scalar: Int): ScalarUnit<F>
+    operator fun div(scalar: Number): ScalarUnit<F> {
+        return div(scalar.toDouble())
+    }
     operator fun div(scalar: Double): ScalarUnit<F>
-}
 
+}
+operator fun <T: NumericUnitScale> Number.times(scalarUnit: ScalarUnit<T>): ScalarUnit<T> {
+    return scalarUnit * this
+}
 
 /**
  * This method is directly stolen from the JVM Long conversion for Kotlin. The "ReturnCount" issue could be resolved
