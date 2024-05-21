@@ -33,7 +33,6 @@ class DistanceTest : GenericUnitTest<DistanceUnit, Distance>(
         assertEquals(Distance.ofMeters(3), d1 + d2)
 
     }
-
     @Test
     fun multiplicationTest() {
         val distance = (1).toDistance(DistanceUnit.atomic())

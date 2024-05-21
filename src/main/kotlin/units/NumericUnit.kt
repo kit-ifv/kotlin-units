@@ -24,9 +24,14 @@ sealed interface NumericUnit<SCALE : NumericUnitScale> {
         return HigherOrderUnit(listOf(this), listOf(other.fakeDuration))
     }
 
+    operator fun div(other: NumericUnit<SCALE>): Double {
+        return rawValue.toDouble() / other.rawValue.toDouble()
+    }
+
     operator fun div(other: NumericUnit<*>): NumericUnit<*> {
         return HigherOrderUnit(listOf(this), listOf(other))
     }
+
 }
 
 interface NumericUnitScale {

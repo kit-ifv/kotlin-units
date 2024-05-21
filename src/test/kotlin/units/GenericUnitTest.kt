@@ -1,14 +1,17 @@
 package units
 
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 abstract class GenericUnitTest<T : NumericUnitScale, S : NumericUnit<T>>
     (
-    private val a: Array<T>,
+    val a: Array<T>,
     private val intConverter: (i: Int, unit: T) -> S,
     private val longConverter: (i: Long, unit: T) -> S,
-    private val doubleConverter: (i: Double, unit: T) -> S
+    val doubleConverter: (i: Double, unit: T) -> S
 ) {
 
 
@@ -32,7 +35,20 @@ abstract class GenericUnitTest<T : NumericUnitScale, S : NumericUnit<T>>
     fun doubles() {
         doubleConversion(TEST_DOUBLES, a, doubleConverter)
     }
+    @TestFactory
+    open fun inverseElement(): List<DynamicTest> {
+        return a.map {DynamicTest.dynamicTest(a.toString())  {
+            val element = doubleConverter(42.0, it)
+            val secondElement = doubleConverter(21.0, it)
+            val div = element / element
+            assertIs<Double>(div)
+            assertEquals(1.0, div)
+            assertEquals(2.0, element / secondElement)
+        }
 
+        }
+
+    }
     private fun <T : NumericUnitScale, S : NumericUnit<T>> integerConversion(
         testVals: Collection<Int>, a: Array<T>, foo: (i: Int, unit: T) -> S
     ) {

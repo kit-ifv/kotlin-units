@@ -1,8 +1,11 @@
 package units
 
 
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 
@@ -52,5 +55,20 @@ class TemperatureTest : GenericUnitTest<TemperatureUnit, Temperature>(
     fun addition() {
         val t = 1.toTemperature(TemperatureUnit.KELVIN)
         assertEquals(2, (t + t).toLong(TemperatureUnit.KELVIN))
+    }
+
+    //Temperature has an offset and thusly the conversion check for 42 and 21 is not one half
+    @TestFactory
+    override fun inverseElement(): List<DynamicTest> {
+        return a.map {
+            DynamicTest.dynamicTest(a.toString())  {
+            val element = doubleConverter(42.0, it)
+            val div = element / element
+            assertIs<Double>(div)
+            assertEquals(1.0, div)
+        }
+
+        }
+
     }
 }
