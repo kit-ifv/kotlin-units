@@ -22,8 +22,8 @@ value class Speed(override val rawValue: Double) : FloatUnit<SpeedUnit>, ScalarU
         }
     }
 
-    override operator fun times(time: Duration): Distance {
-        return (this.rawValue * time.toDouble(DurationUnit.SECONDS)).toDistance(DistanceUnit.METERS)
+    override operator fun times(other: Duration): Distance {
+        return (this.rawValue * other.toDouble(DurationUnit.SECONDS)).toDistance(DistanceUnit.METERS)
     }
 
 

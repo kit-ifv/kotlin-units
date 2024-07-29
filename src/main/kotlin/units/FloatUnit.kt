@@ -8,7 +8,7 @@ import kotlin.math.roundToLong
  * Some units are not reasonably representable with an Integer or Long variable, since floating point arithmetics
  * support calculations with infinities no special shenanigans are needed to handle overflows
  */
-sealed interface FloatUnit<SCALE : FloatUnitScale> : NumericUnit<SCALE> {
+sealed interface FloatUnit<SCALE : FloatUnitScale> : NumericUnit<SCALE>, Comparable<FloatUnit<SCALE>> {
     override val rawValue: Double
 
     override fun toDouble(unit: SCALE): Double {
@@ -29,6 +29,9 @@ sealed interface FloatUnit<SCALE : FloatUnitScale> : NumericUnit<SCALE> {
 
     override fun unaryMinus(): FloatUnit<SCALE>
 
+    override fun compareTo(other: FloatUnit<SCALE>): Int {
+        return rawValue.compareTo(other.rawValue)
+    }
 
 }
 

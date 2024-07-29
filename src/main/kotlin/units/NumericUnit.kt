@@ -32,7 +32,6 @@ sealed interface NumericUnit<SCALE : NumericUnitScale> {
     operator fun div(other: NumericUnit<*>): NumericUnit<*> {
         return HigherOrderUnit(listOf(this), listOf(other))
     }
-
 }
 
 interface NumericUnitScale {

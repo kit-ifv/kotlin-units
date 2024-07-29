@@ -2,6 +2,7 @@ package units
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 
 class CurrencyTest : GenericUnitTest<CurrencyUnit, Currency>(
@@ -14,5 +15,10 @@ class CurrencyTest : GenericUnitTest<CurrencyUnit, Currency>(
     fun addingMoney() {
         val money = 1.euros
         assertEquals(2.euros, money + money)
+    }
+    @Test
+    fun comparingMoney() {
+        assertTrue(1.euros < 2.euros)
+        assertTrue(3.euros > 2.5.euros)
     }
 }

@@ -55,8 +55,8 @@ fun Double.toCurrency(units: CurrencyUnit): Currency {
 operator fun Number.times(element: Currency): Currency {
     return element * this.toDouble()
 }
-inline val Int.euros: Currency
-    get() = this.toCurrency(CurrencyUnit.EUROS)
+inline val Number.euros: Currency
+    get() = this.toDouble().toCurrency(CurrencyUnit.EUROS)
 
 
 enum class CurrencyUnit(override val scale: Double) : FloatUnitScale {
