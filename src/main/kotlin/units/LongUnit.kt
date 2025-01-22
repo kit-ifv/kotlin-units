@@ -27,7 +27,7 @@ sealed interface LongUnit<SCALE> : NumericUnit<SCALE>, Comparable<LongUnit<SCALE
 
     operator fun plus(other: LongUnit<SCALE>): LongUnit<SCALE>
 
-    operator fun minus(other: LongUnit<SCALE>): LongUnit<SCALE> = this + (-other)
+    operator fun minus(other: LongUnit<SCALE>): LongUnit<SCALE>
 
     override fun unaryMinus(): LongUnit<SCALE>
 

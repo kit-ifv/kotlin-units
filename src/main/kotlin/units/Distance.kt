@@ -47,6 +47,10 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>,  Con
 
     }
 
+    override fun minus(other: LongUnit<DistanceUnit>): Distance {
+        return this + (-other)
+    }
+
     override fun unaryMinus(): Distance {
         return Distance(-rawValue)
     }
