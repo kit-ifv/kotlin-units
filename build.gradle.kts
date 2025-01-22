@@ -3,7 +3,6 @@ plugins {
     id("maven-publish")
 }
 group = "edu.kit.ifv.mobitopp"
-version = "1.1.4"
 
 
 
@@ -23,7 +22,7 @@ tasks.test {
 kotlin {
     jvmToolchain(8)
 }
-
+version = "1.1.5"
 publishing {
     publications {
         register("mavenData", MavenPublication::class) {

@@ -5,7 +5,7 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
 @JvmInline
-value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, ScalarUnit<DistanceUnit> {
+value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>,  ConcreteScalarUnit<Distance, DistanceUnit> {
 
     override val type: Map<Class<out NumericUnit<*>>, Int>
         get() = signature
@@ -69,9 +69,9 @@ value class Distance(override val rawValue: Long) : LongUnit<DistanceUnit>, Scal
         return Distance((rawValue / scalar).roundToLong())
     }
 
-    override fun minus(other: LongUnit<DistanceUnit>): Distance {
-        return Distance(rawValue + other.rawValue)
-    }
+//    override fun minus(other: LongUnit<DistanceUnit>): Distance {
+//        return Distance(rawValue + other.rawValue)
+//    }
 
     override fun plus(other: LongUnit<DistanceUnit>): Distance {
         return Distance(rawValue + other.rawValue)
@@ -156,4 +156,7 @@ inline val Double.kilometers: Distance
 inline val Number.meters: Distance
     get() = this.toDouble().toDistance(DistanceUnit.METERS)
 
-
+fun abs(distance: Distance): Distance {
+    val target = distance.rawValue.let { if(it >= 0) it else -it }
+    return Distance(target)
+}

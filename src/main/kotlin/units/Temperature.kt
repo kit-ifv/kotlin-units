@@ -19,9 +19,9 @@ value class Temperature(override val rawValue: Long) : LongUnit<TemperatureUnit>
         return Temperature(-rawValue)
     }
 
-    override fun minus(other: LongUnit<TemperatureUnit>): Temperature {
-        return this + (-other)
-    }
+//    override fun minus(other: LongUnit<TemperatureUnit>): Temperature {
+//        return this + (-other)
+//    }
 
     override fun toLong(unit: TemperatureUnit): Long {
         return convertUnit(rawValue - unit.offset, 1L, unit.scale)

@@ -57,6 +57,12 @@ class TemperatureTest : GenericUnitTest<TemperatureUnit, Temperature>(
         assertEquals(2, (t + t).toLong(TemperatureUnit.KELVIN))
     }
 
+    @Test
+    fun subtraction() {
+        val t = 2.toTemperature(TemperatureUnit.KELVIN)
+        assertEquals(0, (t - t).toLong(TemperatureUnit.KELVIN))
+    }
+
     //Temperature has an offset and thusly the conversion check for 42 and 21 is not one half
     @TestFactory
     override fun inverseElement(): List<DynamicTest> {

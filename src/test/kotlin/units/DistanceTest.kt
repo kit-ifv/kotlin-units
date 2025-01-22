@@ -3,6 +3,7 @@ package units
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class DistanceTest : GenericUnitTest<DistanceUnit, Distance>(
     DistanceUnit.entries.toTypedArray(),
@@ -32,6 +33,14 @@ class DistanceTest : GenericUnitTest<DistanceUnit, Distance>(
 
         assertEquals(Distance.ofMeters(3), d1 + d2)
 
+    }
+    @Test
+    fun subtraction() {
+        val d1 = Distance.ofMeters(1)
+        val d2 = Distance.ofMeters(2)
+
+        assertEquals(Distance.ofMeters(-1), d1 - d2)
+        assertEquals(Distance.ofMeters(1), d2 - d1)
     }
     @Test
     fun multiplicationTest() {
@@ -68,5 +77,19 @@ class DistanceTest : GenericUnitTest<DistanceUnit, Distance>(
         val result = 1.meters * 1.meters
         result / (1.meters)
 
+    }
+    @Test
+    fun scalarMultiplicationCommutative() {
+        val distance = (-1).kilometers
+        val a = 3 * distance
+        val b = distance * 3
+        assertEquals(a, b)
+        assertIs<Distance>(a)
+        assertIs<Distance>(b)
+    }
+    @Test
+    fun absoluteValue() {
+        val distance = (-1).kilometers
+        assertEquals(abs(distance), 1.kilometers)
     }
 }

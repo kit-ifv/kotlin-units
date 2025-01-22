@@ -2,6 +2,8 @@ package units
 
 import kotlin.time.Duration
 
+
+
 sealed interface NumericUnit<SCALE : NumericUnitScale> {
     val rawValue: Number
     val type: Map<Class<out NumericUnit<*>>, Int>
@@ -33,7 +35,6 @@ sealed interface NumericUnit<SCALE : NumericUnitScale> {
         return HigherOrderUnit(listOf(this), listOf(other))
     }
 }
-
 interface NumericUnitScale {
     val scale: Number
 }

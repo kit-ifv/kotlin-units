@@ -27,7 +27,7 @@ sealed interface LongUnit<SCALE> : NumericUnit<SCALE>, Comparable<LongUnit<SCALE
 
     operator fun plus(other: LongUnit<SCALE>): LongUnit<SCALE>
 
-    operator fun minus(other: LongUnit<SCALE>): LongUnit<SCALE>
+    operator fun minus(other: LongUnit<SCALE>): LongUnit<SCALE> = this + (-other)
 
     override fun unaryMinus(): LongUnit<SCALE>
 
@@ -60,7 +60,6 @@ sealed interface LongUnit<SCALE> : NumericUnit<SCALE>, Comparable<LongUnit<SCALE
     fun fuzzyEquals(other: LongUnit<SCALE>, precision: SCALE): Boolean {
         return abs(rawValue - other.rawValue) < precision.scale
     }
-
 }
 
 /**
@@ -81,17 +80,24 @@ interface LongUnitScale : NumericUnitScale {
  *  Adds scaling to the set of operations on the underlying unit. *
  */
 interface ScalarUnit<F : NumericUnitScale> {
-    operator fun times(scalar: Number): ScalarUnit<F>
+    operator fun times(scalar: Number): ScalarUnit<F> = times(scalar.toDouble())
 
     operator fun times(scalar: Double): ScalarUnit<F>
 
-    operator fun div(scalar: Number): ScalarUnit<F>
+    operator fun div(scalar: Number): ScalarUnit<F> = div(scalar.toDouble())
     operator fun div(scalar: Double): ScalarUnit<F>
 
 }
-operator fun <T: NumericUnitScale> Number.times(scalarUnit: ScalarUnit<T>): ScalarUnit<T> {
-    return scalarUnit * this
+
+interface ConcreteScalarUnit<H: ScalarUnit<F>, F: NumericUnitScale>: ScalarUnit<F> {
+    override operator fun times(scalar: Double): H
+    override operator fun div(scalar: Double): H
+
 }
+operator fun <H: ConcreteScalarUnit<X,*>, X:ScalarUnit<*>>Number.times(scalarUnit: H): X {
+    return scalarUnit * this.toDouble()
+}
+
 
 /**
  * This method is directly stolen from the JVM Long conversion for Kotlin. The "ReturnCount" issue could be resolved
