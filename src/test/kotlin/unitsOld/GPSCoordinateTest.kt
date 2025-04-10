@@ -1,8 +1,7 @@
-package units
+package unitsOld
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import units.DistanceUnit
 import units.toCoordinate
 
 class GPSCoordinateTest {
@@ -15,7 +14,7 @@ class GPSCoordinateTest {
         val d = pos1.distance(pos2)
 
 
-        assertTrue(111.19.kilometers.fuzzyEquals(d, DistanceUnit.KILOMETERS))
+        assertTrue(111.19.kilometers.fuzzyEquals(d, DistanceUnitDepre.KILOMETERS))
     }
 
     @Test
@@ -25,6 +24,6 @@ class GPSCoordinateTest {
         val d = pos1.distance(pos2)
 
 
-        assertTrue(131.78.kilometers.fuzzyEquals(d, DistanceUnit.KILOMETERS))
+        assertTrue(131.78.kilometers.fuzzyEquals(d, DistanceUnitDepre.KILOMETERS))
     }
 }

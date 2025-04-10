@@ -89,13 +89,13 @@ class HigherOrderUnit(
 
     private fun simplify(): NumericUnit<*> {
         return when (this.type) {
-            Area.signature -> Area(this.rawValue)
-            Currency.signature -> Currency(this.rawValue)
-            Distance.signature -> Distance(this.rawValue.toLong())
-            Energy.signature -> Energy(this.rawValue)
-            Mass.signature -> Mass(this.rawValue.toLong())
-            Power.signature -> Power(this.rawValue)
-            Temperature.signature -> Temperature(this.rawValue.toLong())
+            AreaDepre.signature -> AreaDepre(this.rawValue)
+            CurrencyDepre.signature -> CurrencyDepre(this.rawValue)
+            DistanceDepre.signature -> DistanceDepre(this.rawValue.toLong())
+            EnergyDepre.signature -> EnergyDepre(this.rawValue)
+            MassDepre.signature -> MassDepre(this.rawValue.toLong())
+            PowerDepre.signature -> PowerDepre(this.rawValue)
+            TemperatureDepre.signature -> TemperatureDepre(this.rawValue.toLong())
 
             else -> this
 

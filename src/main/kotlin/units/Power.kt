@@ -1,83 +1,93 @@
 package units
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.DurationUnit
+import unitsOld.FloatUnitScale
+import kotlin.math.absoluteValue
 
 @JvmInline
-value class Power(override val rawValue: Double) : FloatUnit<PowerUnit>, ScalarUnit<PowerUnit> {
+value class Power(val rawValue: Double): Comparable<Power> {
 
-    override val type: Map<Class<out NumericUnit<*>>, Int>
-        get() = signature
+    operator fun unaryMinus(): Power = Power(-rawValue)
+    operator fun plus(other: Power) = Power(rawValue + other.rawValue)
+    operator fun minus(other: Power) = Power(rawValue - other.rawValue)
+    operator fun times(scalar: Double) = Power(rawValue * scalar)
+    operator fun times(scalar: Float) = Power(rawValue * scalar)
+    operator fun times(scalar: Int) = Power((rawValue * scalar))
+    operator fun times(scalar: Long)  = Power((rawValue * scalar))
 
-    companion object {
-        val signature: Map<Class<out NumericUnit<*>>, Int> =
-            mapOf(Mass::class.java to 1, Distance::class.java to 2, DurationImitator::class.java to -3)
+    operator fun div(scalar: Double): Power = Power(rawValue / scalar)
+    operator fun div(scalar: Float): Power = Power(rawValue / scalar)
+    operator fun div(scalar: Int): Power =  Power((rawValue / scalar))
+    operator fun div(scalar: Long): Power = Power((rawValue / scalar))
 
-        fun of(energy: Energy, duration: Duration): Power {
-            return Power(energy.toDouble(EnergyUnit.JOULE) / duration.toDouble(DurationUnit.SECONDS))
-        }
-    }
+    operator fun rangeTo(other: Power): ClosedPowerRange = ClosedPowerRange(this, other)
 
-    override operator fun times(duration: Duration): Energy {
-        return Energy(this.rawValue * duration.toDouble(DurationUnit.SECONDS))
-    }
+    operator fun rangeUntil(other: Power) = OpenPowerRange(this, other)
 
-    override fun plus(other: FloatUnit<PowerUnit>): Power {
-        return Power(rawValue + other.rawValue)
-    }
+    operator fun rem(other: Power): Power = Power((rawValue % other.rawValue))
+    override fun compareTo(other: Power): Int = rawValue.compareTo(other.rawValue)
 
-    override fun minus(other: FloatUnit<PowerUnit>): Power {
-        return this + (-other)
-    }
-
-    override fun unaryMinus(): Power {
-        return Power(-rawValue)
-    }
-
-    override operator fun times(other: NumericUnit<*>): HigherOrderUnit {
-        return HigherOrderUnit(
-            listOf(rawValue.toMass(MassUnit.KILOGRAM), 1.meters, 1.meters, other),
-            listOf(1.seconds.fakeDuration, 1.seconds.fakeDuration)
-        )
-    }
-
-    override fun times(scalar: Double): Power {
-        return Power(rawValue * scalar)
-    }
-    override fun times(scalar: Number): Power {
-        return this * scalar.toDouble()
-    }
+    fun toLong(unit: PowerUnit) = rawValue / unit.scale
+    fun toDouble(unit: PowerUnit) = rawValue / unit.scale
+    //--- Define conversions to "naked" number representations here.
 
 
-    override fun div(scalar: Number): Power {
-        return this / scalar.toDouble()
-    }
-    override fun div(scalar: Double): Power {
-        return Power(rawValue / scalar)
+    //--- Define different operations below:
+
+
+}
+
+class ClosedPowerRange(override val start: Power, override val endInclusive: Power): ClosedRange<Power> {
+    override fun contains(value: Power): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
     }
 }
 
-operator fun Number.times(element: Power): Power {
-    return element * this.toDouble()
-}
-fun Int.toPower(units: PowerUnit): Power {
-    return Power(this * units.scale)
-}
-
-
-fun Long.toPower(units: PowerUnit): Power {
-    return Power(this * units.scale)
+class OpenPowerRange(override val start: Power, override val endExclusive: Power): OpenEndRange<Power> {
+    override fun contains(value: Power): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
 }
 
-fun Double.toPower(units: PowerUnit): Power {
-    return Power(this * units.scale)
+
+
+fun Long.toPower(unit: PowerUnit): Power {
+    return Power(this * unit.scale)
+}
+fun Double.toPower(unit: PowerUnit): Power {
+    return Power(this * unit.scale)
+}
+fun Int.toPower(unit: PowerUnit): Power {
+    return Power(this * unit.scale)
+}
+fun Float.toPower(unit: PowerUnit): Power {
+    return Power(this * unit.scale)
 }
 
-inline val Number.watts: Power
-    get() = this.toDouble().toPower(PowerUnit.WATTS)
 
-enum class PowerUnit(override val scale: Double) : FloatUnitScale {
+
+
+
+fun <T> Iterable<T>.sumOf(selector: (T) -> Power): Power {
+    var sum = 0.toPower(PowerUnit.WATTS)
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+fun Iterable<Power>.min() = minBy { it }
+fun Iterable<Power>.max() = maxBy { it }
+fun Iterable<Power>.average(): Power {
+    var sum = 0.toPower(PowerUnit.WATTS)
+    var count = 0
+    for(element in this) {
+        sum += element
+        count++
+    }
+    return sum / count
+}
+fun abs(element: Power) = Power(element.rawValue.absoluteValue)
+
+enum class PowerUnit(val scale: Double) {
     WATTS(1.0),
     KILOWATTS(1000.0)
 }

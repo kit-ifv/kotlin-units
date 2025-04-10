@@ -1,94 +1,98 @@
 package units
 
+import kotlin.math.absoluteValue
+
+
 @JvmInline
-value class Volume internal constructor(override val rawValue: Double) : FloatUnit<VolumeUnit>, ScalarUnit<VolumeUnit> {
-    companion object {
-        /**
-         * Create the area defined by two distances spanning a rectangle
-         */
-        fun ofCube(a: Distance, b: Distance, c: Distance): Volume {
-            return Volume(a.toDouble(DistanceUnit.METERS) * b.toDouble(DistanceUnit.METERS) * c.toDouble(DistanceUnit.METERS))
-        }
+value class Volume(val rawValue: Double): Comparable<Volume> {
 
-        val signature: Map<Class<out NumericUnit<*>>, Int> = mapOf(Distance::class.java to 3)
-    }
+    operator fun unaryMinus(): Volume = Volume(-rawValue)
+    operator fun plus(other: Volume) = Volume(rawValue + other.rawValue)
+    operator fun minus(other: Volume) = Volume(rawValue - other.rawValue)
+    operator fun times(scalar: Double) = Volume(rawValue * scalar)
+    operator fun times(scalar: Float) = Volume(rawValue * scalar)
+    operator fun times(scalar: Int) = Volume((rawValue * scalar))
+    operator fun times(scalar: Long)  = Volume((rawValue * scalar))
 
-    override val type: Map<Class<out NumericUnit<*>>, Int>
-        get() = signature
+    operator fun div(scalar: Double): Volume = Volume(rawValue / scalar)
+    operator fun div(scalar: Float): Volume = Volume(rawValue / scalar)
+    operator fun div(scalar: Int): Volume =  Volume((rawValue / scalar))
+    operator fun div(scalar: Long): Volume = Volume((rawValue / scalar))
 
-    override fun plus(other: FloatUnit<VolumeUnit>): Volume {
-        return Volume(this.rawValue + other.rawValue)
-    }
+    operator fun rangeTo(other: Volume): ClosedVolumeRange = ClosedVolumeRange(this, other)
 
-    override fun minus(other: FloatUnit<VolumeUnit>): Volume {
-        return this + (-other)
-    }
+    operator fun rangeUntil(other: Volume) = OpenVolumeRange(this, other)
 
-    override fun unaryMinus(): Volume {
-        return Volume(-this.rawValue)
-    }
+    operator fun rem(other: Volume): Volume = Volume((rawValue % other.rawValue))
+    override fun compareTo(other: Volume): Int = rawValue.compareTo(other.rawValue)
 
+    fun toLong(unit: VolumeUnit) = rawValue / unit.scale
+    fun toDouble(unit: VolumeUnit) = rawValue / unit.scale
+    //--- Define conversions to "naked" number representations here.
+
+
+    //--- Define different operations below:
     val benzene: Energy get() = this.toDouble(VolumeUnit.LITER).toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
 
-    /**
-     * Since Area is a representation of a higher order type that can be specified we need to override the generic
-     * multiplication rules to accommodate the fact that we have factually two distances to specify an area
-     */
-    override operator fun times(other: NumericUnit<*>): HigherOrderUnit {
-        return HigherOrderUnit(rawValue.toDistance(DistanceUnit.atomic()), 1.toDistance(DistanceUnit.atomic()), other)
-    }
 
-    override operator fun div(other: NumericUnit<*>): HigherOrderUnit {
-        return HigherOrderUnit(
-            listOf(rawValue.toDistance(DistanceUnit.atomic()), 1.toDistance(DistanceUnit.atomic())),
-            listOf(other)
-        )
+    companion object {
+        fun ofCube(a: Distance, b: Distance, c: Distance): Volume {
+            return Volume(a.inMeters * b.inMeters * c.inMeters)
+        }
     }
-
-    operator fun div(other: Distance): Area {
-        return Area(rawValue / other.toDouble(DistanceUnit.METERS))
-    }
-
-    override fun times(scalar: Double): Volume {
-        return Volume(rawValue * scalar)
-    }
-    override fun times(scalar: Number): Volume {
-        return this * scalar.toDouble()
-    }
-
-
-    override fun div(scalar: Number): Volume {
-        return this / scalar.toDouble()
-    }
-    override fun div(scalar: Double): Volume {
-        return Volume(rawValue / scalar)
-    }
-
-}
-operator fun Number.times(element: Volume): Volume {
-    return element * this.toDouble()
 }
 
-fun Int.toVolume(units: VolumeUnit): Volume {
-    return Volume(this * units.scale)
+class ClosedVolumeRange(override val start: Volume, override val endInclusive: Volume): ClosedRange<Volume> {
+    override fun contains(value: Volume): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
+    }
 }
 
-fun Long.toVolume(units: VolumeUnit): Volume {
-    return Volume(this * units.scale)
+class OpenVolumeRange(override val start: Volume, override val endExclusive: Volume): OpenEndRange<Volume> {
+    override fun contains(value: Volume): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
 }
 
-fun Double.toVolume(units: VolumeUnit): Volume {
-    return Volume(this * units.scale)
+
+fun Long.toVolume(unit: VolumeUnit): Volume {
+    return Volume(this * unit.scale)
+}
+fun Double.toVolume(unit: VolumeUnit): Volume {
+    return Volume(this * unit.scale)
+}
+fun Int.toVolume(unit: VolumeUnit): Volume {
+    return Volume(this * unit.scale)
+}
+fun Float.toVolume(unit: VolumeUnit): Volume {
+    return Volume(this * unit.scale)
 }
 
-fun Number.toVolume(units: VolumeUnit): Volume {
-    return toDouble().toVolume(units)
+
+
+
+
+fun <T> Iterable<T>.sumOf(selector: (T) -> Volume): Volume {
+    var sum = 0.toVolume(VolumeUnit.CUBIC_METER)
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+fun Iterable<Volume>.min() = minBy { it }
+fun Iterable<Volume>.max() = maxBy { it }
+fun Iterable<Volume>.average(): Volume {
+    var sum = 0.toVolume(VolumeUnit.CUBIC_METER)
+    var count = 0
+    for(element in this) {
+        sum += element
+        count++
+    }
+    return sum / count
 }
 
-val Number.liters: Volume get() = toVolume(VolumeUnit.LITER)
-val Number.cubicMeters: Volume get() = toVolume(VolumeUnit.CUBIC_METER)
-
-enum class VolumeUnit(override val scale: Double) : FloatUnitScale {
+fun abs(element: Volume) = Volume(element.rawValue.absoluteValue)
+enum class VolumeUnit(val scale: Double)  {
     CUBIC_METER(1.0),
     LITER(0.001),
 

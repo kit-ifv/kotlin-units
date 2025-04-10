@@ -1,82 +1,92 @@
 package units
 
+import kotlin.math.absoluteValue
+
 @JvmInline
-value class Area internal constructor(override val rawValue: Double) : FloatUnit<AreaUnit>, ScalarUnit<AreaUnit> {
-    companion object {
-        /**
-         * Create the area defined by two distances spanning a rectangle
-         */
-        fun ofRectangle(a: Distance, b: Distance): Area {
-            return Area(a.toDouble(DistanceUnit.METERS) * b.toDouble(DistanceUnit.METERS))
-        }
+value class Area(val rawValue: Double): Comparable<Area> {
 
-        val signature: Map<Class<out NumericUnit<*>>, Int> = mapOf(Distance::class.java to 2)
-    }
+    operator fun unaryMinus(): Area = Area(-rawValue)
+    operator fun plus(other: Area) = Area(rawValue + other.rawValue)
+    operator fun minus(other: Area) = Area(rawValue - other.rawValue)
+    operator fun times(scalar: Double) = Area(rawValue * scalar)
+    operator fun times(scalar: Float) = Area(rawValue * scalar)
+    operator fun times(scalar: Int) = Area((rawValue * scalar))
+    operator fun times(scalar: Long)  = Area((rawValue * scalar))
 
-    override val type: Map<Class<out NumericUnit<*>>, Int>
-        get() = signature
+    operator fun div(scalar: Double): Area = Area(rawValue / scalar)
+    operator fun div(scalar: Float): Area = Area(rawValue / scalar)
+    operator fun div(scalar: Int): Area =  Area((rawValue / scalar))
+    operator fun div(scalar: Long): Area = Area((rawValue / scalar))
 
-    override fun plus(other: FloatUnit<AreaUnit>): Area {
-        return Area(this.rawValue + other.rawValue)
-    }
+    operator fun rangeTo(other: Area): ClosedAreaRange = ClosedAreaRange(this, other)
 
-    override fun minus(other: FloatUnit<AreaUnit>): Area {
-        return this + (-other)
-    }
+    operator fun rangeUntil(other: Area) = OpenAreaRange(this, other)
 
-    override fun unaryMinus(): Area {
-        return Area(-this.rawValue)
-    }
-    operator fun times(distance: Distance): Volume {
-        return Volume(rawValue * distance.toDouble(DistanceUnit.METERS))
-    }
-    /**
-     * Since Area is a representation of a higher order type that can be specified we need to override the generic
-     * multiplication rules to accommodate the fact that we have factually two distances to specify an area
-     */
-    override operator fun times(other: NumericUnit<*>): HigherOrderUnit {
-        return HigherOrderUnit(rawValue.toDistance(DistanceUnit.atomic()), 1.toDistance(DistanceUnit.atomic()), other)
-    }
+    operator fun rem(other: Area): Area = Area((rawValue % other.rawValue))
+    override fun compareTo(other: Area): Int = rawValue.compareTo(other.rawValue)
 
+    fun toLong(unit: AreaUnit) = rawValue / unit.scale
+    fun toDouble(unit: AreaUnit) = rawValue / unit.scale
+    //--- Define conversions to "naked" number representations here.
+    
 
-    override operator fun div(other: NumericUnit<*>): HigherOrderUnit {
-        return HigherOrderUnit(
-            listOf(rawValue.toDistance(DistanceUnit.atomic()), 1.toDistance(DistanceUnit.atomic())),
-            listOf(other)
-        )
-    }
-    override fun times(scalar: Double): Area {
-        return Area(rawValue  * scalar)
-    }
+    //--- Define different operations below:
 
-
-    override fun div(scalar: Double): Area {
-        return Area(rawValue  / scalar)
-    }
-
-    operator fun div(other: Distance): Distance {
-        return Distance((rawValue / other.rawValue).toLong())
-    }
+    operator fun div(distance: Distance): Distance = (rawValue / distance.inMeters).toDistance(DistanceUnit.METERS)
+    operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
 
 }
 
-operator fun Number.times(area: Area): Area {
-    return area * this.toDouble()
+class ClosedAreaRange(override val start: Area, override val endInclusive: Area): ClosedRange<Area> {
+    override fun contains(value: Area): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
+    }
 }
 
-fun Int.toArea(units: AreaUnit): Area {
-    return Area(this * units.scale)
+class OpenAreaRange(override val start: Area, override val endExclusive: Area): OpenEndRange<Area> {
+    override fun contains(value: Area): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
 }
 
-fun Long.toArea(units: AreaUnit): Area {
-    return Area(this * units.scale)
+
+fun Long.toArea(unit: AreaUnit): Area {
+    return Area(this * unit.scale)
+}
+fun Double.toArea(unit: AreaUnit): Area {
+    return Area(this * unit.scale)
+}
+fun Int.toArea(unit: AreaUnit): Area {
+    return Area(this * unit.scale)
+}
+fun Float.toArea(unit: AreaUnit): Area {
+    return Area(this * unit.scale)
 }
 
-fun Double.toArea(units: AreaUnit): Area {
-    return Area(this * units.scale)
-}
 
-enum class AreaUnit(override val scale: Double) : FloatUnitScale {
+
+
+
+fun <T> Iterable<T>.sumOf(selector: (T) -> Area): Area {
+    var sum = 0.toArea(AreaUnit.SQUARE_METERS)
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+fun Iterable<Area>.min() = minBy { it }
+fun Iterable<Area>.max() = maxBy { it }
+fun Iterable<Area>.average(): Area {
+    var sum = 0.toArea(AreaUnit.SQUARE_METERS)
+    var count = 0
+    for(element in this) {
+        sum += element
+        count++
+    }
+    return sum / count
+}
+fun abs(element: Area) = Area(element.rawValue.absoluteValue)
+enum class AreaUnit(val scale: Double) {
     SQUARE_METERS(1.0),
     SQUARE_INCH(0.00064516),
     SQUARE_KILOMETERS(1000.0 * 1000.0)

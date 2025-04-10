@@ -1,11 +1,11 @@
-package units
+package unitsOld
 
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MassTest :
-    GenericUnitTest<MassUnit, Mass>(MassUnit.entries.toTypedArray(), Int::toMass, Long::toMass, Double::toMass) {
+class MassDepreTest :
+    GenericUnitTest<MassUnit, MassDepre>(MassUnit.entries.toTypedArray(), Int::toMass, Long::toMass, Double::toMass) {
     @Test
     fun reasonableNumbers() {
         val massFromDouble = 10.0.toMass(MassUnit.GRAM)
@@ -21,7 +21,7 @@ class MassTest :
     @Test
     fun unreasonableNumbers() {
         val massFromLong = (Long.MAX_VALUE / 2).toMass(MassUnit.KILOGRAM)
-        assertEquals(massFromLong, Mass(Long.MAX_VALUE))
+        assertEquals(massFromLong, MassDepre(Long.MAX_VALUE))
     }
 
     @Test

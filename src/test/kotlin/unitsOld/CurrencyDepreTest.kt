@@ -1,11 +1,11 @@
-package units
+package unitsOld
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
-class CurrencyTest : GenericUnitTest<CurrencyUnit, Currency>(
+class CurrencyDepreTest : GenericUnitTest<CurrencyUnit, CurrencyDepre>(
     CurrencyUnit.entries.toTypedArray(),
     Int::toCurrency,
     Long::toCurrency,

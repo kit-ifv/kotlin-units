@@ -1,85 +1,91 @@
 package units
 
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
+import kotlin.math.absoluteValue
+
 
 @JvmInline
-value class Speed(override val rawValue: Double) : FloatUnit<SpeedUnit>, ScalarUnit<SpeedUnit> {
+value class Speed(val rawValue: Double): Comparable<Speed> {
 
-    override val type: Map<Class<out NumericUnit<*>>, Int>
-        get() = signature
+    operator fun unaryMinus(): Speed = Speed(-rawValue)
+    operator fun plus(other: Speed) = Speed(rawValue + other.rawValue)
+    operator fun minus(other: Speed) = Speed(rawValue - other.rawValue)
+    operator fun times(scalar: Double) = Speed(rawValue * scalar)
+    operator fun times(scalar: Float) = Speed(rawValue * scalar)
+    operator fun times(scalar: Int) = Speed((rawValue * scalar))
+    operator fun times(scalar: Long)  = Speed((rawValue * scalar))
 
-    companion object {
-        val signature: Map<Class<out NumericUnit<*>>, Int> =
-            mapOf(Distance::class.java to 1, DurationImitator::class.java to -1)
+    operator fun div(scalar: Double): Speed = Speed(rawValue / scalar)
+    operator fun div(scalar: Float): Speed = Speed(rawValue / scalar)
+    operator fun div(scalar: Int): Speed =  Speed((rawValue / scalar))
+    operator fun div(scalar: Long): Speed = Speed((rawValue / scalar))
 
-        fun parse(text: String): Speed {
-            val index = text.indexOfFirst { it !in '0'..'9' && it !in setOf('.')}
-            val numericComponent = text.substring(0, index).toDouble()
-            val unitComponent = SpeedUnit.parseUnit(text.substring(index))
+    operator fun rangeTo(other: Speed): ClosedSpeedRange = ClosedSpeedRange(this, other)
 
-            return numericComponent.toSpeed(unitComponent)
-        }
-    }
+    operator fun rangeUntil(other: Speed) = OpenSpeedRange(this, other)
 
-    override operator fun times(other: Duration): Distance {
-        return (this.rawValue * other.toDouble(DurationUnit.SECONDS)).toDistance(DistanceUnit.METERS)
-    }
+    operator fun rem(other: Speed): Speed = Speed((rawValue % other.rawValue))
+    override fun compareTo(other: Speed): Int = rawValue.compareTo(other.rawValue)
 
-
-    override fun plus(other: FloatUnit<SpeedUnit>): Speed {
-        return Speed(rawValue + other.rawValue)
-    }
-
-    override fun minus(other: FloatUnit<SpeedUnit>): Speed {
-        return this + (-other)
-    }
-
-    override fun unaryMinus(): Speed {
-        return Speed(-rawValue)
-    }
-
-    override fun times(scalar: Double): Speed {
-        return Speed(rawValue * scalar)
-    }
-    override fun times(scalar: Number): Speed {
-        return this * scalar.toDouble()
-    }
+    fun toLong(unit: SpeedUnit) = rawValue / unit.scale
+    fun toDouble(unit: SpeedUnit) = rawValue / unit.scale
+    //--- Define conversions to "naked" number representations here.
 
 
-    override fun div(scalar: Number): Speed {
-        return this / scalar.toDouble()
-    }
-    override fun div(scalar: Double): Speed {
-        return Speed(rawValue / scalar)
-    }
+    //--- Define different operations below:
+
 
 }
 
-operator fun Number.times(element: Speed): Speed {
-    return element * this.toDouble()
-}
-
-fun Int.toSpeed(units: SpeedUnit): Speed {
-    return Speed(this * units.scale)
-}
-
-fun Long.toSpeed(units: SpeedUnit): Speed {
-    return Speed(this * units.scale)
-}
-
-fun Double.toSpeed(units: SpeedUnit): Speed {
-    return Speed(this * units.scale)
-}
-fun Number.toSpeed(units: SpeedUnit): Speed {
-    return toDouble().toSpeed(units)
-}
-val Number.kmh: Speed
-    get() {
-        return toSpeed(SpeedUnit.KILOMETER_PER_HOUR)
+class ClosedSpeedRange(override val start: Speed, override val endInclusive: Speed): ClosedRange<Speed> {
+    override fun contains(value: Speed): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
     }
+}
 
-enum class SpeedUnit(override val scale: Double, val symbol: String) : FloatUnitScale {
+class OpenSpeedRange(override val start: Speed, override val endExclusive: Speed): OpenEndRange<Speed> {
+    override fun contains(value: Speed): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
+}
+
+
+fun Long.toSpeed(unit: SpeedUnit): Speed {
+    return Speed(this * unit.scale)
+}
+fun Double.toSpeed(unit: SpeedUnit): Speed {
+    return Speed(this * unit.scale)
+}
+fun Int.toSpeed(unit: SpeedUnit): Speed {
+    return Speed(this * unit.scale)
+}
+fun Float.toSpeed(unit: SpeedUnit): Speed {
+    return Speed(this * unit.scale)
+}
+
+
+
+
+
+fun <T> Iterable<T>.sumOf(selector: (T) -> Speed): Speed {
+    var sum = 0.toSpeed(SpeedUnit.METER_PER_SECOND)
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+fun Iterable<Speed>.min() = minBy { it }
+fun Iterable<Speed>.max() = maxBy { it }
+fun Iterable<Speed>.average(): Speed {
+    var sum = 0.toSpeed(SpeedUnit.METER_PER_SECOND)
+    var count = 0
+    for(element in this) {
+        sum += element
+        count++
+    }
+    return sum / count
+}
+fun abs(element: Speed) = Speed(element.rawValue.absoluteValue)
+enum class SpeedUnit(val scale: Double, val symbol: String) {
     METER_PER_SECOND(1.0, "m/s"),
     KILOMETER_PER_HOUR(0.277778, "km/h"),
     MILES_PER_HOUR(0.44704, "mph"),

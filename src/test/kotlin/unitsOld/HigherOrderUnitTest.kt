@@ -1,4 +1,4 @@
-package units
+package unitsOld
 
 import kotlin.test.Test
 import kotlin.time.Duration
@@ -9,8 +9,8 @@ class HigherOrderUnitTest {
     fun building() {
 
 
-        val energy: Energy = 10.toEnergy(EnergyUnit.JOULE)
-        val distance: Distance = 10.toDistance(DistanceUnit.KILOMETERS)
+        val energy: EnergyDepre = 10.toEnergy(EnergyUnit.JOULE)
+        val distance: DistanceDepre = 10.toDistance(DistanceUnitDepre.KILOMETERS)
         val watts = 2.watts
         val test = watts * 1.seconds
         val ek = test * watts
@@ -18,9 +18,6 @@ class HigherOrderUnitTest {
         val t = HigherOrderUnit(listOf(energy, distance))
         val t2 = HigherOrderUnit(energy, distance)
         val t4 = t2 * t2
-        val target = t.resolve(listOf(DistanceUnit.KILOMETERS, EnergyUnit.JOULE))
+        val target = t.resolve(listOf(DistanceUnitDepre.KILOMETERS, EnergyUnit.JOULE))
         val awe = listOf(energy, Duration.INFINITE)
-    }
-
-
-}
+  

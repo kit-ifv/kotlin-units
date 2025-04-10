@@ -1,4 +1,4 @@
-package units
+package unitsOld
 
 
 import org.junit.jupiter.api.DynamicTest
@@ -9,58 +9,58 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 
-class TemperatureTest : GenericUnitTest<TemperatureUnit, Temperature>(
-    TemperatureUnit.entries.toTypedArray(),
+class TemperatureDepreTest : GenericUnitTest<TempUnitDepre, TemperatureDepre>(
+    TempUnitDepre.entries.toTypedArray(),
     Int::toTemperature,
     Long::toTemperature,
     Double::toTemperature
 ) {
     @Test
     fun absoluteZero() {
-        val absZero = 0.toTemperature(TemperatureUnit.KELVIN)
-        assertTrue((-459.67).toTemperature(TemperatureUnit.FAHRENHEIT).rawValue < 1000)
-        assertEquals(absZero, (-273.15).toTemperature(TemperatureUnit.CELSIUS))
+        val absZero = 0.toTemperature(TempUnitDepre.KELVIN)
+        assertTrue((-459.67).toTemperature(TempUnitDepre.FAHRENHEIT).rawValue < 1000)
+        assertEquals(absZero, (-273.15).toTemperature(TempUnitDepre.CELSIUS))
 
     }
 
     @Test
     fun lukewarmBody() {
-        val temperature = 100.toTemperature(TemperatureUnit.FAHRENHEIT)
+        val temperature = 100.toTemperature(TempUnitDepre.FAHRENHEIT)
 
-        val kelvin = 310.928.toTemperature(TemperatureUnit.KELVIN)
-        val celsius = 37.7778.toTemperature(TemperatureUnit.CELSIUS)
+        val kelvin = 310.928.toTemperature(TempUnitDepre.KELVIN)
+        val celsius = 37.7778.toTemperature(TempUnitDepre.CELSIUS)
         assertTrue((temperature - kelvin).rawValue < 1000)
         assertTrue((temperature - celsius).rawValue < 1000)
     }
 
     @Test
     fun freezingPointOfBrine() {
-        val celsius = (-17.7778).toTemperature(TemperatureUnit.CELSIUS)
-        val temperature = 0.toTemperature(TemperatureUnit.FAHRENHEIT)
-        val kelvin = 255.372.toTemperature(TemperatureUnit.KELVIN)
+        val celsius = (-17.7778).toTemperature(TempUnitDepre.CELSIUS)
+        val temperature = 0.toTemperature(TempUnitDepre.FAHRENHEIT)
+        val kelvin = 255.372.toTemperature(TempUnitDepre.KELVIN)
         assertTrue((temperature - kelvin).rawValue < 1000)
         assertTrue((temperature - celsius).rawValue < 1000)
     }
 
     @Test
     fun meltingPointOfWater() {
-        val temperature = 100.toTemperature(TemperatureUnit.CELSIUS)
-        val kelvin = 373.15.toTemperature(TemperatureUnit.KELVIN)
-        val celsius = 212.toTemperature(TemperatureUnit.FAHRENHEIT)
+        val temperature = 100.toTemperature(TempUnitDepre.CELSIUS)
+        val kelvin = 373.15.toTemperature(TempUnitDepre.KELVIN)
+        val celsius = 212.toTemperature(TempUnitDepre.FAHRENHEIT)
         assertTrue((temperature - kelvin).rawValue < 1000)
         assertTrue((temperature - celsius).rawValue < 1000)
     }
 
     @Test
     fun addition() {
-        val t = 1.toTemperature(TemperatureUnit.KELVIN)
-        assertEquals(2, (t + t).toLong(TemperatureUnit.KELVIN))
+        val t = 1.toTemperature(TempUnitDepre.KELVIN)
+        assertEquals(2, (t + t).toLong(TempUnitDepre.KELVIN))
     }
 
     @Test
     fun subtraction() {
-        val t = 2.toTemperature(TemperatureUnit.KELVIN)
-        assertEquals(0, (t - t).toLong(TemperatureUnit.KELVIN))
+        val t = 2.toTemperature(TempUnitDepre.KELVIN)
+        assertEquals(0, (t - t).toLong(TempUnitDepre.KELVIN))
     }
 
     //Temperature has an offset and thusly the conversion check for 42 and 21 is not one half

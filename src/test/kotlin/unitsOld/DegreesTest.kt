@@ -1,6 +1,7 @@
-package units
+package unitsOld
 
 import org.junit.jupiter.api.Assertions.*
+import units.degrees
 import kotlin.math.PI
 import kotlin.test.Test
 

@@ -1,5 +1,9 @@
-package units
+package unitsOld
 
+import units.Converter
+import units.GPSCoordinate
+import units.Hemisphere
+import units.toCoordinate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

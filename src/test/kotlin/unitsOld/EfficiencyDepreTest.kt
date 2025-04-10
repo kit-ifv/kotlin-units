@@ -1,9 +1,9 @@
-package units
+package unitsOld
 
 import org.junit.jupiter.api.Assertions.*
 import kotlin.test.Test
 
-class EfficiencyTest {
+class EfficiencyDepreTest {
 
     @Test
     fun getMyLiters() {

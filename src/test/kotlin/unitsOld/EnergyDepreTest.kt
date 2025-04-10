@@ -1,12 +1,12 @@
-package units
+package unitsOld
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
 
-class EnergyTest :
-    GenericUnitTest<EnergyUnit, Energy>(
+class EnergyDepreTest :
+    GenericUnitTest<EnergyUnit, EnergyDepre>(
         EnergyUnit.entries.toTypedArray(),
         Int::toEnergy,
         Long::toEnergy,
@@ -14,7 +14,7 @@ class EnergyTest :
     ) {
     @Test
     fun creation() {
-        val energy = Energy.of(1.kilograms, 1.meters, 1.seconds)
+        val energy = EnergyDepre.of(1.kilograms, 1.meters, 1.seconds)
         assertEquals(1.0, energy.rawValue)
     }
 

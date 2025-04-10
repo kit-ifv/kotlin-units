@@ -1,53 +1,52 @@
 package units
 
-/**
- * Raw value should be energy needed to traverse 1 meter
- */
+import kotlin.math.absoluteValue
+
 @JvmInline
-value class Efficiency(override val rawValue: Double): FloatUnit<EfficiencyUnit>, ScalarUnit<EfficiencyUnit> {
-    override fun plus(other: FloatUnit<EfficiencyUnit>): Efficiency {
-        return Efficiency(rawValue + other.rawValue)
-    }
+value class Efficiency(val rawValue: Double): Comparable<Efficiency> {
 
-    override fun minus(other: FloatUnit<EfficiencyUnit>): Efficiency {
-        return Efficiency(rawValue - other.rawValue)
-    }
 
-    override fun unaryMinus(): Efficiency {
-        return Efficiency(-rawValue)
-    }
-    override fun times(scalar: Double): Efficiency {
-        return Efficiency(rawValue * scalar)
-    }
+    operator fun times(scalar: Double) = Efficiency(rawValue * scalar)
+    operator fun times(scalar: Float) = Efficiency(rawValue * scalar)
+    operator fun times(scalar: Int) = Efficiency((rawValue * scalar))
+    operator fun times(scalar: Long)  = Efficiency((rawValue * scalar))
 
-    override fun div(scalar: Double): Efficiency {
-        return Efficiency(rawValue / scalar)
-    }
-    /**
-     * How much energy is needed to traverse the given distance
-     */
-    operator fun times(other: Distance): Energy {
-        return Energy(rawValue * other.toDouble(DistanceUnit.METERS))
-    }
-    override val type: Map<Class<out NumericUnit<*>>, Int>
-        get() = mapOf(Energy::class.java to 3, Distance::class.java to -1)
+    operator fun div(scalar: Double): Efficiency = Efficiency(rawValue / scalar)
+    operator fun div(scalar: Float): Efficiency = Efficiency(rawValue / scalar)
+    operator fun div(scalar: Int): Efficiency =  Efficiency((rawValue / scalar))
+    operator fun div(scalar: Long): Efficiency = Efficiency((rawValue / scalar))
+
+    operator fun rangeTo(other: Efficiency): ClosedEfficiencyRange = ClosedEfficiencyRange(this, other)
+
+    operator fun rangeUntil(other: Efficiency) = OpenEfficiencyRange(this, other)
+    override fun compareTo(other: Efficiency): Int = rawValue.compareTo(other.rawValue)
+
 
 }
-operator fun Number.times(element: Efficiency): Efficiency {
-    return element * this.toDouble()
-}
-val Pair<Energy, Distance>.efficiency: Efficiency
-    get() {
-        return first / second
+
+class ClosedEfficiencyRange(override val start: Efficiency, override val endInclusive: Efficiency): ClosedRange<Efficiency> {
+    override fun contains(value: Efficiency): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
     }
+}
+
+class OpenEfficiencyRange(override val start: Efficiency, override val endExclusive: Efficiency): OpenEndRange<Efficiency> {
+    override fun contains(value: Efficiency): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
+}
+
+val Pair<Energy, Distance>.efficiency: Efficiency get() = first / second
 
 
+
+
+
+
+fun abs(element: Efficiency) = Efficiency(element.rawValue.absoluteValue)
 /**
  * I am unaware that there are scales for Efficiency in any meaningful way.
  */
-enum class EfficiencyUnit(override val scale: Double) : FloatUnitScale {
+enum class EfficiencyUnit(val scale: Double)  {
     DEFAULT(1.0),
-
-
-
 }

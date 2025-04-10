@@ -1,61 +1,80 @@
 package units
 
-import kotlin.math.roundToLong
+import kotlin.math.absoluteValue
 
 @JvmInline
-value class Temperature(override val rawValue: Long) : LongUnit<TemperatureUnit> {
-    override val type: Map<Class<out NumericUnit<*>>, Int>
-        get() = signature
+value class Temperature(val rawValue: Long) : Comparable<Temperature> {
+
+    operator fun plus(other: Temperature) = Temperature(rawValue + other.rawValue)
+    operator fun minus(other: Temperature) = Temperature(rawValue - other.rawValue)
+
+    operator fun rangeTo(other: Temperature): ClosedTemperatureRange = ClosedTemperatureRange(this, other)
+
+    operator fun rangeUntil(other: Temperature) = OpenTemperatureRange(this, other)
+
+    fun toLong(unit: TemperatureUnit) = rawValue / unit.scale
+    fun toDouble(unit: TemperatureUnit) = rawValue.toDouble() / unit.scale
+    override fun compareTo(other: Temperature): Int {
+        return rawValue.compareTo(other.rawValue)
+    }
 
     companion object {
-        val signature: Map<Class<out NumericUnit<*>>, Int> = mapOf(Temperature::class.java to 1)
+        val ABSOLUTE_ZERO = 0.toTemperature(TemperatureUnit.KELVIN)
     }
 
-    override fun plus(other: LongUnit<TemperatureUnit>): Temperature {
-        return Temperature(rawValue + other.rawValue)
-    }
+}
 
-    override fun unaryMinus(): Temperature {
-        return Temperature(-rawValue)
-    }
-
-    override fun minus(other: LongUnit<TemperatureUnit>): Temperature {
-        return this + (-other)
-    }
-
-    override fun toLong(unit: TemperatureUnit): Long {
-        return convertUnit(rawValue - unit.offset, 1L, unit.scale)
-    }
-
-    override fun toInt(unit: TemperatureUnit): Int {
-        return toLong(unit).coerceIn(Int.MIN_VALUE.toLong(), Int.MAX_VALUE.toLong()).toInt()
-    }
-
-    override fun toDouble(unit: TemperatureUnit): Double {
-        return convertUnit(rawValue.toDouble() - unit.offset, 1L, unit.scale)
-
-
+class ClosedTemperatureRange(override val start: Temperature, override val endInclusive: Temperature) :
+    ClosedRange<Temperature> {
+    override fun contains(value: Temperature): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
     }
 }
 
-enum class TemperatureUnit(override val scale: Long, val offset: Long) : LongUnitScale {
+class OpenTemperatureRange(override val start: Temperature, override val endExclusive: Temperature) :
+    OpenEndRange<Temperature> {
+    override fun contains(value: Temperature): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
+}
+
+fun Long.toTemperature(unit: TemperatureUnit): Temperature {
+    return Temperature(this * unit.scale + unit.offset)
+}
+
+fun Double.toTemperature(unit: TemperatureUnit): Temperature {
+    return Temperature((this * unit.scale).toLong() + unit.offset)
+}
+
+fun Int.toTemperature(unit: TemperatureUnit): Temperature {
+    return Temperature((this * unit.scale) + unit.offset)
+}
+
+fun Float.toTemperature(unit: TemperatureUnit): Temperature {
+    return Temperature((this * unit.scale).toLong() + unit.offset)
+}
+
+
+
+fun Iterable<Temperature>.min() = minBy { it }
+fun Iterable<Temperature>.max() = maxBy { it }
+fun Iterable<Temperature>.average(): Temperature {
+    var sum = 0L
+    var count = 0
+    for(element in this) {
+        sum += element.rawValue
+        count++
+    }
+    return Temperature(sum / count)
+}
+
+
+fun abs(element: Temperature) = Temperature(element.rawValue.absoluteValue)
+enum class TemperatureUnit(val scale: Long, val offset: Long) {
 
     KELVIN(1_000_000L, 0),
     FAHRENHEIT(555_556L, 255_372_222L),
     CELSIUS(1_000_000L, 273_150_000L);
 
 
-}
-
-fun Int.toTemperature(unit: TemperatureUnit): Temperature {
-    return Temperature(convertUnit(toLong(), unit.scale) + unit.offset)
-}
-
-fun Long.toTemperature(unit: TemperatureUnit): Temperature {
-    return Temperature(convertUnit(this, unit.scale) + unit.offset)
-}
-
-fun Double.toTemperature(unit: TemperatureUnit): Temperature {
-    val roundToLong = (this * unit.scale).roundToLong()
-    return Temperature(roundToLong + unit.offset)
 }
