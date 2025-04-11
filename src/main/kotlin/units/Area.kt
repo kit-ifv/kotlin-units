@@ -3,7 +3,7 @@ package units
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Area(val rawValue: Double): Comparable<Area> {
+value class Area internal constructor(val rawValue: Double): Comparable<Area> {
     operator fun unaryMinus(): Area = Area(-rawValue)
     operator fun plus(other: Area) = Area(rawValue + other.rawValue)
     operator fun minus(other: Area) = Area(rawValue - other.rawValue)

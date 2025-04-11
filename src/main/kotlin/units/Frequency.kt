@@ -3,7 +3,7 @@ package units
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Frequency(val rawValue: Double) : Comparable<Frequency> {
+value class Frequency internal constructor(val rawValue: Double) : Comparable<Frequency> {
     operator fun times(scalar: Double) = Frequency(rawValue * scalar)
     operator fun times(scalar: Float) = Frequency(rawValue * scalar)
     operator fun times(scalar: Int) = Frequency((rawValue * scalar))
@@ -20,6 +20,7 @@ value class Frequency(val rawValue: Double) : Comparable<Frequency> {
 
     //--- Define different operations below:
     operator fun div(other: Frequency): Double = rawValue / other.rawValue
+    operator fun times(other: Distance): Speed = Speed(rawValue * other.inMeters)
     companion object {
         const val HERTZ = 1.0
     }

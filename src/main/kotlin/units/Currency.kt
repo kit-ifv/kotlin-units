@@ -3,7 +3,7 @@ package units
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Currency(val rawValue: Double): Comparable<Currency> {
+value class Currency internal constructor(val rawValue: Double): Comparable<Currency> {
 
     operator fun unaryMinus(): Currency = Currency(-rawValue)
     operator fun plus(other: Currency) = Currency(rawValue + other.rawValue)
@@ -29,7 +29,7 @@ value class Currency(val rawValue: Double): Comparable<Currency> {
     fun toDouble(unit: CurrencyUnit) = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
-    val inEuros: Double get() = toDouble(CurrencyUnit.EUROS)
+    val inEuros: Double get() = rawValue / EUROS
 
     //--- Define different operations below:
 

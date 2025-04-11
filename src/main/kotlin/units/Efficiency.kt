@@ -2,8 +2,25 @@ package units
 
 import kotlin.math.absoluteValue
 
+
+typealias Newton = Efficiency
+/**
+ * A value class representing **Efficiency**, which can be used to model the relationship
+ * between energy and distance in various contexts such as car fuel efficiency or mechanical
+ * efficiency. The unit of **Efficiency** is typically **Joules per meter (J/m)**, which
+ * corresponds to a force per unit distance.
+ *
+ * This class wraps a raw `Double` value representing the efficiency, and provides various
+ * methods for comparing and working with it.
+ *
+ * @property rawValue The raw `Double` value representing the efficiency in **Joules per meter (J/m)**.
+ *
+ * @constructor Creates an instance of the `Efficiency` class with the provided raw value.
+ *
+ * @see Newton for an alias representing the same concept of force per unit distance.
+ */
 @JvmInline
-value class Efficiency(val rawValue: Double): Comparable<Efficiency> {
+value class Efficiency internal constructor(val rawValue: Double): Comparable<Efficiency> {
 
 
     operator fun times(scalar: Double) = Efficiency(rawValue * scalar)

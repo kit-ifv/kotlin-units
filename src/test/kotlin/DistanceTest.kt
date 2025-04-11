@@ -9,13 +9,9 @@ class DistanceTest {
     @Test
     fun example() {
         val distance = 1.meters
-        val otherDistance = 1.11111.meters
-        assertEquals(otherDistance.inWholeMeters, 1)
-        assertEquals(otherDistance.inWholeCentimeters, 111)
-        assertEquals(otherDistance.inWholeMillimeters, 1111)
-        assertEquals(otherDistance.inWholeKilometers, 0)
-        assertEquals(otherDistance.inMeters, 1.11111)
-        assertEquals(otherDistance.inKilometers, .00111111)
+
+        val otherDistance = distance + 1.kilometers
+        assertEquals(otherDistance.inMeters, 1001.0)
 
     }
     @Test

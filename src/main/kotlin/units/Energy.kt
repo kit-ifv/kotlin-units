@@ -5,7 +5,7 @@ import kotlin.time.Duration
 
 
 @JvmInline
-value class Energy(val rawValue: Double): Comparable<Energy> {
+value class Energy internal constructor(val rawValue: Double): Comparable<Energy> {
 
     operator fun unaryMinus(): Energy = Energy(-rawValue)
     operator fun plus(other: Energy) = Energy(rawValue + other.rawValue)
@@ -35,7 +35,7 @@ value class Energy(val rawValue: Double): Comparable<Energy> {
     //--- Define different operations below:
     operator fun div(other: Energy): Double = rawValue / other.rawValue
     operator fun div(distance: Distance): Efficiency = Efficiency(rawValue / distance.inMeters)
-
+    operator fun div(duration: Duration): Power = Power(rawValue / duration.asSeconds)
 
     companion object {
         const val JOULE: Double = 1.0

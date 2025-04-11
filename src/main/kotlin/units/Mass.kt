@@ -3,7 +3,7 @@ package units
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Mass(val rawValue: Long): Comparable<Mass> {
+value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
 
     operator fun unaryMinus(): Mass = Mass(-rawValue)
     operator fun plus(other: Mass) = Mass(rawValue + other.rawValue)

@@ -4,7 +4,7 @@ import kotlin.math.absoluteValue
 
 
 @JvmInline
-value class Volume(val rawValue: Double): Comparable<Volume> {
+value class Volume internal constructor(val rawValue: Double): Comparable<Volume> {
 
     operator fun unaryMinus(): Volume = Volume(-rawValue)
     operator fun plus(other: Volume) = Volume(rawValue + other.rawValue)

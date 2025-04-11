@@ -3,7 +3,7 @@ package units
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Temperature(val rawValue: Long) : Comparable<Temperature> {
+value class Temperature internal constructor(val rawValue: Long) : Comparable<Temperature> {
 
     operator fun plus(other: Temperature) = Temperature(rawValue + other.rawValue)
     operator fun minus(other: Temperature) = Temperature(rawValue - other.rawValue)

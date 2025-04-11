@@ -1,10 +1,11 @@
 package units
 
 import kotlin.math.absoluteValue
+import kotlin.time.Duration
 
 
 @JvmInline
-value class Speed(val rawValue: Double): Comparable<Speed> {
+value class Speed internal constructor(val rawValue: Double): Comparable<Speed> {
 
     operator fun unaryMinus(): Speed = Speed(-rawValue)
     operator fun plus(other: Speed) = Speed(rawValue + other.rawValue)
@@ -33,6 +34,7 @@ value class Speed(val rawValue: Double): Comparable<Speed> {
 
     //--- Define different operations below:
     operator fun div(other: Speed): Double = rawValue / other.rawValue
+    operator fun times(duration: Duration) = Distance(rawValue * duration.asSeconds)
 
     companion object {
         const val METER_PER_SECOND = 1.0

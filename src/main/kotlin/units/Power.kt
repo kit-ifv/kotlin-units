@@ -2,9 +2,10 @@ package units
 
 
 import kotlin.math.absoluteValue
+import kotlin.time.Duration
 
 @JvmInline
-value class Power(val rawValue: Double): Comparable<Power> {
+value class Power internal constructor(val rawValue: Double): Comparable<Power> {
 
     operator fun unaryMinus(): Power = Power(-rawValue)
     operator fun plus(other: Power) = Power(rawValue + other.rawValue)
@@ -34,6 +35,7 @@ value class Power(val rawValue: Double): Comparable<Power> {
     //--- Define different operations below:
 
     operator fun div(other: Power): Double = rawValue / other.rawValue
+    operator fun times(duration: Duration): Energy = Energy(rawValue * duration.asSeconds)
 
 }
 

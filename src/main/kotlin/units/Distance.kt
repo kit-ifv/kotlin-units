@@ -5,9 +5,9 @@ import kotlin.math.roundToLong
 import kotlin.time.Duration
 
 @JvmInline
-value class Distance(val rawValue: Long) : Comparable<Distance> {
-    constructor(doubleValue: Double): this(doubleValue.toLong())
-    constructor(floatValue: Float): this(floatValue.toLong())
+value class Distance internal constructor(val rawValue: Long) : Comparable<Distance> {
+    internal constructor(doubleValue: Double): this(doubleValue.toLong())
+    internal constructor(floatValue: Float): this(floatValue.toLong())
 
     operator fun unaryMinus(): Distance = Distance(-rawValue)
     operator fun plus(other: Distance) = Distance(rawValue + other.rawValue)
@@ -29,20 +29,22 @@ value class Distance(val rawValue: Long) : Comparable<Distance> {
     operator fun rem(other: Distance): Distance = Distance((rawValue % other.rawValue))
     override fun compareTo(other: Distance): Int = rawValue.compareTo(other.rawValue)
 
-    inline fun toLong(unit: DistanceUnit) = rawValue / unit.scale
-    inline fun toDouble(unit: DistanceUnit) = rawValue.toDouble() / unit.scale
+    fun toLong(unit: DistanceUnit) = rawValue / unit.scale
+    fun toDouble(unit: DistanceUnit) = rawValue.toDouble() / unit.scale
     //--- Define conversions to "naked" number representations here.
 
-    inline val inWholeMillimeters: Long get() = (this / Distance(MILLIMETERS)).roundToLong()
-    inline val inWholeCentimeters: Long get() = (this / Distance(CENTIMETERS)).roundToLong()
-    inline val inWholeMeters: Long get() =      (this / Distance(METERS)).roundToLong()
-    inline val inWholeKilometers: Long get() =  (this / Distance(KILOMETERS)).roundToLong()
+    inline val inWholeMillimeters: Long get() = (rawValue / MILLIMETERS)
+    inline val inWholeCentimeters: Long get() = (rawValue / CENTIMETERS)
+    inline val inWholeMeters: Long get() =      (rawValue / METERS)
+    inline val inWholeKilometers: Long get() =  (rawValue / KILOMETERS)
 
     inline val inMeters: Double get() = rawValue.toDouble() / METERS
     inline val inKilometers: Double get() = rawValue.toDouble() / KILOMETERS
 
     //--- Define different operations below:
-
+    operator fun times(distance: Distance): Area {
+        return Area(inMeters * distance.inMeters)
+    }
     operator fun div(distance: Distance): Double {
         return rawValue.toDouble() / distance.rawValue
     }
