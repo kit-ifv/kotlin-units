@@ -1,6 +1,6 @@
 package units
 
-import unitsOld.FloatUnitScale
+
 import kotlin.math.absoluteValue
 
 @JvmInline
@@ -33,6 +33,7 @@ value class Power(val rawValue: Double): Comparable<Power> {
 
     //--- Define different operations below:
 
+    operator fun div(other: Power): Double = rawValue / other.rawValue
 
 }
 
@@ -87,6 +88,7 @@ fun Iterable<Power>.average(): Power {
 }
 fun abs(element: Power) = Power(element.rawValue.absoluteValue)
 
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class PowerUnit(val scale: Double) {
     WATTS(1.0),
     KILOWATTS(1000.0)

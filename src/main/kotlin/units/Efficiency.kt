@@ -22,6 +22,12 @@ value class Efficiency(val rawValue: Double): Comparable<Efficiency> {
     override fun compareTo(other: Efficiency): Int = rawValue.compareTo(other.rawValue)
 
 
+    //--- Define conversions to "naked" number representations here.
+
+
+    //--- Define different operations below:
+    operator fun div(other: Efficiency): Double = rawValue / other.rawValue
+
 }
 
 class ClosedEfficiencyRange(override val start: Efficiency, override val endInclusive: Efficiency): ClosedRange<Efficiency> {
@@ -47,6 +53,8 @@ fun abs(element: Efficiency) = Efficiency(element.rawValue.absoluteValue)
 /**
  * I am unaware that there are scales for Efficiency in any meaningful way.
  */
+
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class EfficiencyUnit(val scale: Double)  {
     DEFAULT(1.0),
 }

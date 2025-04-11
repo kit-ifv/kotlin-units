@@ -4,7 +4,6 @@ import kotlin.math.absoluteValue
 
 @JvmInline
 value class Area(val rawValue: Double): Comparable<Area> {
-
     operator fun unaryMinus(): Area = Area(-rawValue)
     operator fun plus(other: Area) = Area(rawValue + other.rawValue)
     operator fun minus(other: Area) = Area(rawValue - other.rawValue)
@@ -31,10 +30,14 @@ value class Area(val rawValue: Double): Comparable<Area> {
     
 
     //--- Define different operations below:
-
+    operator fun div(area: Area): Double = rawValue / area.rawValue
     operator fun div(distance: Distance): Distance = (rawValue / distance.inMeters).toDistance(DistanceUnit.METERS)
     operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
-
+    companion object {
+        const val SQUARE_METERS: Double = 1.0
+        const val SQUARE_INCH: Double = 0.00064516
+        const val SQUARE_KILOMETERS: Double = 1000.0 * 1000.0
+    }
 }
 
 class ClosedAreaRange(override val start: Area, override val endInclusive: Area): ClosedRange<Area> {
@@ -86,8 +89,9 @@ fun Iterable<Area>.average(): Area {
     return sum / count
 }
 fun abs(element: Area) = Area(element.rawValue.absoluteValue)
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class AreaUnit(val scale: Double) {
-    SQUARE_METERS(1.0),
-    SQUARE_INCH(0.00064516),
-    SQUARE_KILOMETERS(1000.0 * 1000.0)
+    SQUARE_METERS(Area.SQUARE_METERS),
+    SQUARE_INCH(Area.SQUARE_INCH),
+    SQUARE_KILOMETERS(Area.SQUARE_KILOMETERS)
 }

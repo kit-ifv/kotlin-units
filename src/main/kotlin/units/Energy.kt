@@ -33,11 +33,16 @@ value class Energy(val rawValue: Double): Comparable<Energy> {
 
 
     //--- Define different operations below:
-
+    operator fun div(other: Energy): Double = rawValue / other.rawValue
     operator fun div(distance: Distance): Efficiency = Efficiency(rawValue / distance.inMeters)
 
 
     companion object {
+        const val JOULE: Double = 1.0
+        const val KILOJOULE: Double = 1000.0
+        const val KILOWATTHOUR: Double = 3_600_000.0
+        const val BENZENE_EQUIVALENT: Double = 32_000_000.0
+
 
         fun of(mass: Mass, distance: Distance, duration: Duration): Energy {
             return Energy(
@@ -48,6 +53,7 @@ value class Energy(val rawValue: Double): Comparable<Energy> {
                         / duration.asSeconds
             )
         }
+
     }
 }
 
@@ -82,7 +88,7 @@ fun Float.toEnergy(unit: EnergyUnit): Energy {
 
 
 fun <T> Iterable<T>.sumOf(selector: (T) -> Energy): Energy {
-    var sum = 0.toEnergy(EnergyUnit.JOULE)
+    var sum = 0.joule
     for (element in this) {
         sum += selector(element)
     }
@@ -91,7 +97,7 @@ fun <T> Iterable<T>.sumOf(selector: (T) -> Energy): Energy {
 fun Iterable<Energy>.min() = minBy { it }
 fun Iterable<Energy>.max() = maxBy { it }
 fun Iterable<Energy>.average(): Energy {
-    var sum = 0.toEnergy(EnergyUnit.JOULE)
+    var sum = 0.joule
     var count = 0
     for(element in this) {
         sum += element
@@ -101,10 +107,12 @@ fun Iterable<Energy>.average(): Energy {
 }
 
 fun abs(element: Energy) = Energy(element.rawValue.absoluteValue)
+
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class EnergyUnit(val scale: Double) {
-    JOULE(1.0),
-    KILOJOULE(1000.0),
-    KILOWATTHOUR(3_600_000.0),
-    BENZENE_EQUIVALENT(32_000_000.0);
+    JOULE(Energy.JOULE),
+    KILOJOULE(Energy.KILOJOULE),
+    KILOWATTHOUR(Energy.KILOWATTHOUR),
+    BENZENE_EQUIVALENT(Energy.BENZENE_EQUIVALENT);
 
 }

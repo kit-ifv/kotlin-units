@@ -29,13 +29,17 @@ value class Volume(val rawValue: Double): Comparable<Volume> {
     fun toLong(unit: VolumeUnit) = rawValue / unit.scale
     fun toDouble(unit: VolumeUnit) = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
-
+    val inLiter: Double get()= rawValue / LITER
 
     //--- Define different operations below:
-    val benzene: Energy get() = this.toDouble(VolumeUnit.LITER).toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
+    val benzene: Energy get() = this.inLiter.toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
 
+    operator fun div(other: Volume): Double = rawValue / other.rawValue
 
     companion object {
+        const val CUBIC_METER = 1.0
+        const val LITER = 0.001
+
         fun ofCube(a: Distance, b: Distance, c: Distance): Volume {
             return Volume(a.inMeters * b.inMeters * c.inMeters)
         }
@@ -73,7 +77,7 @@ fun Float.toVolume(unit: VolumeUnit): Volume {
 
 
 fun <T> Iterable<T>.sumOf(selector: (T) -> Volume): Volume {
-    var sum = 0.toVolume(VolumeUnit.CUBIC_METER)
+    var sum = 0.liters
     for (element in this) {
         sum += selector(element)
     }
@@ -82,7 +86,7 @@ fun <T> Iterable<T>.sumOf(selector: (T) -> Volume): Volume {
 fun Iterable<Volume>.min() = minBy { it }
 fun Iterable<Volume>.max() = maxBy { it }
 fun Iterable<Volume>.average(): Volume {
-    var sum = 0.toVolume(VolumeUnit.CUBIC_METER)
+    var sum = 0.liters
     var count = 0
     for(element in this) {
         sum += element
@@ -92,8 +96,9 @@ fun Iterable<Volume>.average(): Volume {
 }
 
 fun abs(element: Volume) = Volume(element.rawValue.absoluteValue)
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class VolumeUnit(val scale: Double)  {
-    CUBIC_METER(1.0),
-    LITER(0.001),
+    CUBIC_METER(Volume.CUBIC_METER),
+    LITER(Volume.LITER),
 
 }

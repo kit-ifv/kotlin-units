@@ -29,11 +29,17 @@ value class Mass(val rawValue: Long): Comparable<Mass> {
     fun toDouble(unit: MassUnit) = rawValue.toDouble() / unit.scale
     //--- Define conversions to "naked" number representations here.
 
-    val inKilograms: Double get() = toDouble(MassUnit.KILOGRAM)
+    val inKilograms: Double get() = rawValue.toDouble() / KILOGRAM
 
     //--- Define different operations below:
-
-
+    operator fun div(other: Mass): Double = rawValue.toDouble() / other.rawValue
+    companion object {
+        const val MICROGRAM = 1L
+        const val MILLIGRAM = 1000L
+        const val GRAM = 1_000_000L
+        const val KILOGRAM = 1_000_000_000L
+        const val TON = 1_000_000_000_000L
+    }
 }
 
 class ClosedMassRange(override val start: Mass, override val endInclusive: Mass): ClosedRange<Mass> {
@@ -85,10 +91,12 @@ fun Iterable<Mass>.average(): Mass {
     return sum / count
 }
 fun abs(element: Mass) = Mass(element.rawValue.absoluteValue)
+
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class MassUnit(val scale: Long) {
-    MICROGRAM(1L),
-    MILLIGRAM(1000L),
-    GRAM(1_000_000L),
-    KILOGRAM(1_000_000_000L),
-    TON(1_000_000_000_000L);
+    MICROGRAM(Mass.MICROGRAM),
+    MILLIGRAM(Mass.MILLIGRAM),
+    GRAM(Mass.GRAM),
+    KILOGRAM(Mass.KILOGRAM),
+    TON(Mass.TON);
 }

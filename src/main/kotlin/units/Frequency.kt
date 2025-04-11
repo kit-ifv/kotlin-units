@@ -14,6 +14,15 @@ value class Frequency(val rawValue: Double) : Comparable<Frequency> {
     operator fun div(scalar: Int): Frequency =  Frequency((rawValue / scalar))
     operator fun div(scalar: Long): Frequency = Frequency((rawValue / scalar))
     override fun compareTo(other: Frequency): Int = rawValue.compareTo(other.rawValue)
+
+    //--- Define conversions to "naked" number representations here.
+
+
+    //--- Define different operations below:
+    operator fun div(other: Frequency): Double = rawValue / other.rawValue
+    companion object {
+        const val HERTZ = 1.0
+    }
 }
 
 class ClosedFrequencyRange(override val start: Frequency, override val endInclusive: Frequency): ClosedRange<Frequency> {
@@ -28,22 +37,6 @@ class OpenFrequencyRange(override val start: Frequency, override val endExclusiv
     }
 }
 
-
-
-
-
-fun Long.toFrequency(unit: FrequencyUnit): Frequency {
-    return Frequency(this * unit.scale)
-}
-fun Double.toFrequency(unit: FrequencyUnit): Frequency {
-    return Frequency(this * unit.scale)
-}
-fun Int.toFrequency(unit: FrequencyUnit): Frequency {
-    return Frequency(this * unit.scale)
-}
-fun Float.toFrequency(unit: FrequencyUnit): Frequency {
-    return Frequency(this * unit.scale)
-}
 fun <T> Iterable<T>.sumOf(selector: (T) -> Frequency): Frequency {
     var sum = 0.0
     for (element in this) {
@@ -63,8 +56,3 @@ fun Iterable<Frequency>.average(): Frequency {
     return Frequency(sum / count)
 }
 fun abs(element: Frequency) = Frequency(element.rawValue.absoluteValue)
-
-enum class FrequencyUnit(val scale: Double) {
-    HERTZ(1.0),
-
-}

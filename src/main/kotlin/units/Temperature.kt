@@ -18,8 +18,14 @@ value class Temperature(val rawValue: Long) : Comparable<Temperature> {
         return rawValue.compareTo(other.rawValue)
     }
 
+    //--- Define conversions to "naked" number representations here.
+
+
+    //--- Define different operations below:
+
+
     companion object {
-        val ABSOLUTE_ZERO = 0.toTemperature(TemperatureUnit.KELVIN)
+        val ABSOLUTE_ZERO = Temperature(0)
     }
 
 }
@@ -70,6 +76,7 @@ fun Iterable<Temperature>.average(): Temperature {
 
 
 fun abs(element: Temperature) = Temperature(element.rawValue.absoluteValue)
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class TemperatureUnit(val scale: Long, val offset: Long) {
 
     KELVIN(1_000_000L, 0),

@@ -1,7 +1,6 @@
 package units
 
-import unitsOld.DistanceDepre
-import unitsOld.kilometers
+
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.asin
@@ -22,7 +21,7 @@ interface Coordinate {
     val longitudeDegrees: Double
         get() = longitudeRadians.toDegrees().toDouble()
 
-    fun distance(other: Coordinate): DistanceDepre
+    fun distance(other: Coordinate): Distance
 }
 
 // Certain numbers such as the radius of the earth or the fact that the maximum latitude is 90 does not feel like magic
@@ -33,7 +32,7 @@ class GPSCoordinate(
 ) : Coordinate {
 
 
-    override fun distance(other: Coordinate): DistanceDepre {
+    override fun distance(other: Coordinate): Distance{
         val deltaLat = this.latitudeRadians.toDouble() - other.latitudeRadians.toDouble()
         val deltaLong = this.longitudeRadians.toDouble() - other.longitudeRadians.toDouble()
 

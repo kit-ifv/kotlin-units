@@ -33,7 +33,10 @@ value class Currency(val rawValue: Double): Comparable<Currency> {
 
     //--- Define different operations below:
 
-
+    operator fun div(other: Currency): Double = rawValue / other.rawValue
+    companion object {
+        const val EUROS: Double = 1.0
+    }
 }
 
 class ClosedCurrencyRange(override val start: Currency, override val endInclusive: Currency): ClosedRange<Currency> {
@@ -86,6 +89,7 @@ fun Iterable<Currency>.average(): Currency {
     return sum / count
 }
 fun abs(element: Currency) = Currency(element.rawValue.absoluteValue)
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class CurrencyUnit(val scale: Double) {
-    EUROS(1.0),
+    EUROS(Currency.EUROS),
 }

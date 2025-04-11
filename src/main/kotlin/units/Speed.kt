@@ -32,7 +32,14 @@ value class Speed(val rawValue: Double): Comparable<Speed> {
 
 
     //--- Define different operations below:
+    operator fun div(other: Speed): Double = rawValue / other.rawValue
 
+    companion object {
+        const val METER_PER_SECOND = 1.0
+        const val KILOMETER_PER_HOUR = 0.277778
+        const val MILES_PER_HOUR = 0.44704
+        const val KNOTS = 0.514444
+    }
 
 }
 
@@ -85,11 +92,12 @@ fun Iterable<Speed>.average(): Speed {
     return sum / count
 }
 fun abs(element: Speed) = Speed(element.rawValue.absoluteValue)
+@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class SpeedUnit(val scale: Double, val symbol: String) {
-    METER_PER_SECOND(1.0, "m/s"),
-    KILOMETER_PER_HOUR(0.277778, "km/h"),
-    MILES_PER_HOUR(0.44704, "mph"),
-    KNOTS(0.514444, "knot");
+    METER_PER_SECOND(Speed.METER_PER_SECOND, "m/s"),
+    KILOMETER_PER_HOUR(Speed.KILOMETER_PER_HOUR, "km/h"),
+    MILES_PER_HOUR(Speed.MILES_PER_HOUR, "mph"),
+    KNOTS(Speed.KNOTS, "knot");
     companion object {
         fun parseUnit(text: String): SpeedUnit = entries.first {it.symbol == text}
     }
