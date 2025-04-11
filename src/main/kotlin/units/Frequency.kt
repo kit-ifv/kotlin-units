@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
@@ -37,7 +38,9 @@ class OpenFrequencyRange(override val start: Frequency, override val endExclusiv
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfFrequency")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Frequency): Frequency {
     var sum = 0.0
     for (element in this) {

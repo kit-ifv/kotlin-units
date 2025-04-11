@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
@@ -74,7 +75,9 @@ fun Float.toSpeed(unit: SpeedUnit): Speed {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfSpeed")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Speed): Speed {
     var sum = 0.toSpeed(SpeedUnit.METER_PER_SECOND)
     for (element in this) {

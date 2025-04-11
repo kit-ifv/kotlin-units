@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 
@@ -35,7 +36,7 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
     val benzene: Energy get() = this.inLiter.toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
 
     operator fun div(other: Volume): Double = rawValue / other.rawValue
-
+    operator fun div(distance: Distance): Area = Area(rawValue / distance.inMeters)
     companion object {
         const val CUBIC_METER = 1.0
         const val LITER = 0.001
@@ -75,7 +76,9 @@ fun Float.toVolume(unit: VolumeUnit): Volume {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfVolume")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Volume): Volume {
     var sum = 0.liters
     for (element in this) {

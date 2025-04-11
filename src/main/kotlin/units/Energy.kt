@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
@@ -86,7 +87,9 @@ fun Float.toEnergy(unit: EnergyUnit): Energy {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfDistance")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Energy): Energy {
     var sum = 0.joule
     for (element in this) {

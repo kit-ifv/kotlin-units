@@ -1,6 +1,7 @@
 package units
 
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
@@ -69,7 +70,9 @@ fun Float.toPower(unit: PowerUnit): Power {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfPower")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Power): Power {
     var sum = 0.toPower(PowerUnit.WATTS)
     for (element in this) {

@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
@@ -69,7 +70,9 @@ fun Float.toCurrency(unit: CurrencyUnit): Currency {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfCurrency")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Currency): Currency {
     var sum = 0.euros
     for (element in this) {

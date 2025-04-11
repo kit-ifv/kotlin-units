@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
@@ -71,7 +72,9 @@ fun Float.toMass(unit: MassUnit): Mass {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfMass")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Mass): Mass {
     var sum = 0.grams
     for (element in this) {

@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 import kotlin.time.Duration
@@ -94,8 +95,9 @@ fun Int.toDistance(unit: DistanceUnit): Distance {
 fun Float.toDistance(unit: DistanceUnit): Distance {
     return Distance((this * unit.scale).toLong())
 }
-
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfDistance")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Distance): Distance {
     var sum = 0.meters
     for (element in this) {

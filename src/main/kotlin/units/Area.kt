@@ -1,5 +1,6 @@
 package units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
@@ -31,7 +32,7 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> {
 
     //--- Define different operations below:
     operator fun div(area: Area): Double = rawValue / area.rawValue
-    operator fun div(distance: Distance): Distance = (rawValue / distance.inMeters).toDistance(DistanceUnit.METERS)
+    operator fun div(distance: Distance): Distance = Distance((rawValue / distance.inMeters) * Distance.METERS)
     operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
     companion object {
         const val SQUARE_METERS: Double = 1.0
@@ -69,7 +70,9 @@ fun Float.toArea(unit: AreaUnit): Area {
 
 
 
-
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfArea")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Area): Area {
     var sum = 0.toArea(AreaUnit.SQUARE_METERS)
     for (element in this) {
