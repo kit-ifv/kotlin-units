@@ -1,6 +1,5 @@
 package units
 
-import kotlin.math.roundToLong
 import kotlin.time.Duration
 
 /**
@@ -58,10 +57,10 @@ val Double.kilometers get()= Distance(this * Distance.KILOMETERS)
 
 
 // --- Efficiency
-operator fun Int.times(efficiency: Efficiency): Efficiency = efficiency * this
-operator fun Long.times(efficiency: Efficiency): Efficiency = efficiency * this
-operator fun Float.times(efficiency: Efficiency): Efficiency = efficiency * this
-operator fun Double.times(efficiency: Efficiency): Efficiency = efficiency * this
+operator fun Int.times(newton: Newton): Newton = newton * this
+operator fun Long.times(newton: Newton): Newton = newton * this
+operator fun Float.times(newton: Newton): Newton = newton * this
+operator fun Double.times(newton: Newton): Newton = newton * this
 
 // --- Energy
 operator fun Int.times(energy: Energy): Energy = energy * this

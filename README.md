@@ -128,22 +128,25 @@ val price = 10.`€`
 ```
 ```mermaid
 graph TD 
-  subgraph Distances
+
     Distance["Distance (m)"]
   Area["Area (m²)"]
   Volume["Volume (m³)"]
-  end
-  Number["Raw Number (Int, Double...)"]
-  Duration["Duration (s)"]
+
+
+
   Frequency["Frequency (s⁻¹)"]
   Speed["Speed (ms⁻¹)"]
-  Currency
-  Frequency
+
+
   Energy["Energy(kgm²s⁻²)"]
   Power["Power(kgm²s⁻³)"]
   Temperature
-  Efficiency
+  Efficiency["Newton (kgms⁻²) = Efficiency"]
   Mass["Mass (kg)"]
+  Acceleration["Acceleration (ms⁻²)"]
+    Duration["Duration (s)"]
+      Currency
 
 
  Distance --> |"m"| Area
@@ -156,5 +159,7 @@ graph TD
  Power --> |"s"| Energy
  Energy --> |"s⁻¹"| Power
  Speed --> |"s"| Distance
+Speed --> |"s⁻¹"| Acceleration
+Acceleration --> |"s"| Speed
 
 

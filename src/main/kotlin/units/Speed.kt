@@ -35,11 +35,11 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
 
     //--- Define different operations below:
     operator fun div(other: Speed): Double = rawValue / other.rawValue
-    operator fun times(duration: Duration) = Distance(rawValue * duration.asSeconds)
-
+    operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
+    operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
     companion object {
         const val METER_PER_SECOND = 1.0
-        const val KILOMETER_PER_HOUR = 0.277778
+        const val KILOMETER_PER_HOUR = 0.2777777777777778
         const val MILES_PER_HOUR = 0.44704
         const val KNOTS = 0.514444
     }
