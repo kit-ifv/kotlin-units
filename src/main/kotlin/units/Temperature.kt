@@ -11,9 +11,18 @@ value class Temperature internal constructor(val rawValue: Long) : Comparable<Te
     operator fun rangeTo(other: Temperature): ClosedTemperatureRange = ClosedTemperatureRange(this, other)
 
     operator fun rangeUntil(other: Temperature) = OpenTemperatureRange(this, other)
-
-    fun toLong(unit: TemperatureUnit) = rawValue / unit.scale
-    fun toDouble(unit: TemperatureUnit) = rawValue.toDouble() / unit.scale
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toInt(unit: TemperatureUnit): Int = (rawValue / unit.scale).toInt()
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toLong(unit: TemperatureUnit): Long = rawValue / unit.scale
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toDouble(unit: TemperatureUnit):Double = rawValue.toDouble() / unit.scale
     override fun compareTo(other: Temperature): Int {
         return rawValue.compareTo(other.rawValue)
     }

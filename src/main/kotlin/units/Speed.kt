@@ -28,8 +28,18 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     operator fun rem(other: Speed): Speed = Speed((rawValue % other.rawValue))
     override fun compareTo(other: Speed): Int = rawValue.compareTo(other.rawValue)
 
-    fun toLong(unit: SpeedUnit) = rawValue / unit.scale
-    fun toDouble(unit: SpeedUnit) = rawValue / unit.scale
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toInt(unit: SpeedUnit): Int = (rawValue / unit.scale).toInt()
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toLong(unit: SpeedUnit): Long = (rawValue / unit.scale).toLong()
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toDouble(unit: SpeedUnit): Double = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
 

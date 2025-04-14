@@ -26,8 +26,18 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
     operator fun rem(other: Mass): Mass = Mass((rawValue % other.rawValue))
     override fun compareTo(other: Mass): Int = rawValue.compareTo(other.rawValue)
 
-    fun toLong(unit: MassUnit) = rawValue / unit.scale
-    fun toDouble(unit: MassUnit) = rawValue.toDouble() / unit.scale
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toInt(unit: MassUnit): Int = (rawValue / unit.scale).toInt()
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toLong(unit: MassUnit): Long = rawValue / unit.scale
+    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
+        ReplaceWith("use Unit.as/inXXX for direct conversion")
+    )
+    fun toDouble(unit: MassUnit): Double = rawValue.toDouble() / unit.scale
     //--- Define conversions to "naked" number representations here.
 
     val inKilograms: Double get() = rawValue.toDouble() / KILOGRAM
