@@ -48,6 +48,8 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
     operator fun div(distance: Distance): Newton = Newton(rawValue / distance.inMeters)
     operator fun div(duration: Duration): Power = Power(rawValue / duration.asSeconds)
 
+    operator fun div(newton: Newton): Distance = (rawValue / newton.rawValue).meters
+
     companion object {
         const val JOULE: Double = 1.0
         const val KILOJOULE: Double = 1000.0

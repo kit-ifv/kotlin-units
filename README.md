@@ -161,5 +161,6 @@ graph TD
  Speed --> |"s"| Distance
 Speed --> |"s⁻¹"| Acceleration
 Acceleration --> |"s"| Speed
+Energy --> |"(Newton)⁻¹"| Distance
 
 
