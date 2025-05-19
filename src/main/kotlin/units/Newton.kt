@@ -45,6 +45,11 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
     //--- Define different operations below:
     operator fun div(other: Newton): Double = rawValue / other.rawValue
 
+    companion object {
+        val MAX = Newton(Double.MAX_VALUE)
+        val ZERO = Newton(.0)
+    }
+
 }
 
 class ClosedEfficiencyRange(override val start: Newton, override val endInclusive: Newton): ClosedRange<Newton> {

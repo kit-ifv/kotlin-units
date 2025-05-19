@@ -35,6 +35,8 @@ value class Temperature internal constructor(val rawValue: Long) : Comparable<Te
 
     companion object {
         val ABSOLUTE_ZERO = Temperature(0)
+        val ZERO = ABSOLUTE_ZERO
+        val MAX = Temperature(Long.MAX_VALUE)
     }
 
 }

@@ -48,10 +48,22 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
     operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
     companion object {
+
+        val MAX = Speed(Double.MAX_VALUE)
+        val ZERO = Speed(.0)
+
         const val METER_PER_SECOND = 1.0
         const val KILOMETER_PER_HOUR = 0.2777777777777778
         const val MILES_PER_HOUR = 0.44704
         const val KNOTS = 0.514444
+
+        fun parse(text: String): Speed {
+            val index = text.indexOfFirst { it !in '0'..'9' && it !in setOf('.')}
+            val numericComponent = text.substring(0, index).toDouble()
+            val unitComponent = SpeedUnit.parseUnit(text.substring(index))
+
+            return numericComponent.toSpeed(unitComponent)
+        }
     }
 
 }

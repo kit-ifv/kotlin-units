@@ -32,6 +32,9 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration> {
     operator fun times(duration: Duration) = Speed(rawValue * duration.asSeconds)
 
     companion object {
+
+        val MAX = Acceleration(Double.MAX_VALUE)
+        val ZERO = Acceleration(.0)
         const val METER_PER_SECOND_SQUARED = 1.0
         const val GRAVITY_EARTH = 9.81
 

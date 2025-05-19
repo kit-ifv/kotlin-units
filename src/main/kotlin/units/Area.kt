@@ -45,6 +45,9 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> {
     operator fun div(distance: Distance): Distance = Distance((rawValue / distance.inMeters) * Distance.METERS)
     operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
     companion object {
+
+        val MAX = Area(Double.MAX_VALUE)
+        val ZERO = Area(.0)
         const val SQUARE_METERS: Double = 1.0
         const val SQUARE_INCH: Double = 0.00064516
         const val SQUARE_KILOMETERS: Double = 1000.0 * 1000.0

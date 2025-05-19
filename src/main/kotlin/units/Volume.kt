@@ -49,7 +49,8 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
     companion object {
         const val CUBIC_METER = 1.0
         const val LITER = 0.001
-
+        val MAX = Volume(Double.MAX_VALUE)
+        val ZERO = Volume(.0)
         fun ofCube(a: Distance, b: Distance, c: Distance): Volume {
             return Volume(a.inMeters * b.inMeters * c.inMeters)
         }

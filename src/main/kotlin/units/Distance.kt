@@ -4,6 +4,7 @@ import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @JvmInline
 value class Distance internal constructor(val rawValue: Long) : Comparable<Distance> {
@@ -63,7 +64,14 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
         return Speed(inMeters / duration.asSeconds)
     }
 
+    operator fun div(speed: Speed): Duration {
+        return (inMeters / speed.rawValue).seconds
+    }
+
     companion object {
+        val MAX = Distance(Long.MAX_VALUE)
+        val ZERO = Distance(0L)
+
         const val MICROMETERS = 1L
         const val MILLIMETERS = 1000L
         const val CENTIMETERS = 10_000L
@@ -74,6 +82,14 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
         const val KILOMETERS = 1_000_000_000L
         const val MILE = 1_609_340_000L
         const val SEA_MILE = 1_852_000_000L
+
+        fun parse(text: String): Distance {
+            val index = text.indexOfFirst { it !in '0'..'9' && it !in setOf('.')}
+            val numericComponent = text.substring(0, index).toDouble()
+            val unitComponent = DistanceUnit.parseUnit(text.substring(index))
+
+            return numericComponent.toDistance(unitComponent)
+        }
     }
 }
 
@@ -141,4 +157,7 @@ enum class DistanceUnit(val scale: Long, val symbol: String) {
     KILOMETERS(Distance.KILOMETERS, "km"),
     MILE(Distance.MILE, "mi"),
     SEA_MILE(Distance.SEA_MILE, "nmi");
+    companion object {
+        fun parseUnit(text: String): DistanceUnit = entries.first {it.symbol == text}
+    }
 }

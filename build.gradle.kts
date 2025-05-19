@@ -22,7 +22,7 @@ tasks.test {
 kotlin {
     jvmToolchain(8)
 }
-version = "1.2.2"
+version = "1.2.4"
 publishing {
     publications {
         register("mavenData", MavenPublication::class) {

@@ -23,6 +23,9 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     operator fun div(other: Frequency): Double = rawValue / other.rawValue
     operator fun times(other: Distance): Speed = Speed(rawValue * other.inMeters)
     companion object {
+
+        val MAX = Frequency(Double.MAX_VALUE)
+        val ZERO = Frequency(.0)
         const val HERTZ = 1.0
     }
 }

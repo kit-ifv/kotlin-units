@@ -45,6 +45,9 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
     //--- Define different operations below:
     operator fun div(other: Mass): Double = rawValue.toDouble() / other.rawValue
     companion object {
+
+        val MAX = Mass(Long.MAX_VALUE)
+        val ZERO = Mass(0L)
         const val MICROGRAM = 1L
         const val MILLIGRAM = 1000L
         const val GRAM = 1_000_000L

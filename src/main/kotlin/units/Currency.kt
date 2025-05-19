@@ -46,6 +46,8 @@ value class Currency internal constructor(val rawValue: Double): Comparable<Curr
 
     operator fun div(other: Currency): Double = rawValue / other.rawValue
     companion object {
+        val MAX = Currency(Double.MAX_VALUE)
+        val ZERO = Currency(.0)
         const val EUROS: Double = 1.0
     }
 }
