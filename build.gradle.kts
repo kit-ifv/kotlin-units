@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.10"
+    kotlin("jvm") version "2.2.0"
     id("maven-publish")
 }
 group = "edu.kit.ifv.mobitopp"
@@ -22,7 +22,7 @@ tasks.test {
 kotlin {
     jvmToolchain(8)
 }
-version = "1.2.4"
+version = "1.2.5"
 publishing {
     publications {
         register("mavenData", MavenPublication::class) {
