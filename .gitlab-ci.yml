@@ -1,0 +1,34 @@
+image: amazoncorretto:21
+
+stages:
+  - build
+  - publish
+
+build:
+  stage: build
+  script:
+    - ./gradlew build
+  artifacts:
+    paths:
+      - build/libs/
+
+deploy-job:
+  stage: publish
+  only:
+    - main
+    - master
+  needs: [ "build" ]
+  image: amazoncorretto:21
+  resource_group: production #only one deploy job at a time
+  script:
+    - echo "Publish local release $BUILD_VERSION"
+    - |
+      ./gradlew publish -PbuildVersion=$BUILD_VERSION \
+      -PdoPublish=true \
+      -PisRelease=false \
+      -PlocalUrl=$LOCAL_REPO_URL \
+      -PlocalRepoUser=$LOCAL_REPO_USERNAME \
+      -PlocalRepoPassword=$LOCAL_REPO_PASSWORD
+    - export NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
+    - echo "Update BUILD_NUMBER to $NEW_BUILD_NUMBER"
+    - curl --request PUT --header "PRIVATE-TOKEN:$API_TOKEN" --form "value=$NEW_BUILD_NUMBER" "$GITLAB_API_URL/BUILD_NUMBER"
