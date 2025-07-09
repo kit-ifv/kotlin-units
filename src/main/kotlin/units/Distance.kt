@@ -2,7 +2,6 @@ package units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
-import kotlin.math.roundToLong
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -160,4 +159,28 @@ enum class DistanceUnit(val scale: Long, val symbol: String) {
     companion object {
         fun parseUnit(text: String): DistanceUnit = entries.first {it.symbol == text}
     }
+}
+
+fun min(a: Distance, b: Distance): Distance {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Distance, b: Distance): Distance {
+    if (a > b) return a
+    return b
+}
+
+fun Distance.coerceIn(min: Distance, max: Distance): Distance {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Distance.coerceAtLeast(min: Distance): Distance {
+    return  max(this, min)
+}
+
+fun Distance.coerceAtMost(max: Distance): Distance {
+    return min(this, max)
 }

@@ -52,3 +52,27 @@ class OpenAccelerationRange(override val start: Acceleration, override val endEx
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
+
+fun min(a: Acceleration, b: Acceleration): Acceleration {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Acceleration, b: Acceleration): Acceleration {
+    if (a > b) return a
+    return b
+}
+
+fun Acceleration.coerceIn(min: Acceleration, max: Acceleration): Acceleration {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Acceleration.coerceAtLeast(min: Acceleration): Acceleration {
+    return  max(this, min)
+}
+
+fun Acceleration.coerceAtMost(max: Acceleration): Acceleration {
+    return min(this, max)
+}
