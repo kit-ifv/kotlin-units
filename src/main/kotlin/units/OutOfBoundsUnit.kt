@@ -3,6 +3,9 @@ package units
 /**
  * A unit which occurs when the realm of typesafe defined units is left.
  *
+ * __This type does not have the performance guarantees of the kotlin-units library!__
+ * If you can stay in the type safe environment. This should only be used when no other options are available.
+ *
  * It supports basic operations like {+ - * / ==}
  */
 class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit) {
