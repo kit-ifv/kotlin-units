@@ -50,6 +50,12 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
         val ZERO = Newton(.0)
     }
 
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -2, 1))
+    }
 }
 
 class ClosedEfficiencyRange(override val start: Newton, override val endInclusive: Newton): ClosedRange<Newton> {

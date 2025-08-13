@@ -52,6 +52,13 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> {
         const val SQUARE_INCH: Double = 0.00064516
         const val SQUARE_KILOMETERS: Double = 1000.0 * 1000.0
     }
+
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue, PhysicsUnit(2, 0, 0))
+    }
 }
 
 class ClosedAreaRange(override val start: Area, override val endInclusive: Area): ClosedRange<Area> {

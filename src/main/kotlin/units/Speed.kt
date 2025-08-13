@@ -66,6 +66,12 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
         }
     }
 
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue, PhysicsUnit(1, 1, 0))
+    }
 }
 
 class ClosedSpeedRange(override val start: Speed, override val endInclusive: Speed): ClosedRange<Speed> {

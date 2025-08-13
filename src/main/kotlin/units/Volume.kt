@@ -55,6 +55,13 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
             return Volume(a.inMeters * b.inMeters * c.inMeters)
         }
     }
+
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue, PhysicsUnit(3, 0, 0))
+    }
 }
 
 class ClosedVolumeRange(override val start: Volume, override val endInclusive: Volume): ClosedRange<Volume> {

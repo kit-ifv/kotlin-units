@@ -40,6 +40,13 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration> {
 
     }
 
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -2, 0))
+    }
+
 }
 
 class ClosedAccelerationRange(override val start: Acceleration, override val endInclusive: Acceleration): ClosedRange<Acceleration> {

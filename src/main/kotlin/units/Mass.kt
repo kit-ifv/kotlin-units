@@ -54,6 +54,13 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
         const val KILOGRAM = 1_000_000_000L
         const val TON = 1_000_000_000_000L
     }
+
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue.toDouble(), PhysicsUnit(0, 0, 1))
+    }
 }
 
 class ClosedMassRange(override val start: Mass, override val endInclusive: Mass): ClosedRange<Mass> {

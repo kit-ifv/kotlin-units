@@ -28,6 +28,13 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
         val ZERO = Frequency(.0)
         const val HERTZ = 1.0
     }
+
+    /**
+     * This is likely not what you want to do. This is a function for internal use.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(rawValue, PhysicsUnit(0, -1, 0))
+    }
 }
 
 class ClosedFrequencyRange(override val start: Frequency, override val endInclusive: Frequency): ClosedRange<Frequency> {
