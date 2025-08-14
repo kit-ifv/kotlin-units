@@ -42,6 +42,7 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power> 
     fun toDouble(unit: PowerUnit): Double = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
+    inline val inWatts: Double get() = rawValue / WATTS
 
     //--- Define different operations below:
 
@@ -51,6 +52,7 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power> 
     companion object {
         val MAX = Power(Double.MAX_VALUE)
         val ZERO = Power(.0)
+        const val WATTS = 1
     }
 }
 
