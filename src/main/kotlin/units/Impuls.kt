@@ -28,6 +28,7 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
 
     //--- Define conversions to "naked" number representations here.
 
+    inline val inNewtonSeconds: Double get() = rawValue / Newton_Seconds
 
     //--- Define different operations below:
     operator fun div(other: Impulse): Double = rawValue / other.rawValue
