@@ -42,6 +42,9 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
     fun toDouble(unit: EnergyUnit): Double = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
+    inline val inJoule: Double get() = rawValue / JOULE
+    inline val inKiloJoule: Double get() = rawValue / KILOJOULE
+    inline val inKiloWattHours: Double get() = rawValue / KILOWATTHOUR
 
     //--- Define different operations below:
     operator fun div(other: Energy): Double = rawValue / other.rawValue
