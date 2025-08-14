@@ -48,9 +48,12 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     inline val inKnots: Double get() = rawValue / KNOTS
 
     //--- Define different operations below:
+
     operator fun div(other: Speed): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
     operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
+    operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).Ns
+
     companion object {
 
         val MAX = Speed(Double.MAX_VALUE)

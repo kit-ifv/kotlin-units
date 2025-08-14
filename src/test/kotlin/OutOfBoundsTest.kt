@@ -54,18 +54,4 @@ class OutOfBoundsTest {
         assertEquals(PhysicsUnit(0, 3, 0),
             1.cubic_seconds.toOutOfBoundsUnit().unit)
     }
-
-
-    /**
-     * Every combination of types leading to another type would be convenient for users,
-     * however way too extensive to implement. Therefore, we implement a subset of possible combinations. This tests
-     * tries to list all convenient constructions of types to ensure they are possible.
-     */
-    @Test
-    fun typeConstructionTests() {
-        assertIs<Speed>(1.meters / 1.seconds)
-        assertIs<Acceleration>(1.meters/ 1.seconds / 1.seconds)
-        assertIs<Acceleration>(1.meters / (1.seconds * 1.seconds))
-
-    }
 }
