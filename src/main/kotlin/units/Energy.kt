@@ -71,13 +71,6 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
         }
 
     }
-
-    /**
-     * This is likely not what you want to do. This is a function for internal use.
-     */
-    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
-        return OutOfBoundsUnit(rawValue, PhysicsUnit(2, -2, 1))
-    }
 }
 
 class ClosedEnergyRange(override val start: Energy, override val endInclusive: Energy): ClosedRange<Energy> {

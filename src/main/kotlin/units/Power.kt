@@ -52,13 +52,6 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power> 
         val MAX = Power(Double.MAX_VALUE)
         val ZERO = Power(.0)
     }
-
-    /**
-     * This is likely not what you want to do. This is a function for internal use.
-     */
-    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
-        return OutOfBoundsUnit(rawValue, PhysicsUnit(2, -3, 1))
-    }
 }
 
 class ClosedPowerRange(override val start: Power, override val endInclusive: Power): ClosedRange<Power> {

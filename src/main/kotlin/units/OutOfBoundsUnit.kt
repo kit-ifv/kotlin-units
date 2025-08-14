@@ -1,5 +1,8 @@
 package units
 
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+
 /**
  * A unit which occurs when the realm of typesafe defined units is left.
  *
@@ -105,4 +108,89 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val weight
     override fun toString(): String {
         return "m^$meter_exponent s^$seconds_exponent kg^$weight_exponent"
     }
+}
+
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Acceleration.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -2, 0))
+}
+
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Area.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(2, 0, 0))
+}
+
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Distance.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue.toDouble(), PhysicsUnit(1, 0, 0))
+}
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Duration.toOutOfBoundsUnit(): OutOfBoundsUnit{
+    return OutOfBoundsUnit(
+        this.toDouble(DurationUnit.MICROSECONDS),
+        PhysicsUnit(0,1,0)) //TODO this the expected conversion?
+}
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Energy.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(2, -2, 1))
+}
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Frequency.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(0, -1, 0))
+}
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Mass.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue.toDouble(), PhysicsUnit(0, 0, 1))
+}
+
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Newton.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -2, 1))
+}
+
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Power.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(2, -3, 1))
+}
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Speed.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, 1, 0))
+}
+
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Volume.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(3, 0, 0))
 }

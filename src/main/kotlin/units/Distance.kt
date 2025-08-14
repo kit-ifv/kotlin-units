@@ -91,13 +91,6 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
             return numericComponent.toDistance(unitComponent)
         }
     }
-
-    /**
-     * This is likely not what you want to do. This is a function for internal use.
-     */
-    fun toOutOfBoundsUnit(): OutOfBoundsUnit {
-        return OutOfBoundsUnit(rawValue.toDouble(), PhysicsUnit(1, 0, 0))
-    }
 }
 
 class ClosedDistanceRange(override val start: Distance, override val endInclusive: Distance) : ClosedRange<Distance> {
