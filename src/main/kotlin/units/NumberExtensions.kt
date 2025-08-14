@@ -160,7 +160,21 @@ val Long.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Float.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Double.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 
+// -- Area
 val Int.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
 val Long.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
 val Float.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
 val Double.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
+
+// -- SquareDuration
+val Int.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Long.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Float.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Double.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+
+// -- Cubic Duration
+
+val Int.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Long.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Float.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Double.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)

@@ -3,6 +3,7 @@ import units.Newton
 import units.Ns
 import units.PhysicsUnit
 import units.cubicMeters
+import units.cubicSeconds
 import units.div
 import units.joule
 import units.kilograms
@@ -10,6 +11,7 @@ import units.kmh
 import units.meters
 import units.newton
 import units.squareMeters
+import units.squareSeconds
 import units.toOutOfBoundsUnit
 import units.watts
 import kotlin.test.assertEquals
@@ -44,6 +46,9 @@ class OutOfBoundsTest {
             1.squareMeters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -2, 0),
             ((1.meters / 1.seconds ) / 1.seconds) .toOutOfBoundsUnit().unit)
-
+        assertEquals(PhysicsUnit(0, 2, 0),
+            1.squareSeconds.toOutOfBoundsUnit().unit)
+        assertEquals(PhysicsUnit(0, 3, 0),
+            1.cubicSeconds.toOutOfBoundsUnit().unit)
     }
 }

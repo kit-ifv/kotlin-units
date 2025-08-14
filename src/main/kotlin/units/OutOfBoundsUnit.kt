@@ -4,7 +4,8 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
 /**
- * A unit which occurs when the realm of typesafe defined units is left.
+ * A unit which occurs when the realm of typesafe defined units is left. Represents values with a unit of entire meters,
+ * seconds and/or kilograms.
  *
  * __This type does not have the performance guarantees of the kotlin-units library!__
  * If you can stay in the type safe environment. This should only be used when no other options are available.
@@ -39,10 +40,10 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit) {
 }
 
 /**
- * This class represents a unit for handling kinematic operations.
+ * This class represents a unit for handling kinematic operations. Only meters, seconds and kg can be represented.
  * It provides + - * / operations.
  */
-class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val weight_exponent: Int) {
+class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exponent: Int) {
     /**
      * Checks whether 'this' and 'other' are equal, to ensure only sensible operations.
      * @throws IllegalArgumentException if 'this' and 'other' are not equal, since then no sensible behavior can be
@@ -81,7 +82,7 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val weight
         return PhysicsUnit(
             meter_exponent + other.meter_exponent,
             seconds_exponent + other.seconds_exponent,
-            weight_exponent + other.weight_exponent)
+            kg_exponent + other.kg_exponent)
     }
 
     /**
@@ -91,7 +92,7 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val weight
         return PhysicsUnit(
             meter_exponent - other.meter_exponent,
             seconds_exponent - other.seconds_exponent,
-            weight_exponent - other.weight_exponent)
+            kg_exponent - other.kg_exponent)
     }
 
 
@@ -102,11 +103,11 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val weight
         if (other !is PhysicsUnit) return false
         return meter_exponent == other.meter_exponent &&
                 seconds_exponent == other.seconds_exponent &&
-                weight_exponent == other.weight_exponent
+                kg_exponent == other.kg_exponent
     }
 
     override fun toString(): String {
-        return "m^$meter_exponent s^$seconds_exponent kg^$weight_exponent"
+        return "m^$meter_exponent s^$seconds_exponent kg^$kg_exponent"
     }
 }
 
@@ -139,9 +140,28 @@ fun Distance.toOutOfBoundsUnit(): OutOfBoundsUnit {
  */
 fun Duration.toOutOfBoundsUnit(): OutOfBoundsUnit{
     return OutOfBoundsUnit(
-        this.toDouble(DurationUnit.MICROSECONDS),
+        this.toDouble(DurationUnit.SECONDS),
         PhysicsUnit(0,1,0)) //TODO this the expected conversion?
 }
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun SquareDuration.toOutOfBoundsUnit(): OutOfBoundsUnit{
+    return OutOfBoundsUnit(
+        this.toDouble(),
+        PhysicsUnit(0,2,0))
+}
+
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun CubicDuration.toOutOfBoundsUnit(): OutOfBoundsUnit{
+    return OutOfBoundsUnit(
+        this.toDouble(),
+        PhysicsUnit(0,3,0))
+}
+
 
 /**
  * This is likely not what you want to do. This is a function for internal use.

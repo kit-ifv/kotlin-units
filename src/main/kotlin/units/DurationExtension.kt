@@ -1,6 +1,7 @@
 package units
 
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 
 /**
@@ -12,3 +13,4 @@ import kotlin.time.DurationUnit
 inline val Duration.asMinutes: Double get() = this.toDouble(DurationUnit.MINUTES)
 inline val Duration.asSeconds: Double get() = this.toDouble(DurationUnit.SECONDS)
 inline val Duration.asHours: Double get() = this.toDouble(DurationUnit.HOURS)
+
