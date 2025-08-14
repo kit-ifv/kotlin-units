@@ -68,6 +68,10 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
         return (inMeters / speed.rawValue).seconds
     }
 
+    operator fun div(squareDur: SquareDuration): Acceleration {
+        return (inMeters / squareDur.inSquareSeconds).meters_per_second_squared
+    }
+
     companion object {
         val MAX = Distance(Long.MAX_VALUE)
         val ZERO = Distance(0L)
