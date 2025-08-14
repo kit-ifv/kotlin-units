@@ -116,7 +116,8 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exp
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Acceleration.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -2, 0))
+    return OutOfBoundsUnit(inMetersPerSecondsSquared,
+        PhysicsUnit(1, -2, 0))
 }
 
 
@@ -124,15 +125,16 @@ fun Acceleration.toOutOfBoundsUnit(): OutOfBoundsUnit {
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Area.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(2, 0, 0))
+    return OutOfBoundsUnit(inSquareMeters,
+        PhysicsUnit(2, 0, 0))
 }
-
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Distance.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue.toDouble(), PhysicsUnit(1, 0, 0))
+    return OutOfBoundsUnit(inMeters,
+        PhysicsUnit(1, 0, 0))
 }
 
 /**
@@ -140,8 +142,8 @@ fun Distance.toOutOfBoundsUnit(): OutOfBoundsUnit {
  */
 fun Duration.toOutOfBoundsUnit(): OutOfBoundsUnit{
     return OutOfBoundsUnit(
-        this.toDouble(DurationUnit.SECONDS),
-        PhysicsUnit(0,1,0)) //TODO this the expected conversion?
+        asSeconds,
+        PhysicsUnit(0,1,0))
 }
 
 /**
@@ -149,7 +151,7 @@ fun Duration.toOutOfBoundsUnit(): OutOfBoundsUnit{
  */
 fun SquareDuration.toOutOfBoundsUnit(): OutOfBoundsUnit{
     return OutOfBoundsUnit(
-        this.toDouble(),
+        this.inSquareSeconds,
         PhysicsUnit(0,2,0))
 }
 
@@ -158,7 +160,7 @@ fun SquareDuration.toOutOfBoundsUnit(): OutOfBoundsUnit{
  */
 fun CubicDuration.toOutOfBoundsUnit(): OutOfBoundsUnit{
     return OutOfBoundsUnit(
-        this.toDouble(),
+        this.inCubicSeconds,
         PhysicsUnit(0,3,0))
 }
 
@@ -167,21 +169,24 @@ fun CubicDuration.toOutOfBoundsUnit(): OutOfBoundsUnit{
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Energy.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(2, -2, 1))
+    return OutOfBoundsUnit(inJoule,
+        PhysicsUnit(2, -2, 1))
 }
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Frequency.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(0, -1, 0))
+    return OutOfBoundsUnit(inHertz,
+        PhysicsUnit(0, -1, 0))
 }
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Mass.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue.toDouble(), PhysicsUnit(0, 0, 1))
+    return OutOfBoundsUnit(inKilograms,
+        PhysicsUnit(0, 0, 1))
 }
 
 
@@ -189,7 +194,8 @@ fun Mass.toOutOfBoundsUnit(): OutOfBoundsUnit {
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Newton.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -2, 1))
+    return OutOfBoundsUnit(inNewton,
+        PhysicsUnit(1, -2, 1))
 }
 
 
@@ -197,26 +203,30 @@ fun Newton.toOutOfBoundsUnit(): OutOfBoundsUnit {
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Power.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(2, -3, 1))
+    return OutOfBoundsUnit(inWatts,
+        PhysicsUnit(2, -3, 1))
 }
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Speed.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -1, 0))
+    return OutOfBoundsUnit(inMetersPerSecond,
+        PhysicsUnit(1, -1, 0))
 }
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Impulse.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -1, 1))
+    return OutOfBoundsUnit(inNewtonSeconds,
+        PhysicsUnit(1, -1, 1))
 }
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Volume.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(3, 0, 0))
+    return OutOfBoundsUnit(inCubicMeters,
+        PhysicsUnit(3, 0, 0))
 }
