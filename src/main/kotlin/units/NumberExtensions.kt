@@ -176,10 +176,10 @@ val Long.liters: Volume get() = Volume(this * Volume.LITER)
 val Float.liters: Volume get() = Volume(this * Volume.LITER)
 val Double.liters: Volume get() = Volume(this * Volume.LITER)
 
-val Int.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
-val Long.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
-val Float.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
-val Double.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
+val Int.cubic_meters: Volume get() = Volume(this * Volume.CUBIC_METER)
+val Long.cubic_meters: Volume get() = Volume(this * Volume.CUBIC_METER)
+val Float.cubic_meters: Volume get() = Volume(this * Volume.CUBIC_METER)
+val Double.cubic_meters: Volume get() = Volume(this * Volume.CUBIC_METER)
 
 // -- SquareDuration
 operator fun Int.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
@@ -187,10 +187,10 @@ operator fun Long.times(squareDuration: SquareDuration): SquareDuration = square
 operator fun Float.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
 operator fun Double.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
 
-val Int.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
-val Long.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
-val Float.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
-val Double.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Int.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Long.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Float.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Double.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
 
 // -- Cubic Duration
 operator fun Int.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
@@ -198,7 +198,7 @@ operator fun Long.times(cubicDuration: CubicDuration): CubicDuration = cubicDura
 operator fun Float.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
 operator fun Double.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
 
-val Int.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
-val Long.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
-val Float.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
-val Double.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Int.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Long.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Float.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Double.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
