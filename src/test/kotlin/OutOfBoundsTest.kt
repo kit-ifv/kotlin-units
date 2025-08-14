@@ -1,19 +1,18 @@
 import org.junit.jupiter.api.Test
 import units.Acceleration
-import units.Newton
 import units.Ns
 import units.PhysicsUnit
 import units.Speed
 import units.cubicMeters
-import units.cubicSeconds
+import units.cubic_seconds
 import units.div
 import units.joule
 import units.kilograms
 import units.kmh
 import units.meters
 import units.newton
-import units.squareMeters
-import units.squareSeconds
+import units.square_seconds
+import units.square_meters
 import units.times
 import units.toOutOfBoundsUnit
 import units.watts
@@ -47,13 +46,13 @@ class OutOfBoundsTest {
         assertEquals(PhysicsUnit(3, 0, 0),
             1.cubicMeters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(2, 0, 0),
-            1.squareMeters.toOutOfBoundsUnit().unit)
+            1.square_meters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -2, 0),
             ((1.meters / 1.seconds ) / 1.seconds) .toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0, 2, 0),
-            1.squareSeconds.toOutOfBoundsUnit().unit)
+            1.square_seconds.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0, 3, 0),
-            1.cubicSeconds.toOutOfBoundsUnit().unit)
+            1.cubic_seconds.toOutOfBoundsUnit().unit)
     }
 
 

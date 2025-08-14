@@ -35,7 +35,7 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
     //--- Define different operations below:
     operator fun div(other: CubicDuration): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = (rawValue * duration.asSeconds).seconds
-    operator fun div(duration: Duration): SquareDuration = (rawValue / duration.asSeconds).squareSeconds
+    operator fun div(duration: Duration): SquareDuration = (rawValue / duration.asSeconds).square_seconds
 
     companion object {
 
