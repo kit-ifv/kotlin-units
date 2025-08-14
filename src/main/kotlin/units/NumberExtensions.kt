@@ -23,6 +23,11 @@ operator fun Long.times(area: Area): Area = area * this
 operator fun Float.times(area: Area): Area = area * this
 operator fun Double.times(area: Area): Area = area * this
 
+val Int.square_meters get()= Area(this * Area.SQUARE_METERS)
+val Long.square_meters get() = Area(this * Area.SQUARE_METERS)
+val Float.square_meters get() = Area(this * Area.SQUARE_METERS)
+val Double.square_meters get() = Area(this * Area.SQUARE_METERS)
+
 // --- Currency
 operator fun Int.times(currency: Currency): Currency = currency * this
 operator fun Long.times(currency: Currency): Currency = currency * this
@@ -126,6 +131,22 @@ val Long.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Float.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Double.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 
+val Int.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
+val Long.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
+val Float.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
+val Double.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
+
+// --- Acceleration
+operator fun Int.times(acceleration: Acceleration): Acceleration = acceleration * this
+operator fun Long.times(acceleration: Acceleration): Acceleration = acceleration * this
+operator fun Float.times(acceleration: Acceleration): Acceleration = acceleration * this
+operator fun Double.times(acceleration: Acceleration): Acceleration = acceleration * this
+
+val Int.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Long.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Float.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Double.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+
 // --- Impulse
 operator fun Int.times(impulse: Impulse): Impulse = impulse * this
 operator fun Long.times(impulse: Impulse): Impulse = impulse * this
@@ -160,19 +181,22 @@ val Long.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Float.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Double.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 
-// -- Area
-val Int.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
-val Long.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
-val Float.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
-val Double.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
-
 // -- SquareDuration
+operator fun Int.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+operator fun Long.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+operator fun Float.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+operator fun Double.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+
 val Int.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
 val Long.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
 val Float.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
 val Double.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
 
 // -- Cubic Duration
+operator fun Int.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+operator fun Long.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+operator fun Float.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+operator fun Double.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
 
 val Int.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
 val Long.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
