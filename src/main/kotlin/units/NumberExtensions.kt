@@ -121,6 +121,18 @@ val Long.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Float.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Double.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 
+// --- Impulse
+operator fun Int.times(impulse: Impulse): Impulse = impulse * this
+operator fun Long.times(impulse: Impulse): Impulse = impulse * this
+operator fun Float.times(impulse: Impulse): Impulse = impulse * this
+operator fun Double.times(impulse: Impulse): Impulse = impulse * this
+
+val Int.Ns get()= Impulse(this * Impulse.Newton_Seconds)
+val Long.Ns get()= Impulse(this * Impulse.Newton_Seconds)
+val Float.Ns get()= Impulse(this * Impulse.Newton_Seconds)
+val Double.Ns get()= Impulse(this * Impulse.Newton_Seconds)
+
+
 // --- Temperature
 val Int.celsius get()= this.toTemperature(TemperatureUnit.CELSIUS)
 val Long.celsius get()= this.toTemperature(TemperatureUnit.CELSIUS)

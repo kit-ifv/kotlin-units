@@ -184,9 +184,15 @@ fun Power.toOutOfBoundsUnit(): OutOfBoundsUnit {
  * This is likely not what you want to do. This is a function for internal use.
  */
 fun Speed.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, 1, 0))
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -1, 0))
 }
 
+/**
+ * This is likely not what you want to do. This is a function for internal use.
+ */
+fun Impulse.toOutOfBoundsUnit(): OutOfBoundsUnit {
+    return OutOfBoundsUnit(rawValue, PhysicsUnit(1, -1, 1))
+}
 
 /**
  * This is likely not what you want to do. This is a function for internal use.
