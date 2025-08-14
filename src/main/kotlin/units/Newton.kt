@@ -41,6 +41,7 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
 
     //--- Define conversions to "naked" number representations here.
 
+    inline val inNewton: Double get() = rawValue
 
     //--- Define different operations below:
     operator fun div(other: Newton): Double = rawValue / other.rawValue
@@ -64,11 +65,6 @@ class OpenEfficiencyRange(override val start: Newton, override val endExclusive:
 }
 
 val Pair<Energy, Distance>.newton: Newton get() = first / second
-
-
-
-
-
 
 fun abs(element: Newton) = Newton(element.rawValue.absoluteValue)
 /**
