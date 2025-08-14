@@ -62,6 +62,11 @@ operator fun Long.times(newton: Newton): Newton = newton * this
 operator fun Float.times(newton: Newton): Newton = newton * this
 operator fun Double.times(newton: Newton): Newton = newton * this
 
+val Int.newton     get()= Newton(this.toDouble())
+val Long.newton    get()= Newton(this.toDouble())
+val Float.newton   get()= Newton(this.toDouble())
+val Double.newton  get()= Newton(this)
+
 // --- Energy
 operator fun Int.times(energy: Energy): Energy = energy * this
 operator fun Long.times(energy: Energy): Energy = energy * this
