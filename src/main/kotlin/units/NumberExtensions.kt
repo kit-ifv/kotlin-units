@@ -159,3 +159,8 @@ val Int.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Long.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Float.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Double.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
+
+val Int.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
+val Long.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
+val Float.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
+val Double.squareMeters: Area get() = Area(this * Area.SQUARE_METERS)
