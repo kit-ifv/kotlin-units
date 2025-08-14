@@ -26,6 +26,8 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration> {
 
     //--- Define conversions to "naked" number representations here.
 
+    inline val inMetersPerSecondsSquared: Double get() = rawValue / METER_PER_SECOND_SQUARED
+    inline val inEarthGravityGs: Double get() = rawValue / GRAVITY_EARTH
 
     //--- Define different operations below:
     operator fun div(other: Acceleration): Double = rawValue / other.rawValue
