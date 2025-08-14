@@ -42,6 +42,10 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     fun toDouble(unit: SpeedUnit): Double = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
+    inline val inMetersPerSecond: Double get() = rawValue / METER_PER_SECOND
+    inline val inKilometersPerHour: Double get() = rawValue / KILOMETER_PER_HOUR
+    inline val inMilesPerHour: Double get() = rawValue / MILES_PER_HOUR
+    inline val inKnots: Double get() = rawValue / KNOTS
 
     //--- Define different operations below:
     operator fun div(other: Speed): Double = rawValue / other.rawValue
