@@ -28,10 +28,9 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
 
     //--- Define conversions to "naked" number representations here.
 
-    /**
-     * amount of cubic seconds
-     */
-    fun toDouble(): Double = rawValue
+    inline val inCubicSeconds: Double get() = rawValue/CUBIC_SECONDS
+    inline val inCubicMinutes: Double get() = rawValue/CUBIC_MINUTES
+    inline val  inCubicHours: Double get() = rawValue/CUBIC_HOURS
 
     //--- Define different operations below:
     operator fun div(other: CubicDuration): Double = rawValue / other.rawValue
