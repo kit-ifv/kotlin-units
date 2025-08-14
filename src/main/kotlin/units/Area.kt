@@ -1,5 +1,6 @@
 package units
 
+import units.CubicDuration.Companion.CUBIC_MINUTES
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
@@ -37,8 +38,12 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> {
         ReplaceWith("use Unit.as/inXXX for direct conversion")
     )
     fun toDouble(unit: AreaUnit):Double = rawValue / unit.scale
+
     //--- Define conversions to "naked" number representations here.
-    
+
+    inline val inSquareMeters: Double get() = rawValue / SQUARE_METERS
+    inline val inSquareInch: Double get() = rawValue / SQUARE_INCH
+    inline val inSquareKilometers: Double get() = rawValue / SQUARE_KILOMETERS
 
     //--- Define different operations below:
     operator fun div(area: Area): Double = rawValue / area.rawValue
