@@ -28,10 +28,9 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
 
     //--- Define conversions to "naked" number representations here.
 
-    /**
-     * amount of square seconds
-     */
-    fun toDouble(): Double = rawValue
+    inline val inSquareSeconds: Double get() = rawValue/SQUARE_SECONDS
+    inline val inSquareMinutes: Double get() = rawValue/SQUARE_MINUTES
+    inline val inSquareHours: Double get() = rawValue/SQUARE_HOURS
 
     //--- Define different operations below:
     operator fun div(other: SquareDuration): Double = rawValue / other.rawValue
