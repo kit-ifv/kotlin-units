@@ -18,6 +18,7 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
 
     //--- Define conversions to "naked" number representations here.
 
+    inline val inHertz: Double get() = rawValue / HERTZ
 
     //--- Define different operations below:
     operator fun div(other: Frequency): Double = rawValue / other.rawValue
