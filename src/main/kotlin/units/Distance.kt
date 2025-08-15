@@ -7,7 +7,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @JvmInline
-value class Distance internal constructor(val rawValue: Long) : Comparable<Distance> {
+value class Distance internal constructor(val rawValue: Long) : Comparable<Distance>, FlexibleUnit {
     internal constructor(doubleValue: Double): this(doubleValue.toLong())
     internal constructor(floatValue: Float): this(floatValue.toLong())
 
@@ -70,6 +70,11 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
 
     operator fun div(squareDur: SquareDuration): Acceleration {
         return (inMeters / squareDur.inSquareSeconds).meters_per_second_squared
+    }
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inMeters,
+            PhysicsUnit(1, 0, 0))
     }
 
     companion object {

@@ -4,7 +4,7 @@ import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
+value class Mass internal constructor(val rawValue: Long): Comparable<Mass> , FlexibleUnit {
 
     operator fun unaryMinus(): Mass = Mass(-rawValue)
     operator fun plus(other: Mass) = Mass(rawValue + other.rawValue)
@@ -47,6 +47,10 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
     operator fun times(speed:Speed): Impulse = (inKilograms * speed.inMetersPerSecond).Ns
     operator fun times(acceleration: Acceleration): Newton
         = (inKilograms * acceleration.inMetersPerSecondsSquared).newton
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inKilograms, PhysicsUnit(0,0,1))
+    }
 
     companion object {
 

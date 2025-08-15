@@ -1,7 +1,31 @@
 package units
 
 import kotlin.time.Duration
-import kotlin.time.DurationUnit
+
+
+/**
+ * This interface defines default functions each type needs to support, to ensure all units can be multiplied together.
+ * The mechanism hinges on `OutOfBoundsUnit`, therefore the typesafe realm is left when these functions come into play.
+ */
+interface FlexibleUnit {
+
+    /**
+     * This should only be used manually, if the base units lack some functionality, because calculations with
+     * `OutOfBoundsUnit`s __do not__ have the performance guarantees of this library.
+     *
+     * This method is mostly used for internal conversions. For example in the `times` and `div` functions of this
+     * interface.
+     */
+    fun toOutOfBoundsUnit(): OutOfBoundsUnit
+
+    operator fun times(other: FlexibleUnit): OutOfBoundsUnit {
+        return this.toOutOfBoundsUnit() * other.toOutOfBoundsUnit()
+    }
+
+    operator fun div(other: FlexibleUnit): OutOfBoundsUnit {
+        return this.toOutOfBoundsUnit() / other.toOutOfBoundsUnit()
+    }
+}
 
 /**
  * A unit which occurs when the realm of typesafe defined units is left. Represents values with a unit of entire meters,
@@ -12,12 +36,20 @@ import kotlin.time.DurationUnit
  *
  * It supports basic operations like {+ - * / ==}
  */
-class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit) {
-
+class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit): FlexibleUnit {
+    /**
+    * @throws IllegalArgumentException if 'this.unit' and 'other.unit' are not equal, since then no sensible behavior
+     * can be defined. What should 1kg + 1m result in? If you for some reason still want to do that, get the raw values
+     * of both.
+     */
     operator fun plus (other: OutOfBoundsUnit): OutOfBoundsUnit {
         return OutOfBoundsUnit(rawValue + other.rawValue, unit + other.unit)
     }
-
+    /**
+     * @throws IllegalArgumentException if 'this.unit' and 'other.unit' are not equal, since then no sensible behavior
+     * can be defined. What should 1N - 1s result in? If you for some reason still want to do that, get the raw values
+     * of both.
+     */
     operator fun minus(other: OutOfBoundsUnit): OutOfBoundsUnit {
         return OutOfBoundsUnit(rawValue - other.rawValue, unit - other.unit)
     }
@@ -36,6 +68,18 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit) {
     override fun equals(other: Any?): Boolean {
         if (other !is OutOfBoundsUnit) return false
         return rawValue - other.rawValue < 1e-9 && unit == other.unit
+    }
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return this
+    }
+
+    override fun times(other: FlexibleUnit): OutOfBoundsUnit {
+        return this * other.toOutOfBoundsUnit()
+    }
+
+    override fun div(other: FlexibleUnit): OutOfBoundsUnit {
+        return this / other.toOutOfBoundsUnit()
     }
 }
 
@@ -109,41 +153,6 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exp
     override fun toString(): String {
         return "m^$meter_exponent s^$seconds_exponent kg^$kg_exponent"
     }
-}
-
-
-/**
- * This is likely not what you want to do. This is a function for internal use.
- */
-fun Acceleration.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(inMetersPerSecondsSquared,
-        PhysicsUnit(1, -2, 0))
-}
-
-
-/**
- * This is likely not what you want to do. This is a function for internal use.
- */
-fun Area.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(inSquareMeters,
-        PhysicsUnit(2, 0, 0))
-}
-
-/**
- * This is likely not what you want to do. This is a function for internal use.
- */
-fun Distance.toOutOfBoundsUnit(): OutOfBoundsUnit {
-    return OutOfBoundsUnit(inMeters,
-        PhysicsUnit(1, 0, 0))
-}
-
-/**
- * This is likely not what you want to do. This is a function for internal use.
- */
-fun Duration.toOutOfBoundsUnit(): OutOfBoundsUnit{
-    return OutOfBoundsUnit(
-        asSeconds,
-        PhysicsUnit(0,1,0))
 }
 
 /**

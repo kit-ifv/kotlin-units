@@ -13,6 +13,7 @@ import units.meters_per_second
 import units.meters_per_second_squared
 import units.square_seconds
 import units.times
+import units.toOutOfBoundsUnit
 import kotlin.test.assertIs
 import kotlin.time.Duration.Companion.seconds
 
@@ -43,6 +44,5 @@ class ConversionTests {
         assertIs<Newton>(1.meters / 1.seconds / 1.seconds * 1.kilograms)
         assertIs<Newton>(1 / 1.seconds * 1.meters / 1.seconds * 1.kilograms)
         assertIs<Newton>(1.kilograms * 1.meters_per_second_squared)
-
     }
 }

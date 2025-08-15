@@ -5,7 +5,7 @@ import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Area internal constructor(val rawValue: Double): Comparable<Area> {
+value class Area internal constructor(val rawValue: Double): Comparable<Area> , FlexibleUnit {
     operator fun unaryMinus(): Area = Area(-rawValue)
     operator fun plus(other: Area) = Area(rawValue + other.rawValue)
     operator fun minus(other: Area) = Area(rawValue - other.rawValue)
@@ -49,6 +49,11 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> {
     operator fun div(area: Area): Double = rawValue / area.rawValue
     operator fun div(distance: Distance): Distance = Distance((rawValue / distance.inMeters) * Distance.METERS)
     operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inSquareMeters, PhysicsUnit(0, 2, 0))
+    }
+
     companion object {
 
         val MAX = Area(Double.MAX_VALUE)

@@ -3,7 +3,7 @@ package units
 import kotlin.time.Duration
 
 @JvmInline
-value class Acceleration(val rawValue: Double): Comparable<Acceleration> {
+value class Acceleration(val rawValue: Double): Comparable<Acceleration>, FlexibleUnit {
     operator fun unaryMinus(): Acceleration = Acceleration(-rawValue)
     operator fun plus(other: Acceleration) = Acceleration(rawValue + other.rawValue)
     operator fun minus(other: Acceleration) = Acceleration(rawValue - other.rawValue)
@@ -33,6 +33,10 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration> {
     operator fun div(other: Acceleration): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = Speed(rawValue * duration.asSeconds)
     operator fun times(mass: Mass): Newton = (inMetersPerSecondsSquared * mass.inKilograms).newton
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inMetersPerSecondsSquared, PhysicsUnit(1,-2,0))
+    }
 
 
     companion object {
