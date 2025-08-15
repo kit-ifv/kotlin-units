@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test
 import units.Acceleration
 import units.Impulse
 import units.Mass
+import units.Newton
 import units.Ns
 import units.Speed
 import units.div
@@ -9,6 +10,7 @@ import units.kilograms
 import units.kmh
 import units.meters
 import units.meters_per_second
+import units.meters_per_second_squared
 import units.square_seconds
 import units.times
 import kotlin.test.assertIs
@@ -36,5 +38,11 @@ class ConversionTests {
         assertIs<Acceleration>(1.meters/ 1.seconds / 1.seconds)
         assertIs<Acceleration>(1.meters / (1.seconds * 1.seconds))
         assertIs<Acceleration>(1.meters / 1.square_seconds)
+
+        assertIs<Newton>(1.meters / 1.square_seconds * 1.kilograms)
+        assertIs<Newton>(1.meters / 1.seconds / 1.seconds * 1.kilograms)
+        assertIs<Newton>(1 / 1.seconds * 1.meters / 1.seconds * 1.kilograms)
+        assertIs<Newton>(1.kilograms * 1.meters_per_second_squared)
+
     }
 }
