@@ -99,15 +99,15 @@ operator fun Long.times(mass: Mass): Mass = mass * this
 operator fun Float.times(mass: Mass): Mass = mass * this
 operator fun Double.times(mass: Mass): Mass = mass * this
 
-val Int.grams get()= this.toMass(MassUnit.GRAM)
-val Long.grams get()= this.toMass(MassUnit.GRAM)
-val Float.grams get()= this.toMass(MassUnit.GRAM)
-val Double.grams get()= this.toMass(MassUnit.GRAM)
+val Int.grams get()= Mass(this * Mass.GRAM)
+val Long.grams get()= Mass(this * Mass.GRAM)
+val Float.grams get()= Mass((this * Mass.GRAM).toLong())
+val Double.grams get()= Mass((this * Mass.GRAM).toLong())
 
-val Int.kilograms get()= this.toMass(MassUnit.KILOGRAM)
-val Long.kilograms get()= this.toMass(MassUnit.KILOGRAM)
-val Float.kilograms get()= this.toMass(MassUnit.KILOGRAM)
-val Double.kilograms get()= this.toMass(MassUnit.KILOGRAM)
+val Int.kilograms get()= Mass(this * Mass.KILOGRAM)
+val Long.kilograms get()= Mass(this * Mass.KILOGRAM)
+val Float.kilograms get()= Mass((this * Mass.KILOGRAM).toLong())
+val Double.kilograms get()= Mass((this * Mass.KILOGRAM).toLong())
 
 // --- Power
 operator fun Int.times(power: Power): Power = power * this
@@ -115,10 +115,10 @@ operator fun Long.times(power: Power): Power = power * this
 operator fun Float.times(power: Power): Power = power * this
 operator fun Double.times(power: Power): Power = power * this
 
-val Int.watts get()= this.toPower(PowerUnit.WATTS)
-val Long.watts get()= this.toPower(PowerUnit.WATTS)
-val Float.watts get()= this.toPower(PowerUnit.WATTS)
-val Double.watts get()= this.toPower(PowerUnit.WATTS)
+val Int.watts get()= Power((this * Power.WATTS).toDouble())
+val Long.watts get()= Power((this * Power.WATTS).toDouble())
+val Float.watts get()= Power((this * Power.WATTS).toDouble())
+val Double.watts get()= Power((this * Power.WATTS))
 
 // --- Speed
 operator fun Int.times(speed: Speed): Speed = speed * this
