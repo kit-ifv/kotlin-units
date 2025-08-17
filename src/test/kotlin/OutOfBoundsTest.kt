@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Test
-import units.Acceleration
 import units.Ns
 import units.PhysicsUnit
-import units.Speed
 import units.cubicMeters
 import units.cubic_seconds
 import units.div
@@ -13,17 +11,15 @@ import units.meters
 import units.newton
 import units.square_seconds
 import units.square_meters
-import units.times
 import units.toOutOfBoundsUnit
 import units.watts
 import units.wrap
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlin.time.Duration.Companion.seconds
 
 class OutOfBoundsTest {
     @Test
-    fun correctPhysicsUnit() {
+    fun correctExponentsForBaseUnits() {
         assertEquals(PhysicsUnit(1,0,0),
             1.meters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0,1,0),

@@ -51,7 +51,7 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> , 
     operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
 
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
-        return OutOfBoundsUnit(inSquareMeters, PhysicsUnit(0, 2, 0))
+        return OutOfBoundsUnit(inSquareMeters, PhysicsUnit(2, 0, 0))
     }
 
     companion object {
