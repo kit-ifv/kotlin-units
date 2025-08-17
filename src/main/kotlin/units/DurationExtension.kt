@@ -24,16 +24,17 @@ inline val Duration.wrap: DurationWrapper get() = DurationWrapper(this)
 
 /**
  * Inconveniently Kotlin has a Duration implementation already. To ensure interoperability with the entire library,
- * we will use a wrapper instead.
+ * we will use a wrapper wherever needed. Since we don't want to break the API, we keep using the kotlin Duration
+ * as much as possible.
  */
 class DurationWrapper(val duration: Duration): FlexibleUnit {
     inline val asMinutes: Double get() = duration.toDouble(DurationUnit.MINUTES)
     inline val asSeconds: Double get() = duration.toDouble(DurationUnit.SECONDS)
     inline val asHours: Double get() = duration.toDouble(DurationUnit.HOURS)
 
-
+    //--- Define different operations below:
     operator fun times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
-
+    operator fun times(other: Duration): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(
             asSeconds,
@@ -41,3 +42,7 @@ class DurationWrapper(val duration: Duration): FlexibleUnit {
     }
 }
 
+//--- Define different operations below:
+
+operator fun Duration.times(other: Duration): SquareDuration = SquareDuration(this.asSeconds * other.asSeconds)
+operator fun Duration.times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds

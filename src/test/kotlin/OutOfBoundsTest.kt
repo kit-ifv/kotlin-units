@@ -16,6 +16,7 @@ import units.square_meters
 import units.times
 import units.toOutOfBoundsUnit
 import units.watts
+import units.wrap
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.time.Duration.Companion.seconds
@@ -26,7 +27,7 @@ class OutOfBoundsTest {
         assertEquals(PhysicsUnit(1,0,0),
             1.meters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0,1,0),
-                1.seconds.toOutOfBoundsUnit().unit)
+                1.seconds.wrap.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0,0,1),
             1.kilograms.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1,-1, 0),

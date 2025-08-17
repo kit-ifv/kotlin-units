@@ -14,6 +14,7 @@ import units.meters_per_second_squared
 import units.square_seconds
 import units.times
 import units.toOutOfBoundsUnit
+import units.wrap
 import kotlin.test.assertIs
 import kotlin.time.Duration.Companion.seconds
 
