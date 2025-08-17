@@ -1,9 +1,11 @@
 import org.junit.jupiter.api.Test
 import units.Acceleration
+import units.Energy
 import units.Impulse
 import units.Mass
 import units.Newton
 import units.Ns
+import units.Power
 import units.Speed
 import units.div
 import units.kilograms
@@ -11,10 +13,9 @@ import units.kmh
 import units.meters
 import units.meters_per_second
 import units.meters_per_second_squared
+import units.newton
 import units.square_seconds
 import units.times
-import units.toOutOfBoundsUnit
-import units.wrap
 import kotlin.test.assertIs
 import kotlin.time.Duration.Companion.seconds
 
@@ -24,26 +25,49 @@ class ConversionTests {
      * however way too extensive to implement. Therefore, we implement a subset of possible combinations. This tests
      * tries to list all convenient constructions of types to ensure they are possible.
      */
+    
     @Test
-    fun typeConstructionTests() {
+    fun massConverions() {
         assertIs<Mass>(1.Ns / 1.kmh)
+    }
 
+    @Test
+    fun speedConversions() {
         assertIs<Speed>(1.meters / 1.seconds)
-        assertIs<Speed>(1/1.seconds * 1.meters)
+        assertIs<Speed>(1 / 1.seconds * 1.meters)
         assertIs<Speed>(1.Ns / 1.kilograms)
+    }
 
+    @Test
+    fun impulseConverisons() {
         assertIs<Impulse>(1.meters / 1.seconds * 1.kilograms)
-        assertIs<Impulse>(1/ 1.seconds * 1.meters * 1.kilograms)
+        assertIs<Impulse>(1 / 1.seconds * 1.meters * 1.kilograms)
         assertIs<Impulse>(1.meters / 1.seconds * 1.kilograms)
         assertIs<Impulse>(1.kilograms * 1.meters_per_second)
+    }
 
-        assertIs<Acceleration>(1.meters/ 1.seconds / 1.seconds)
+    @Test
+    fun accelerationConversions() {
+        assertIs<Acceleration>(1.meters / 1.seconds / 1.seconds)
         assertIs<Acceleration>(1.meters / (1.seconds * 1.seconds))
         assertIs<Acceleration>(1.meters / 1.square_seconds)
+    }
 
+    @Test
+    fun newtonConversions() {
         assertIs<Newton>(1.meters / 1.square_seconds * 1.kilograms)
         assertIs<Newton>(1.meters / 1.seconds / 1.seconds * 1.kilograms)
         assertIs<Newton>(1 / 1.seconds * 1.meters / 1.seconds * 1.kilograms)
         assertIs<Newton>(1.kilograms * 1.meters_per_second_squared)
+    }
+
+    @Test
+    fun energyConversions() {
+        assertIs<Energy>(1.newton * 1.meters)
+    }
+
+    @Test
+    fun powersConversions() {
+        assertIs<Power>(1.newton * 1.meters / 1.seconds)
     }
 }
