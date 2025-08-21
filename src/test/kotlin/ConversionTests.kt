@@ -4,7 +4,7 @@ import units.Energy
 import units.Impulse
 import units.Mass
 import units.Newton
-import units.Ns
+import units.newton_seconds
 import units.Power
 import units.Speed
 import units.div
@@ -24,18 +24,19 @@ class ConversionTests {
      * Every combination of types leading to another type would be convenient for users,
      * however way too extensive to implement. Therefore, we implement a subset of possible combinations. This tests
      * tries to list all convenient constructions of types to ensure they are possible.
+     * More specifically, each operation which left bracketing is a defined type, should exist.
      */
     
     @Test
     fun massConverions() {
-        assertIs<Mass>(1.Ns / 1.kmh)
+        assertIs<Mass>(1.newton_seconds / 1.kmh)
     }
 
     @Test
     fun speedConversions() {
         assertIs<Speed>(1.meters / 1.seconds)
         assertIs<Speed>(1 / 1.seconds * 1.meters)
-        assertIs<Speed>(1.Ns / 1.kilograms)
+        assertIs<Speed>(1.newton_seconds / 1.kilograms)
     }
 
     @Test

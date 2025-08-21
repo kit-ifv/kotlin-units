@@ -52,7 +52,7 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     operator fun div(other: Speed): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
     operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
-    operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).Ns
+    operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).newton_seconds
 
     companion object {
 

@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test
-import units.Ns
+import units.newton_seconds
 import units.PhysicsUnit
 import units.cubicMeters
 import units.cubic_seconds
@@ -29,11 +29,11 @@ class OutOfBoundsTest {
         assertEquals(PhysicsUnit(1,-1, 0),
             1.kmh.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1,-1, 1),
-            1.Ns.toOutOfBoundsUnit().unit)
+            1.newton_seconds.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -2, 1),
             1.0.newton.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -1, 1),
-            1.Ns.toOutOfBoundsUnit().unit)
+            1.newton_seconds.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0, -1, 0),
             (1 / 1.seconds).toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(2, -2, 1),
