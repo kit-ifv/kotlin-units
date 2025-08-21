@@ -21,7 +21,7 @@ typealias Efficiency = Newton
  * @see Newton for an alias representing the same concept of force per unit distance.
  */
 @JvmInline
-value class Newton internal constructor(val rawValue: Double): Comparable<Newton> {
+value class Newton internal constructor(val rawValue: Double): Comparable<Newton>, FlexibleUnit {
 
 
     operator fun times(scalar: Double) = Newton(rawValue * scalar)
@@ -50,6 +50,11 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
     operator fun times(duration: Duration): Impulse = (inNewton * duration.asSeconds).newton_seconds
     operator fun div(mass: Mass): Acceleration = (inNewton / mass.inKilograms).meters_per_second_squared
     operator fun div(acceleration: Acceleration): Mass = (inNewton / acceleration.inMetersPerSecondsSquared).kilograms
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inNewton,
+            PhysicsUnit(1,-2,1))
+    }
+
     companion object {
         val MAX = Newton(Double.MAX_VALUE)
         val ZERO = Newton(.0)

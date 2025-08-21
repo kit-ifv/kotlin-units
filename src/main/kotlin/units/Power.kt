@@ -6,7 +6,7 @@ import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
 @JvmInline
-value class Power internal constructor(val rawValue: Double): Comparable<Power> {
+value class Power internal constructor(val rawValue: Double): Comparable<Power>, FlexibleUnit {
 
     operator fun unaryMinus(): Power = Power(-rawValue)
     operator fun plus(other: Power) = Power(rawValue + other.rawValue)
@@ -49,6 +49,10 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power> 
     operator fun div(other: Power): Double = rawValue / other.rawValue
     operator fun times(duration: Duration): Energy = Energy(rawValue * duration.asSeconds)
     operator fun div(energy: Energy): Frequency = (inWatts / energy.inJoule).hertz
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inWatts,
+            PhysicsUnit(2,-3,1))
+    }
 
     companion object {
         val MAX = Power(Double.MAX_VALUE)

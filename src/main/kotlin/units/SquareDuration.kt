@@ -7,7 +7,7 @@ import kotlin.time.Duration.Companion.seconds
  * The rawValue is in square seconds.
  */
 @JvmInline
-value class SquareDuration internal constructor(val rawValue: Double): Comparable<SquareDuration> {
+value class SquareDuration internal constructor(val rawValue: Double): Comparable<SquareDuration>, FlexibleUnit {
 
     operator fun unaryMinus(): SquareDuration = SquareDuration(-rawValue)
     operator fun plus(other: SquareDuration) = SquareDuration(rawValue + other.rawValue)
@@ -37,6 +37,10 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
     operator fun times(duration: Duration) = (rawValue * duration.asSeconds).cubic_seconds
     operator fun div(duration: Duration): Duration = (rawValue / duration.asSeconds).seconds
     operator fun times(frequency: Frequency): Duration = (inSquareSeconds * frequency.inHertz).seconds
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inSquareSeconds,
+            PhysicsUnit(0,2,0))
+    }
 
     companion object {
 

@@ -7,7 +7,7 @@ import kotlin.time.Duration.Companion.seconds
 
 
 @JvmInline
-value class Speed internal constructor(val rawValue: Double): Comparable<Speed> {
+value class Speed internal constructor(val rawValue: Double): Comparable<Speed>, FlexibleUnit {
 
     operator fun unaryMinus(): Speed = Speed(-rawValue)
     operator fun plus(other: Speed) = Speed(rawValue + other.rawValue)
@@ -55,6 +55,10 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
     operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).newton_seconds
     operator fun div(acceleration: Acceleration): Duration = (inMetersPerSecond / acceleration.inMetersPerSecondsSquared).seconds
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inMetersPerSecond,
+            PhysicsUnit(1,-1,0))
+    }
 
     companion object {
 

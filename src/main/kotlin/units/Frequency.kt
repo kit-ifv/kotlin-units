@@ -4,7 +4,7 @@ import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Frequency internal constructor(val rawValue: Double) : Comparable<Frequency> {
+value class Frequency internal constructor(val rawValue: Double) : Comparable<Frequency>, FlexibleUnit {
     operator fun times(scalar: Double) = Frequency(rawValue * scalar)
     operator fun times(scalar: Float) = Frequency(rawValue * scalar)
     operator fun times(scalar: Int) = Frequency((rawValue * scalar))
@@ -23,6 +23,10 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     //--- Define different operations below:
     operator fun div(other: Frequency): Double = rawValue / other.rawValue
     operator fun times(other: Distance): Speed = Speed(rawValue * other.inMeters)
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inHertz, PhysicsUnit(0,-1,0))
+    }
+
     companion object {
 
         val MAX = Frequency(Double.MAX_VALUE)

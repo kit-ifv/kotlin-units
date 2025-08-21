@@ -7,7 +7,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @JvmInline
-value class Impulse internal constructor(val rawValue: Double) : Comparable<Impulse> {
+value class Impulse internal constructor(val rawValue: Double) : Comparable<Impulse>, FlexibleUnit {
     operator fun plus(other: Impulse) = Impulse(rawValue + other.rawValue)
 
     operator fun times(scalar: Double) = Impulse(rawValue * scalar)
@@ -35,6 +35,9 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     operator fun div(speed: Speed): Mass = (inNewtonSeconds / speed.inMetersPerSecond).kilograms
     operator fun div(mass: Mass): Speed = (inNewtonSeconds / mass.inKilograms).meters_per_second
     operator fun div(duration: Duration): Newton = (inNewtonSeconds / duration.asSeconds).newton
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inNewtonSeconds, PhysicsUnit(1,-1,1))
+    }
 
     companion object {
         val MAX = Impulse(Double.MAX_VALUE)

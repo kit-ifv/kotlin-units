@@ -11,7 +11,6 @@ import units.meters
 import units.newton
 import units.square_seconds
 import units.square_meters
-import units.toOutOfBoundsUnit
 import units.watts
 import units.wrap
 import kotlin.test.assertEquals

@@ -5,7 +5,7 @@ import kotlin.math.absoluteValue
 
 
 @JvmInline
-value class Volume internal constructor(val rawValue: Double): Comparable<Volume> {
+value class Volume internal constructor(val rawValue: Double): Comparable<Volume>, FlexibleUnit {
 
     operator fun unaryMinus(): Volume = Volume(-rawValue)
     operator fun plus(other: Volume) = Volume(rawValue + other.rawValue)
@@ -49,6 +49,11 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
 
     operator fun div(other: Volume): Double = rawValue / other.rawValue
     operator fun div(distance: Distance): Area = Area(rawValue / distance.inMeters)
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inCubicMeters,
+            PhysicsUnit(3,0,0))
+    }
+
     companion object {
         const val CUBIC_METER = 1.0
         const val LITER = 0.001
