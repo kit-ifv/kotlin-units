@@ -1,7 +1,5 @@
 package units
 
-import kotlin.time.Duration
-
 
 /**
  * This interface defines default functions each type needs to support, to ensure all units can be multiplied together.
