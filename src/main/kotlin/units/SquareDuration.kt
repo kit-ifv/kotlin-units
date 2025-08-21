@@ -36,7 +36,7 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
     operator fun div(other: SquareDuration): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = (rawValue * duration.asSeconds).cubic_seconds
     operator fun div(duration: Duration): Duration = (rawValue / duration.asSeconds).seconds
-
+    operator fun times(frequency: Frequency): Duration = (inSquareSeconds * frequency.inHertz).seconds
 
     companion object {
 

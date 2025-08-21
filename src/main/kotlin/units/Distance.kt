@@ -53,23 +53,12 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
     inline val inKilometers: Double get() = rawValue.toDouble() / KILOMETERS
 
     //--- Define different operations below:
-    operator fun times(distance: Distance): Area {
-        return Area(inMeters * distance.inMeters)
-    }
-    operator fun div(distance: Distance): Double {
-        return rawValue.toDouble() / distance.rawValue
-    }
-    operator fun div(duration: Duration): Speed {
-        return Speed(inMeters / duration.asSeconds)
-    }
-
-    operator fun div(speed: Speed): Duration {
-        return (inMeters / speed.rawValue).seconds
-    }
-
-    operator fun div(squareDur: SquareDuration): Acceleration {
-        return (inMeters / squareDur.inSquareSeconds).meters_per_second_squared
-    }
+    operator fun times(distance: Distance): Area =  Area(inMeters * distance.inMeters)
+    operator fun div(distance: Distance): Double =  rawValue.toDouble() / distance.rawValue
+    operator fun div(duration: Duration): Speed = Speed(inMeters / duration.asSeconds)
+    operator fun div(speed: Speed): Duration = (inMeters / speed.rawValue).seconds
+    operator fun div(squareDur: SquareDuration): Acceleration = (inMeters / squareDur.inSquareSeconds).meters_per_second_squared
+    operator fun times(area: Area): Volume = (inMeters * area.inSquareMeters).cubicMeters
 
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inMeters,

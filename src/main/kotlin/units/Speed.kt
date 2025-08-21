@@ -3,6 +3,7 @@ package units
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 
 @JvmInline
@@ -53,6 +54,7 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed> 
     operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
     operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
     operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).newton_seconds
+    operator fun div(acceleration: Acceleration): Duration = (inMetersPerSecond / acceleration.inMetersPerSecondsSquared).seconds
 
     companion object {
 

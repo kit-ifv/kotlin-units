@@ -1,6 +1,7 @@
 package units
 
 import kotlin.math.absoluteValue
+import kotlin.time.Duration
 
 
 typealias Efficiency = Newton
@@ -46,7 +47,9 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
     //--- Define different operations below:
     operator fun div(other: Newton): Double = rawValue / other.rawValue
     operator fun times(distance: Distance): Energy = (inNewton * distance.inMeters).joule
-
+    operator fun times(duration: Duration): Impulse = (inNewton * duration.asSeconds).newton_seconds
+    operator fun div(mass: Mass): Acceleration = (inNewton / mass.inKilograms).meters_per_second_squared
+    operator fun div(acceleration: Acceleration): Mass = (inNewton / acceleration.inMetersPerSecondsSquared).kilograms
     companion object {
         val MAX = Newton(Double.MAX_VALUE)
         val ZERO = Newton(.0)

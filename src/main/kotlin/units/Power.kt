@@ -48,6 +48,7 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power> 
 
     operator fun div(other: Power): Double = rawValue / other.rawValue
     operator fun times(duration: Duration): Energy = Energy(rawValue * duration.asSeconds)
+    operator fun div(energy: Energy): Frequency = (inWatts / energy.inJoule).hertz
 
     companion object {
         val MAX = Power(Double.MAX_VALUE)

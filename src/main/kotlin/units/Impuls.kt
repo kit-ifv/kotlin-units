@@ -34,6 +34,7 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     operator fun div(other: Impulse): Double = rawValue / other.rawValue
     operator fun div(speed: Speed): Mass = (inNewtonSeconds / speed.inMetersPerSecond).kilograms
     operator fun div(mass: Mass): Speed = (inNewtonSeconds / mass.inKilograms).meters_per_second
+    operator fun div(duration: Duration): Newton = (inNewtonSeconds / duration.asSeconds).newton
 
     companion object {
         val MAX = Impulse(Double.MAX_VALUE)

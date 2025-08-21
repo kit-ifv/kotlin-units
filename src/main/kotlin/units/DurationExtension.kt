@@ -35,6 +35,8 @@ class DurationWrapper(val duration: Duration): FlexibleUnit {
     //--- Define different operations below:
     operator fun times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
     operator fun times(other: Duration): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
+    operator fun div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).square_seconds
+    operator fun times(squareDuration: SquareDuration): CubicDuration = (this.asSeconds * squareDuration.inSquareSeconds).cubic_seconds
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(
             asSeconds,
@@ -46,3 +48,5 @@ class DurationWrapper(val duration: Duration): FlexibleUnit {
 
 operator fun Duration.times(other: Duration): SquareDuration = SquareDuration(this.asSeconds * other.asSeconds)
 operator fun Duration.times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
+operator fun Duration.times(squareDuration: SquareDuration): CubicDuration = (this.asSeconds * squareDuration.inSquareSeconds).cubic_seconds
+operator fun Duration.div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).square_seconds
