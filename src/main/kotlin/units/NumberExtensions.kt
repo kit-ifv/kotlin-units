@@ -17,6 +17,12 @@ operator fun Long.div(duration: Duration) = Frequency(this / duration.asSeconds)
 operator fun Float.div(duration: Duration) = Frequency(this / duration.asSeconds)
 operator fun Double.div(duration: Duration) = Frequency(this / duration.asSeconds)
 
+val Int.hertz get()= Frequency(this * Frequency.HERTZ)
+val Long.hertz get() = Frequency(this * Frequency.HERTZ)
+val Float.hertz get() = Frequency(this * Frequency.HERTZ)
+val Double.hertz get() = Frequency(this * Frequency.HERTZ)
+
+
 // --- Area
 operator fun Int.times(area: Area): Area = area * this
 operator fun Long.times(area: Area): Area = area * this
