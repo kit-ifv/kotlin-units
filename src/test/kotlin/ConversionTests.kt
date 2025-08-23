@@ -15,10 +15,13 @@ import units.SquareDuration
 import units.Volume
 import units.cubic_seconds
 import units.div
+import units.grams
 import units.hertz
 import units.joule
 import units.kilograms
+import units.kilometers
 import units.kmh
+import units.liters
 import units.meters
 import units.meters_per_second
 import units.meters_per_second_squared
@@ -39,6 +42,24 @@ class ConversionTests {
      * More specifically, each operation which left bracketing is a defined type, should exist.
      * Therefore, testing for every two types and operation (*, /) which yields a valid type should be tested for.
      */
+
+    @Test
+    fun selfDivision() {
+        assertIs<Double>(1.meters / 1.meters)
+        assertIs<Double>(1.seconds / 1.seconds)
+        assertIs<Double>(1.square_seconds / 1.square_seconds)
+        assertIs<Double>(1.cubic_seconds / 1.cubic_seconds)
+        assertIs<Double>(1.square_meters / 1.square_meters)
+        assertIs<Double>(1.liters / 1.liters)
+        assertIs<Double>(1.kmh / 1.kmh)
+        assertIs<Double>(1.meters_per_second_squared / 1.meters_per_second_squared)
+        assertIs<Double>(1.newton_seconds / 1.newton_seconds)
+        assertIs<Double>(1.newton / 1.newton)
+        assertIs<Double>(1.joule / 1.joule)
+        assertIs<Double>(1.watts / 1.watts)
+        assertIs<Double>(1.hertz / 1.hertz)
+        assertIs<Double>(1.grams / 1.kilograms)
+    }
 
     @Test
     fun distanceConversions() {
