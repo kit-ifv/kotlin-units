@@ -19,7 +19,6 @@ import units.grams
 import units.hertz
 import units.joule
 import units.kilograms
-import units.kilometers
 import units.kmh
 import units.liters
 import units.meters
