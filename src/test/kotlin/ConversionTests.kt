@@ -13,6 +13,7 @@ import units.Power
 import units.Speed
 import units.SquareDuration
 import units.Volume
+import units.cubicMeters
 import units.cubic_seconds
 import units.div
 import units.grams
@@ -35,112 +36,93 @@ import kotlin.time.Duration.Companion.seconds
 
 class ConversionTests {
     /**
-     * Every combination of types leading to another type would be convenient for users,
-     * however way too extensive to implement. Therefore, we implement a subset of possible combinations. This tests
-     * tries to list all convenient constructions of types to ensure they are possible.
-     * More specifically, each operation which left bracketing is a defined type, should exist.
+     * Each operation which left bracketing is a defined type, should exist.
      * Therefore, testing for every two types and operation (*, /) which yields a valid type should be tested for.
+     * These tests are generated with `TestGeneration.kt` otherwise it would be impossible to keep track of what
+     * is tested for and what not.
      */
-
     @Test
-    fun selfDivision() {
-        assertIs<Double>(1.meters / 1.meters)
-        assertIs<Double>(1.seconds / 1.seconds)
-        assertIs<Double>(1.square_seconds / 1.square_seconds)
-        assertIs<Double>(1.cubic_seconds / 1.cubic_seconds)
-        assertIs<Double>(1.square_meters / 1.square_meters)
-        assertIs<Double>(1.liters / 1.liters)
-        assertIs<Double>(1.kmh / 1.kmh)
-        assertIs<Double>(1.meters_per_second_squared / 1.meters_per_second_squared)
-        assertIs<Double>(1.newton_seconds / 1.newton_seconds)
-        assertIs<Double>(1.newton / 1.newton)
-        assertIs<Double>(1.joule / 1.joule)
-        assertIs<Double>(1.watts / 1.watts)
-        assertIs<Double>(1.hertz / 1.hertz)
-        assertIs<Double>(1.grams / 1.kilograms)
-    }
-
-    @Test
-    fun distanceConversions() {
-        assertIs<Distance>(1.joule / 1.newton)
-    }
-
-    @Test
-    fun durationConversions() {
-        assertIs<Duration>(1.meters / 1.meters_per_second)
-        assertIs<Duration>(1.meters_per_second / 1.meters_per_second_squared)
-        assertIs<Duration>(1.square_seconds / 1.seconds)
-        assertIs<Duration>(1.square_seconds * 1.hertz)
-    }
-
-    @Test
-    fun squareDurationConversions() {
-        assertIs<SquareDuration>(1.seconds * 1.seconds)
-        assertIs<SquareDuration>(1.seconds / 1.hertz)
+    fun allConversions() {
+        assertIs<Volume>(1.square_meters * 1.meters)
+        assertIs<Distance>(1.square_meters / 1.meters)
+        assertIs<Speed>(1.meters_per_second_squared * 1.seconds)
+        assertIs<Speed>(1.meters_per_second_squared / 1.hertz)
+        assertIs<Power>(1.meters_per_second_squared * 1.newton_seconds)
+        assertIs<Newton>(1.meters_per_second_squared * 1.grams)
+        assertIs<Frequency>(1.meters_per_second_squared / 1.meters_per_second)
+        assertIs<Distance>(1.meters_per_second_squared * 1.square_seconds)
         assertIs<SquareDuration>(1.cubic_seconds / 1.seconds)
         assertIs<SquareDuration>(1.cubic_seconds * 1.hertz)
-    }
-
-    @Test
-    fun cubicDurationConversions() {
-        assertIs<CubicDuration>(1.seconds * 1.square_seconds)
-    }
-
-    @Test
-    fun areaConversions() {
-        assertIs<Area>(1.meters * 1.meters)
-    }
-
-    @Test
-    fun volumeConversions() {
+        assertIs<Duration>(1.cubic_seconds / 1.square_seconds)
         assertIs<Volume>(1.meters * 1.square_meters)
-    }
-
-    @Test
-    fun speedConversions() {
+        assertIs<SquareDuration>(1.meters / 1.meters_per_second_squared)
+        assertIs<Area>(1.meters * 1.meters)
         assertIs<Speed>(1.meters / 1.seconds)
-        assertIs<Speed>(1.newton_seconds / 1.kilograms)
-    }
-
-    @Test
-    fun accelerationConversions() {
-        assertIs<Acceleration>(1.meters_per_second / 1.seconds)
-        assertIs<Acceleration>(1.newton / 1.kilograms)
-    }
-
-    @Test
-    fun impulseConversions() {
-        assertIs<Impulse>(1.kilograms * 1.meters_per_second)
-        assertIs<Impulse>(1.newton * 1.seconds)
-    }
-
-    @Test
-    fun newtonConversions() {
-        assertIs<Newton>(1.kilograms * 1.meters_per_second_squared)
+        assertIs<Speed>(1.meters * 1.hertz)
+        assertIs<Energy>(1.meters * 1.newton)
+        assertIs<Duration>(1.meters / 1.meters_per_second)
+        assertIs<Acceleration>(1.meters / 1.square_seconds)
+        assertIs<Speed>(1.seconds * 1.meters_per_second_squared)
+        assertIs<SquareDuration>(1.seconds * 1.seconds)
+        assertIs<SquareDuration>(1.seconds / 1.hertz)
+        assertIs<Energy>(1.seconds * 1.watts)
+        assertIs<Impulse>(1.seconds * 1.newton)
+        assertIs<Distance>(1.seconds * 1.meters_per_second)
+        assertIs<CubicDuration>(1.seconds * 1.square_seconds)
+        assertIs<Frequency>(1.seconds / 1.square_seconds)
         assertIs<Newton>(1.joule / 1.meters)
-        assertIs<Newton>(1.newton_seconds / 1.seconds)
-    }
-
-    @Test
-    fun energyConversions() {
-        assertIs<Energy>(1.newton * 1.meters)
-        assertIs<Energy>(1.watts * 1.seconds)
-    }
-
-    @Test
-    fun powerConversions() {
         assertIs<Power>(1.joule / 1.seconds)
-    }
-
-    @Test
-    fun frequencyConversions() {
-        assertIs<Frequency>(1 / 1.seconds)
-        assertIs<Frequency>(1.watts / 1.joule)
-    }
-
-    @Test
-    fun massConversions() {
-        assertIs<Mass>(1.newton / 1.meters_per_second_squared)
+        assertIs<Power>(1.joule * 1.hertz)
+        assertIs<Speed>(1.joule / 1.newton_seconds)
+        assertIs<Duration>(1.joule / 1.watts)
+        assertIs<Distance>(1.joule / 1.newton)
+        assertIs<Impulse>(1.joule / 1.meters_per_second)
+        assertIs<SquareDuration>(1.hertz * 1.cubic_seconds)
+        assertIs<Speed>(1.hertz * 1.meters)
+        assertIs<Power>(1.hertz * 1.joule)
+        assertIs<Newton>(1.hertz * 1.newton_seconds)
+        assertIs<Acceleration>(1.hertz * 1.meters_per_second)
+        assertIs<Duration>(1.hertz * 1.square_seconds)
+        assertIs<Power>(1.newton_seconds * 1.meters_per_second_squared)
+        assertIs<Newton>(1.newton_seconds / 1.seconds)
+        assertIs<Newton>(1.newton_seconds * 1.hertz)
+        assertIs<Speed>(1.newton_seconds / 1.grams)
+        assertIs<Duration>(1.newton_seconds / 1.newton)
+        assertIs<Energy>(1.newton_seconds * 1.meters_per_second)
         assertIs<Mass>(1.newton_seconds / 1.meters_per_second)
+        assertIs<Newton>(1.grams * 1.meters_per_second_squared)
+        assertIs<Impulse>(1.grams * 1.meters_per_second)
+        assertIs<Impulse>(1.watts / 1.meters_per_second_squared)
+        assertIs<Energy>(1.watts * 1.seconds)
+        assertIs<Frequency>(1.watts / 1.joule)
+        assertIs<Energy>(1.watts / 1.hertz)
+        assertIs<Acceleration>(1.watts / 1.newton_seconds)
+        assertIs<Speed>(1.watts / 1.newton)
+        assertIs<Newton>(1.watts / 1.meters_per_second)
+        assertIs<Mass>(1.newton / 1.meters_per_second_squared)
+        assertIs<Energy>(1.newton * 1.meters)
+        assertIs<Impulse>(1.newton * 1.seconds)
+        assertIs<Impulse>(1.newton / 1.hertz)
+        assertIs<Frequency>(1.newton / 1.newton_seconds)
+        assertIs<Acceleration>(1.newton / 1.grams)
+        assertIs<Power>(1.newton * 1.meters_per_second)
+        assertIs<Duration>(1.meters_per_second / 1.meters_per_second_squared)
+        assertIs<Frequency>(1.meters_per_second / 1.meters)
+        assertIs<Distance>(1.meters_per_second * 1.seconds)
+        assertIs<Acceleration>(1.meters_per_second / 1.seconds)
+        assertIs<Acceleration>(1.meters_per_second * 1.hertz)
+        assertIs<Distance>(1.meters_per_second / 1.hertz)
+        assertIs<Energy>(1.meters_per_second * 1.newton_seconds)
+        assertIs<Impulse>(1.meters_per_second * 1.grams)
+        assertIs<Power>(1.meters_per_second * 1.newton)
+        assertIs<Distance>(1.square_seconds * 1.meters_per_second_squared)
+        assertIs<Frequency>(1.square_seconds / 1.cubic_seconds)
+        assertIs<CubicDuration>(1.square_seconds * 1.seconds)
+        assertIs<Duration>(1.square_seconds / 1.seconds)
+        assertIs<Duration>(1.square_seconds * 1.hertz)
+        assertIs<CubicDuration>(1.square_seconds / 1.hertz)
+        assertIs<Distance>(1.cubicMeters / 1.square_meters)
+        assertIs<Area>(1.cubicMeters / 1.meters)
     }
+
 }

@@ -151,4 +151,11 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exp
     override fun toString(): String {
         return "m^$meter_exponent s^$seconds_exponent kg^$kg_exponent"
     }
+
+    override fun hashCode(): Int {
+        var result = meter_exponent
+        result = 31 * result + seconds_exponent
+        result = 31 * result + kg_exponent
+        return result
+    }
 }
