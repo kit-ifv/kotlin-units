@@ -35,6 +35,10 @@ Each unit type supports the following:
 
 - **Arithmetic operators**:
     - `+`, `-`, `*` (by scalar), `/` (by scalar), `rem`
+    - every multiplication or division of two types, which results in a unit, defined in this
+      library, is type safe. For example `assertIs<Newton>(1.meters_per_second_squared * 1.kilograms)`. Any other
+      multiplication or division of two types will result in an `OutOfBoundsUnit` e.g.
+      `assertIs<OutOfBoundsUnit>(1.joule * 1.joule)`.
 - **Range operations**:
     - `rangeTo`, `rangeUntil`
 - **Utility functions**:
@@ -125,7 +129,11 @@ val d = 5.kilometers
 val m = 200.grams
 val temp = 25.celsius
 val price = 10.`€`
+val force = (30.09).newton
+val area = 30.square_meters
+...
 ```
+
 ```mermaid
 graph TD 
 
@@ -162,5 +170,5 @@ graph TD
 Speed --> |"s⁻¹"| Acceleration
 Acceleration --> |"s"| Speed
 Energy --> |"(Newton)⁻¹"| Distance
-
+```
 
