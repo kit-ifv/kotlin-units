@@ -2,6 +2,8 @@ package units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @JvmInline
 value class Frequency internal constructor(val rawValue: Double) : Comparable<Frequency>, FlexibleUnit {
@@ -21,8 +23,20 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     inline val inHertz: Double get() = rawValue / HERTZ
 
     //--- Define different operations below:
-    operator fun div(other: Frequency): Double = rawValue / other.rawValue
     operator fun times(other: Distance): Speed = Speed(rawValue * other.inMeters)
+    operator fun times(squareDuration: SquareDuration): Duration = (inHertz * squareDuration.inSquareSeconds).seconds
+    operator fun times(cubicDuration: CubicDuration): SquareDuration
+        = (inHertz * cubicDuration.inCubicSeconds).square_seconds
+    operator fun times(energy: Energy): Power
+        = (inHertz * energy.inJoule).watts
+    operator fun times(impulse: Impulse): Newton
+        = (inHertz * impulse.inNewtonSeconds).newton
+    operator fun times(speed: Speed): Acceleration
+        = (inHertz * speed.inMetersPerSecond).meters_per_second_squared
+
+    operator fun div(other: Frequency): Double = rawValue / other.rawValue
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inHertz, PhysicsUnit(0,-1,0))
     }

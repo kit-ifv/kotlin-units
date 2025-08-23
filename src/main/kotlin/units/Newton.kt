@@ -45,11 +45,18 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
     inline val inNewton: Double get() = rawValue
 
     //--- Define different operations below:
-    operator fun div(other: Newton): Double = rawValue / other.rawValue
     operator fun times(distance: Distance): Energy = (inNewton * distance.inMeters).joule
     operator fun times(duration: Duration): Impulse = (inNewton * duration.asSeconds).newton_seconds
+    operator fun times(speed: Speed): Power = (inNewton * speed.inMetersPerSecond).watts
+
+
+    operator fun div(other: Newton): Double = rawValue / other.rawValue
     operator fun div(mass: Mass): Acceleration = (inNewton / mass.inKilograms).meters_per_second_squared
     operator fun div(acceleration: Acceleration): Mass = (inNewton / acceleration.inMetersPerSecondsSquared).kilograms
+    operator fun div(frequency: Frequency): Impulse = (inNewton / frequency.inHertz).newton_seconds
+    operator fun div(impulse: Impulse): Frequency = (inNewton / impulse.inNewtonSeconds).hertz
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inNewton,
             PhysicsUnit(1,-2,1))

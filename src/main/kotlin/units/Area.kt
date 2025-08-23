@@ -46,9 +46,10 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> , 
     inline val inSquareKilometers: Double get() = rawValue / SQUARE_KILOMETERS
 
     //--- Define different operations below:
+    operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
+
     operator fun div(area: Area): Double = rawValue / area.rawValue
     operator fun div(distance: Distance): Distance = Distance((rawValue / distance.inMeters) * Distance.METERS)
-    operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
 
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inSquareMeters, PhysicsUnit(2, 0, 0))

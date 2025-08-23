@@ -47,8 +47,12 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
     //--- Define different operations below:
     val benzene: Energy get() = this.inLiter.toEnergy(EnergyUnit.BENZENE_EQUIVALENT)
 
+
     operator fun div(other: Volume): Double = rawValue / other.rawValue
     operator fun div(distance: Distance): Area = Area(rawValue / distance.inMeters)
+    operator fun div(area: Area): Distance = (inCubicMeters / area.inSquareMeters).meters
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inCubicMeters,
             PhysicsUnit(3,0,0))

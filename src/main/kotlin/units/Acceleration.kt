@@ -33,6 +33,14 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration>, Flexib
     operator fun div(other: Acceleration): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = Speed(rawValue * duration.asSeconds)
     operator fun times(mass: Mass): Newton = (inMetersPerSecondsSquared * mass.inKilograms).newton
+    operator fun times(impulse: Impulse): Power
+        = (inMetersPerSecondsSquared * impulse.inNewtonSeconds).watts
+    operator fun times(squareDuration: SquareDuration): Distance
+        = (inMetersPerSecondsSquared * squareDuration.inSquareSeconds).meters
+    operator fun div(frequency: Frequency): Speed
+        = (this.inMetersPerSecondsSquared * frequency.inHertz).meters_per_second
+    operator fun div(speed: Speed): Frequency
+        = (this.inMetersPerSecondsSquared * speed.inMetersPerSecond).hertz
 
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inMetersPerSecondsSquared, PhysicsUnit(1,-2,0))

@@ -33,10 +33,20 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
     inline val inSquareHours: Double get() = rawValue/SQUARE_HOURS
 
     //--- Define different operations below:
-    operator fun div(other: SquareDuration): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = (rawValue * duration.asSeconds).cubic_seconds
-    operator fun div(duration: Duration): Duration = (rawValue / duration.asSeconds).seconds
     operator fun times(frequency: Frequency): Duration = (inSquareSeconds * frequency.inHertz).seconds
+    operator fun times(acceleration: Acceleration): Distance
+        = (inSquareSeconds * acceleration.inMetersPerSecondsSquared).meters
+
+
+    operator fun div(duration: Duration): Duration = (rawValue / duration.asSeconds).seconds
+    operator fun div(other: SquareDuration): Double = rawValue / other.rawValue
+    operator fun div(cubicDuration: CubicDuration): Frequency
+        = (inSquareSeconds / cubicDuration.inCubicSeconds).hertz
+    operator fun div(frequency: Frequency): CubicDuration
+            = (inSquareSeconds / frequency.inHertz).cubic_seconds
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inSquareSeconds,
             PhysicsUnit(0,2,0))

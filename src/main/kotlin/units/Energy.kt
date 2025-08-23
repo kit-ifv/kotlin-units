@@ -3,6 +3,7 @@ package units
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 
 @JvmInline
@@ -47,11 +48,16 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
     inline val inKiloWattHours: Double get() = rawValue / KILOWATTHOUR
 
     //--- Define different operations below:
+    operator fun times(frequency: Frequency): Power = (inJoule * frequency.inHertz).watts
+
     operator fun div(other: Energy): Double = rawValue / other.rawValue
     operator fun div(distance: Distance): Newton = Newton(rawValue / distance.inMeters)
+    operator fun div(speed: Speed): Impulse = (inJoule / speed.inMetersPerSecond).newton_seconds
     operator fun div(duration: Duration): Power = Power(rawValue / duration.asSeconds)
-
     operator fun div(newton: Newton): Distance = (rawValue / newton.rawValue).meters
+    operator fun div(impulse: Impulse): Speed = (inJoule / impulse.inNewtonSeconds).meters_per_second
+    operator fun div(power: Power): Duration = (inJoule / power.inWatts).seconds
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inJoule, PhysicsUnit(2,-2,1))
     }

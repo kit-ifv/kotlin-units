@@ -45,10 +45,23 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power>,
     inline val inWatts: Double get() = rawValue / WATTS
 
     //--- Define different operations below:
+    operator fun times(duration: Duration): Energy = Energy(rawValue * duration.asSeconds)
+
 
     operator fun div(other: Power): Double = rawValue / other.rawValue
-    operator fun times(duration: Duration): Energy = Energy(rawValue * duration.asSeconds)
     operator fun div(energy: Energy): Frequency = (inWatts / energy.inJoule).hertz
+    operator fun div(acceleration: Acceleration): Impulse
+        = (inWatts / acceleration.inMetersPerSecondsSquared).newton_seconds
+    operator fun div(frequency: Frequency): Energy
+        = (inWatts / frequency.inHertz).joule
+    operator fun div(impulse: Impulse): Acceleration
+        = (inWatts / impulse.inNewtonSeconds).meters_per_second_squared
+    operator fun div(newton: Newton): Speed
+            = (inWatts / newton.inNewton).meters_per_second
+    operator fun div(speed: Speed): Newton
+            = (inWatts / speed.inMetersPerSecond).newton
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inWatts,
             PhysicsUnit(2,-3,1))

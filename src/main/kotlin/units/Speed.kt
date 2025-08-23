@@ -49,12 +49,26 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed>,
     inline val inKnots: Double get() = rawValue / KNOTS
 
     //--- Define different operations below:
-
-    operator fun div(other: Speed): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
-    operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
     operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).newton_seconds
-    operator fun div(acceleration: Acceleration): Duration = (inMetersPerSecond / acceleration.inMetersPerSecondsSquared).seconds
+    operator fun times(frequency: Frequency): Acceleration
+        = (inMetersPerSecond * frequency.inHertz).meters_per_second_squared
+    operator fun times(impulse: Impulse): Energy
+        = (inMetersPerSecond * impulse.inNewtonSeconds).joule
+    operator fun times(newton: Newton): Power
+            = (inMetersPerSecond * newton.inNewton).watts
+
+
+    operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)
+    operator fun div(other: Speed): Double = rawValue / other.rawValue
+    operator fun div(acceleration: Acceleration): Duration
+        = (inMetersPerSecond / acceleration.inMetersPerSecondsSquared).seconds
+    operator fun div(distance: Distance): Frequency
+        = (inMetersPerSecond / distance.inMeters).hertz
+    operator fun div(frequency: Frequency): Distance
+        = (inMetersPerSecond / frequency.inHertz).meters
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inMetersPerSecond,
             PhysicsUnit(1,-1,0))

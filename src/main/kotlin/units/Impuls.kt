@@ -31,10 +31,21 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     inline val inNewtonSeconds: Double get() = rawValue / Newton_Seconds
 
     //--- Define different operations below:
+    operator fun times(acceleration: Acceleration): Power
+        = (inNewtonSeconds * acceleration.inMetersPerSecondsSquared).watts
+    operator fun times(frequency: Frequency): Newton
+        = (inNewtonSeconds * frequency.inHertz).newton
+    operator fun times(speed: Speed): Energy
+        = (inNewtonSeconds * speed.inMetersPerSecond).joule
+
+
     operator fun div(other: Impulse): Double = rawValue / other.rawValue
     operator fun div(speed: Speed): Mass = (inNewtonSeconds / speed.inMetersPerSecond).kilograms
     operator fun div(mass: Mass): Speed = (inNewtonSeconds / mass.inKilograms).meters_per_second
     operator fun div(duration: Duration): Newton = (inNewtonSeconds / duration.asSeconds).newton
+    operator fun div(newton: Newton): Duration = (inNewtonSeconds / newton.inNewton).seconds
+
+
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
         return OutOfBoundsUnit(inNewtonSeconds, PhysicsUnit(1,-1,1))
     }
