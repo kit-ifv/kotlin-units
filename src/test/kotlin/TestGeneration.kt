@@ -14,6 +14,7 @@ import units.Power
 import units.Speed
 import units.SquareDuration
 import units.Volume
+import units.wrap
 import kotlin.time.Duration.Companion.seconds
 
 val allTypes = mapOf<FlexibleUnit, String>(
@@ -63,7 +64,7 @@ fun main() {
 
     var numFunctionsToDefine = 0
 
-    println("Following tests need to be defined:")
+    println("Following tests test for defined types as a result:")
 
     for(type in allPhysicTypes.keys) {
         for(otherType in allPhysicTypes.keys) {
@@ -81,6 +82,33 @@ fun main() {
             }
         }
     }
+
+    println("\nFollowing tests test for OutOfBoundsUnit as a result:")
+    for(type in allPhysicTypes.keys) {
+        var printType = allPhysicTypesToNumberExtensionStrings[type]
+        if (type == PhysicsUnit(0,1,0)) {
+            printType += ".wrap" //duration needs the wrapper to work with OutOfBoundsUnit
+        }
+        for(otherType in allPhysicTypes.keys) {
+            if (otherType == type) continue
+            val mul = type * otherType
+
+            var printOther = allPhysicTypesToNumberExtensionStrings[otherType]
+            if (otherType == PhysicsUnit(0,1,0)) {
+                printOther += ".wrap" //duration needs the wrapper to work with OutOfBoundsUnit
+            }
+            if (!mul.isDefinedType()) {
+                println("assertIs<OutOfBoundsUnit>($printType * " +
+                        "$printOther)")
+            }
+            val div = type / otherType
+            if (!div.isDefinedType()) {
+                println("assertIs<OutOfBoundsUnit>($printType / " +
+                        "$printOther)")
+            }
+        }
+    }
+
 
     val totalTypes = allTypes.count()
     val totalFunctions = totalTypes * totalTypes
