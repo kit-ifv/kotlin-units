@@ -1,6 +1,5 @@
 package units
 
-import units.CubicDuration.Companion.CUBIC_MINUTES
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
