@@ -44,6 +44,7 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> {
     operator fun div(area: Area): Double = rawValue / area.rawValue
     operator fun div(distance: Distance): Distance = Distance((rawValue / distance.inMeters) * Distance.METERS)
     operator fun times(distance: Distance): Volume = Volume(rawValue * distance.inMeters)
+
     companion object {
 
         val MAX = Area(Double.MAX_VALUE)
@@ -110,4 +111,28 @@ enum class AreaUnit(val scale: Double) {
     SQUARE_METERS(Area.SQUARE_METERS),
     SQUARE_INCH(Area.SQUARE_INCH),
     SQUARE_KILOMETERS(Area.SQUARE_KILOMETERS)
+}
+
+fun min(a: Area, b: Area): Area {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Area, b: Area): Area {
+    if (a > b) return a
+    return b
+}
+
+fun Area.coerceIn(min: Area, max: Area): Area {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Area.coerceAtLeast(min: Area): Area {
+    return  max(this, min)
+}
+
+fun Area.coerceAtMost(max: Area): Area {
+    return min(this, max)
 }

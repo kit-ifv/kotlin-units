@@ -80,3 +80,27 @@ fun abs(element: Newton) = Newton(element.rawValue.absoluteValue)
 enum class EfficiencyUnit(val scale: Double)  {
     DEFAULT(1.0),
 }
+
+fun min(a: Newton, b: Newton): Newton {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Newton, b: Newton): Newton {
+    if (a > b) return a
+    return b
+}
+
+fun Newton.coerceIn(min: Newton, max: Newton): Newton {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Newton.coerceAtLeast(min: Newton): Newton {
+    return  max(this, min)
+}
+
+fun Newton.coerceAtMost(max: Newton): Newton {
+    return min(this, max)
+}

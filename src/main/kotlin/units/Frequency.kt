@@ -63,3 +63,27 @@ fun Iterable<Frequency>.average(): Frequency {
     return Frequency(sum / count)
 }
 fun abs(element: Frequency) = Frequency(element.rawValue.absoluteValue)
+
+fun min(a: Frequency, b: Frequency): Frequency {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Frequency, b: Frequency): Frequency {
+    if (a > b) return a
+    return b
+}
+
+fun Frequency.coerceIn(min: Frequency, max: Frequency): Frequency {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Frequency.coerceAtLeast(min: Frequency): Frequency {
+    return  max(this, min)
+}
+
+fun Frequency.coerceAtMost(max: Frequency): Frequency {
+    return min(this, max)
+}

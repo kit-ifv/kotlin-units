@@ -130,3 +130,27 @@ enum class SpeedUnit(val scale: Double, val symbol: String) {
     }
 
 }
+
+fun min(a: Speed, b: Speed): Speed {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Speed, b: Speed): Speed {
+    if (a > b) return a
+    return b
+}
+
+fun Speed.coerceIn(min: Speed, max: Speed): Speed {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Speed.coerceAtLeast(min: Speed): Speed {
+    return  max(this, min)
+}
+
+fun Speed.coerceAtMost(max: Speed): Speed {
+    return min(this, max)
+}
