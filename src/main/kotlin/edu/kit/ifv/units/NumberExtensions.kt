@@ -164,10 +164,10 @@ operator fun Long.times(impulse: Impulse): Impulse = impulse * this
 operator fun Float.times(impulse: Impulse): Impulse = impulse * this
 operator fun Double.times(impulse: Impulse): Impulse = impulse * this
 
-val Int.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
-val Long.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
-val Float.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
-val Double.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
+val Int.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+val Long.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+val Float.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+val Double.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
 
 
 // --- Temperature

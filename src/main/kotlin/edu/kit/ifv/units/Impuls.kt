@@ -28,7 +28,7 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
 
     //--- Define conversions to "naked" number representations here.
 
-    inline val inNewtonSeconds: Double get() = rawValue / Newton_Seconds
+    inline val inNewtonSeconds: Double get() = rawValue / NEWTON_SECONDS
 
     //--- Define different operations below:
     operator fun times(acceleration: Acceleration): Power
@@ -53,7 +53,7 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     companion object {
         val MAX = Impulse(Double.MAX_VALUE)
         val ZERO = Impulse(.0)
-        val Newton_Seconds = 1.0
+        const val NEWTON_SECONDS = 1.0
     }
 }
 
