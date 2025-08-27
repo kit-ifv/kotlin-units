@@ -27,7 +27,7 @@ inline val Duration.wrap: DurationWrapper get() = DurationWrapper(this)
  * we will use a wrapper wherever needed. Since we don't want to break the API, we keep using the kotlin Duration
  * as much as possible.
  */
-class DurationWrapper(val duration: Duration): FlexibleUnit {
+class DurationWrapper(val duration: Duration): FlexibleUnit, Comparable<DurationWrapper> {
     inline val asMinutes: Double get() = duration.toDouble(DurationUnit.MINUTES)
     inline val asSeconds: Double get() = duration.toDouble(DurationUnit.SECONDS)
     inline val asHours: Double get() = duration.toDouble(DurationUnit.HOURS)
@@ -55,6 +55,10 @@ class DurationWrapper(val duration: Duration): FlexibleUnit {
             asSeconds,
             PhysicsUnit(0,1,0))
     }
+
+    override fun compareTo(other: DurationWrapper): Int {
+        return this.duration.compareTo(other.duration)
+    }
 }
 
 //--- Define different operations below:
@@ -75,3 +79,53 @@ operator fun Duration.times(speed: Speed): Distance
 operator fun Duration.div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).square_seconds
 operator fun Duration.div(squareDuration: SquareDuration): Frequency
 = (this.asSeconds / squareDuration.inSquareSeconds).hertz
+
+
+// This is a bit messy...
+fun min(a: Duration, b: Duration): Duration {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Duration, b: Duration): Duration {
+    if (a > b) return a
+    return b
+}
+
+fun Duration.coerceIn(min: Duration, max: Duration): Duration {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Duration.coerceAtLeast(min: Duration): Duration {
+    return  max(this, min)
+}
+
+fun Duration.coerceAtMost(max: Duration): Duration {
+    return min(this, max)
+}
+
+fun min(a: DurationWrapper, b: DurationWrapper): DurationWrapper {
+    if (a.duration < b.duration) return a
+    return b
+}
+
+fun max(a: DurationWrapper, b: DurationWrapper): DurationWrapper {
+    if (a > b) return a
+    return b
+}
+
+fun DurationWrapper.coerceIn(min: DurationWrapper, max: DurationWrapper): DurationWrapper {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun DurationWrapper.coerceAtLeast(min: DurationWrapper): DurationWrapper {
+    return  max(this, min)
+}
+
+fun DurationWrapper.coerceAtMost(max: DurationWrapper): DurationWrapper {
+    return min(this, max)
+}
