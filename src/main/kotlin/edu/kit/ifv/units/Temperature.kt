@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package edu.kit.ifv.units
 
 import kotlin.math.absoluteValue
