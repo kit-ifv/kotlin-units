@@ -1,5 +1,6 @@
 package edu.kit.ifv.units
 
+import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
 @JvmInline
@@ -67,6 +68,9 @@ class OpenAccelerationRange(override val start: Acceleration, override val endEx
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
+
+fun abs(element: Acceleration) = Acceleration(element.rawValue.absoluteValue)
+
 
 fun min(a: Acceleration, b: Acceleration): Acceleration {
     if (a < b) return a

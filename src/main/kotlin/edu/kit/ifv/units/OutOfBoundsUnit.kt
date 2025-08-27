@@ -1,5 +1,7 @@
 package edu.kit.ifv.units
 
+import kotlin.math.absoluteValue
+
 
 /**
  * This interface defines default functions each type needs to support, to ensure all units can be multiplied together.
@@ -80,6 +82,9 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit): FlexibleUnit
         return this / other.toOutOfBoundsUnit()
     }
 }
+
+
+fun abs(element: OutOfBoundsUnit) = OutOfBoundsUnit(element.rawValue.absoluteValue, element.unit)
 
 /**
  * This class represents a unit for handling kinematic operations. Only meters, seconds and kg can be represented.

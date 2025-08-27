@@ -71,7 +71,7 @@ val Float.kilometers get()=  Distance(this * Distance.KILOMETERS)
 val Double.kilometers get()= Distance(this * Distance.KILOMETERS)
 
 
-// --- Efficiency
+// --- Efficiency/Force
 operator fun Int.times(force: Force): Force = force * this
 operator fun Long.times(force: Force): Force = force * this
 operator fun Float.times(force: Force): Force = force * this

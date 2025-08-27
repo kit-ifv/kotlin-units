@@ -82,6 +82,9 @@ operator fun Duration.div(squareDuration: SquareDuration): Frequency
 
 
 // This is a bit messy...
+
+fun abs(element: Duration) = element.absoluteValue
+
 fun min(a: Duration, b: Duration): Duration {
     if (a < b) return a
     return b
@@ -129,3 +132,5 @@ fun DurationWrapper.coerceAtLeast(min: DurationWrapper): DurationWrapper {
 fun DurationWrapper.coerceAtMost(max: DurationWrapper): DurationWrapper {
     return min(this, max)
 }
+
+fun abs(element: DurationWrapper) = DurationWrapper(element.duration.absoluteValue)

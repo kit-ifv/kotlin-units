@@ -86,10 +86,10 @@ class OpenEfficiencyRange(override val start: Force, override val endExclusive: 
 val Pair<Energy, Distance>.newton: Force get() = first / second
 
 fun abs(element: Force) = Force(element.rawValue.absoluteValue)
+
 /**
  * I am unaware that there are scales for Efficiency in any meaningful way.
  */
-
 enum class EfficiencyUnit(val scale: Double)  {
     DEFAULT(1.0),
 }

@@ -1,5 +1,6 @@
 package edu.kit.ifv.units
 
+import kotlin.math.absoluteValue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -62,6 +63,9 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
         const val SQUARE_HOURS = 3600*3600
     }
 }
+
+
+fun abs(element: SquareDuration) = SquareDuration(element.rawValue.absoluteValue)
 
 fun min(a: SquareDuration, b: SquareDuration): SquareDuration {
     if (a < b) return a

@@ -1,5 +1,6 @@
 package edu.kit.ifv.units
 
+import kotlin.math.absoluteValue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -57,6 +58,8 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
         const val CUBIC_HOURS = 3600*3600*3600
     }
 }
+
+fun abs(element: CubicDuration) = CubicDuration(element.rawValue.absoluteValue)
 
 fun min(a: CubicDuration, b: CubicDuration): CubicDuration {
     if (a < b) return a
