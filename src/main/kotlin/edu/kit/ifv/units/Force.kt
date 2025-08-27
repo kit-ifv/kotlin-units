@@ -39,6 +39,9 @@ value class Force internal constructor(val rawValue: Double): Comparable<Force>,
     operator fun rangeUntil(other: Force) = OpenEfficiencyRange(this, other)
     override fun compareTo(other: Force): Int = rawValue.compareTo(other.rawValue)
 
+    fun toInt(unit: EfficiencyUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: EfficiencyUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: EfficiencyUnit): Double = rawValue / unit.scale
 
     //--- Define conversions to "naked" number representations here.
 
@@ -87,7 +90,6 @@ fun abs(element: Force) = Force(element.rawValue.absoluteValue)
  * I am unaware that there are scales for Efficiency in any meaningful way.
  */
 
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class EfficiencyUnit(val scale: Double)  {
     DEFAULT(1.0),
 }

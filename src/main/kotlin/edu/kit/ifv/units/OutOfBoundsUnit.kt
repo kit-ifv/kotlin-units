@@ -61,7 +61,7 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit): FlexibleUnit
     }
 
     /**
-     * returns true if the units match and the values are less than 1e-9 appart from each other.
+     * returns true if the units match and the values are less than 1e-9 apart from each other.
      */
     override fun equals(other: Any?): Boolean {
         if (other !is OutOfBoundsUnit) return false

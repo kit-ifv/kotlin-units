@@ -26,17 +26,8 @@ value class Currency internal constructor(val rawValue: Double): Comparable<Curr
     operator fun rem(other: Currency): Currency = Currency((rawValue % other.rawValue))
     override fun compareTo(other: Currency): Int = rawValue.compareTo(other.rawValue)
 
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toInt(unit: CurrencyUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toLong(unit: CurrencyUnit): Long = (rawValue / unit.scale).toLong()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toDouble(unit: CurrencyUnit): Double = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
@@ -104,7 +95,7 @@ fun Iterable<Currency>.average(): Currency {
     return sum / count
 }
 fun abs(element: Currency) = Currency(element.rawValue.absoluteValue)
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
+
 enum class CurrencyUnit(val scale: Double) {
     EUROS(Currency.EUROS),
 }

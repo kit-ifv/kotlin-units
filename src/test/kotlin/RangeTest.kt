@@ -91,7 +91,7 @@ class RangeTest {
     }
 
     @Test
-    fun newtonTest() {
+    fun forceTest() {
         val a = 0.0.newton
         val b = 2.0.newton
         val c = Double.MAX_VALUE.newton

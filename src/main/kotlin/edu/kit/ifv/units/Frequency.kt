@@ -81,6 +81,7 @@ fun Iterable<Frequency>.average(): Frequency {
     }
     return Frequency(sum / count)
 }
+
 fun abs(element: Frequency) = Frequency(element.rawValue.absoluteValue)
 
 fun min(a: Frequency, b: Frequency): Frequency {

@@ -30,17 +30,8 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
     operator fun rem(other: Distance): Distance = Distance((rawValue % other.rawValue))
     override fun compareTo(other: Distance): Int = rawValue.compareTo(other.rawValue)
 
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toInt(unit: DistanceUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toLong(unit: DistanceUnit): Long = rawValue / unit.scale
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toDouble(unit: DistanceUnit):Double = rawValue.toDouble() / unit.scale
     //--- Define conversions to "naked" number representations here.
 
@@ -149,7 +140,7 @@ fun Iterable<Distance>.average(): Distance {
 }
 
 fun abs(element: Distance) = Distance(element.rawValue.absoluteValue)
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
+
 enum class DistanceUnit(val scale: Long, val symbol: String) {
     MICROMETERS(Distance.MICROMETERS, "µm"),
     MILLIMETERS(Distance.MILLIMETERS, "mm"),

@@ -29,18 +29,10 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed>,
     operator fun rem(other: Speed): Speed = Speed((rawValue % other.rawValue))
     override fun compareTo(other: Speed): Int = rawValue.compareTo(other.rawValue)
 
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toInt(unit: SpeedUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toLong(unit: SpeedUnit): Long = (rawValue / unit.scale).toLong()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toDouble(unit: SpeedUnit): Double = rawValue / unit.scale
+
     //--- Define conversions to "naked" number representations here.
 
     inline val inMetersPerSecond: Double get() = rawValue / METER_PER_SECOND
@@ -145,7 +137,7 @@ fun Iterable<Speed>.average(): Speed {
     return sum / count
 }
 fun abs(element: Speed) = Speed(element.rawValue.absoluteValue)
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
+
 enum class SpeedUnit(val scale: Double, val symbol: String) {
     METER_PER_SECOND(Speed.METER_PER_SECOND, "m/s"),
     KILOMETER_PER_HOUR(Speed.KILOMETER_PER_HOUR, "km/h"),

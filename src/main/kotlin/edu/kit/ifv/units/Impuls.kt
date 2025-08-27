@@ -110,7 +110,6 @@ fun Iterable<Impulse>.average(): Impulse {
 fun abs(element: Impulse) = Impulse(element.rawValue.absoluteValue)
 
 
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class ImpulseUnit(val scale: Double)  {
     DEFAULT(1.0),
 }

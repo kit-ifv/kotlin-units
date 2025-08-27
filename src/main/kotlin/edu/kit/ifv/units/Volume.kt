@@ -26,17 +26,9 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
 
     operator fun rem(other: Volume): Volume = Volume((rawValue % other.rawValue))
     override fun compareTo(other: Volume): Int = rawValue.compareTo(other.rawValue)
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
+
     fun toInt(unit: VolumeUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toLong(unit: VolumeUnit): Long = (rawValue / unit.scale).toLong()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
     fun toDouble(unit: VolumeUnit):Double = rawValue / unit.scale
 
     //--- Define conversions to "naked" number representations here.
@@ -121,7 +113,7 @@ fun Iterable<Volume>.average(): Volume {
 }
 
 fun abs(element: Volume) = Volume(element.rawValue.absoluteValue)
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
+
 enum class VolumeUnit(val scale: Double)  {
     CUBIC_METER(Volume.CUBIC_METER),
     LITER(Volume.LITER),
