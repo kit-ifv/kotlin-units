@@ -42,9 +42,9 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed>,
 
     //--- Define different operations below:
     operator fun times(duration: Duration) = Distance(rawValue * Distance.METERS * duration.asSeconds)
-    operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).newton_seconds
+    operator fun times(mass: Mass): Impulse = (inMetersPerSecond * mass.inKilograms).newtonSeconds
     operator fun times(frequency: Frequency): Acceleration
-        = (inMetersPerSecond * frequency.inHertz).meters_per_second_squared
+        = (inMetersPerSecond * frequency.inHertz).metersPerSecondSquared
     operator fun times(impulse: Impulse): Energy
         = (inMetersPerSecond * impulse.inNewtonSeconds).joule
     operator fun times(force: Force): Power

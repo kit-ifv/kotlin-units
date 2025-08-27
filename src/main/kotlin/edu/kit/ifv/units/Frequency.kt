@@ -26,13 +26,13 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     operator fun times(other: Distance): Speed = Speed(rawValue * other.inMeters)
     operator fun times(squareDuration: SquareDuration): Duration = (inHertz * squareDuration.inSquareSeconds).seconds
     operator fun times(cubicDuration: CubicDuration): SquareDuration
-        = (inHertz * cubicDuration.inCubicSeconds).square_seconds
+        = (inHertz * cubicDuration.inCubicSeconds).squareSeconds
     operator fun times(energy: Energy): Power
         = (inHertz * energy.inJoule).watts
     operator fun times(impulse: Impulse): Force
         = (inHertz * impulse.inNewtonSeconds).newton
     operator fun times(speed: Speed): Acceleration
-        = (inHertz * speed.inMetersPerSecond).meters_per_second_squared
+        = (inHertz * speed.inMetersPerSecond).metersPerSecondSquared
 
     operator fun div(other: Frequency): Double = rawValue / other.rawValue
 

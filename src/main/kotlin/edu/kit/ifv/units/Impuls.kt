@@ -40,7 +40,7 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
 
     operator fun div(other: Impulse): Double = rawValue / other.rawValue
     operator fun div(speed: Speed): Mass = (inNewtonSeconds / speed.inMetersPerSecond).kilograms
-    operator fun div(mass: Mass): Speed = (inNewtonSeconds / mass.inKilograms).meters_per_second
+    operator fun div(mass: Mass): Speed = (inNewtonSeconds / mass.inKilograms).metersPerSecond
     operator fun div(duration: Duration): Force = (inNewtonSeconds / duration.asSeconds).newton
     operator fun div(force: Force): Duration = (inNewtonSeconds / force.inNewton).seconds
 

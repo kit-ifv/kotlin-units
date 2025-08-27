@@ -61,7 +61,7 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit): FlexibleUnit
     }
 
     /**
-     * returns true if the units match and the values are less than 1e-9 apart from each other.
+     * @returns true if the PhysicsUnits match and the values are less than 1e-9 apart from each other.
      */
     override fun equals(other: Any?): Boolean {
         if (other !is OutOfBoundsUnit) return false
@@ -85,7 +85,7 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit): FlexibleUnit
  * This class represents a unit for handling kinematic operations. Only meters, seconds and kg can be represented.
  * It provides + - * / operations.
  */
-class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exponent: Int) {
+class PhysicsUnit(val meterExponent: Int, val secondsExponent: Int, val kgExponent: Int) {
     /**
      * Checks whether 'this' and 'other' are equal, to ensure only sensible operations.
      * @throws IllegalArgumentException if 'this' and 'other' are not equal, since then no sensible behavior can be
@@ -122,9 +122,9 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exp
      */
     operator fun times (other: PhysicsUnit): PhysicsUnit {
         return PhysicsUnit(
-            meter_exponent + other.meter_exponent,
-            seconds_exponent + other.seconds_exponent,
-            kg_exponent + other.kg_exponent)
+            meterExponent + other.meterExponent,
+            secondsExponent + other.secondsExponent,
+            kgExponent + other.kgExponent)
     }
 
     /**
@@ -132,9 +132,9 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exp
      */
     operator fun div (other: PhysicsUnit): PhysicsUnit {
         return PhysicsUnit(
-            meter_exponent - other.meter_exponent,
-            seconds_exponent - other.seconds_exponent,
-            kg_exponent - other.kg_exponent)
+            meterExponent - other.meterExponent,
+            secondsExponent - other.secondsExponent,
+            kgExponent - other.kgExponent)
     }
 
 
@@ -143,19 +143,19 @@ class PhysicsUnit(val meter_exponent: Int, val seconds_exponent: Int, val kg_exp
      */
     override fun equals(other: Any?): Boolean {
         if (other !is PhysicsUnit) return false
-        return meter_exponent == other.meter_exponent &&
-                seconds_exponent == other.seconds_exponent &&
-                kg_exponent == other.kg_exponent
+        return meterExponent == other.meterExponent &&
+                secondsExponent == other.secondsExponent &&
+                kgExponent == other.kgExponent
     }
 
     override fun toString(): String {
-        return "m^$meter_exponent s^$seconds_exponent kg^$kg_exponent"
+        return "m^$meterExponent s^$secondsExponent kg^$kgExponent"
     }
 
     override fun hashCode(): Int {
-        var result = meter_exponent
-        result = 31 * result + seconds_exponent
-        result = 31 * result + kg_exponent
+        var result = meterExponent
+        result = 31 * result + secondsExponent
+        result = 31 * result + kgExponent
         return result
     }
 }

@@ -17,11 +17,15 @@ operator fun Long.div(duration: Duration) = Frequency(this / duration.asSeconds)
 operator fun Float.div(duration: Duration) = Frequency(this / duration.asSeconds)
 operator fun Double.div(duration: Duration) = Frequency(this / duration.asSeconds)
 
+val Int.Hz get()= Frequency(this * Frequency.HERTZ)
+val Long.Hz get() = Frequency(this * Frequency.HERTZ)
+val Float.Hz get() = Frequency(this * Frequency.HERTZ)
+val Double.Hz get() = Frequency(this * Frequency.HERTZ)
+
 val Int.hertz get()= Frequency(this * Frequency.HERTZ)
 val Long.hertz get() = Frequency(this * Frequency.HERTZ)
 val Float.hertz get() = Frequency(this * Frequency.HERTZ)
 val Double.hertz get() = Frequency(this * Frequency.HERTZ)
-
 
 // --- Area
 operator fun Int.times(area: Area): Area = area * this
@@ -29,10 +33,10 @@ operator fun Long.times(area: Area): Area = area * this
 operator fun Float.times(area: Area): Area = area * this
 operator fun Double.times(area: Area): Area = area * this
 
-val Int.square_meters get()= Area(this * Area.SQUARE_METERS)
-val Long.square_meters get() = Area(this * Area.SQUARE_METERS)
-val Float.square_meters get() = Area(this * Area.SQUARE_METERS)
-val Double.square_meters get() = Area(this * Area.SQUARE_METERS)
+val Int.squareMeters get()= Area(this * Area.SQUARE_METERS)
+val Long.squareMeters get() = Area(this * Area.SQUARE_METERS)
+val Float.squareMeters get() = Area(this * Area.SQUARE_METERS)
+val Double.squareMeters get() = Area(this * Area.SQUARE_METERS)
 
 // --- Currency
 operator fun Int.times(currency: Currency): Currency = currency * this
@@ -137,10 +141,10 @@ val Long.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Float.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Double.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 
-val Int.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
-val Long.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
-val Float.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
-val Double.meters_per_second get()= Speed(this * Speed.METER_PER_SECOND)
+val Int.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+val Long.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+val Float.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+val Double.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
 
 // --- Acceleration
 operator fun Int.times(acceleration: Acceleration): Acceleration = acceleration * this
@@ -148,10 +152,10 @@ operator fun Long.times(acceleration: Acceleration): Acceleration = acceleration
 operator fun Float.times(acceleration: Acceleration): Acceleration = acceleration * this
 operator fun Double.times(acceleration: Acceleration): Acceleration = acceleration * this
 
-val Int.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
-val Long.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
-val Float.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
-val Double.meters_per_second_squared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Int.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Long.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Float.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Double.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
 
 // --- Impulse
 operator fun Int.times(impulse: Impulse): Impulse = impulse * this
@@ -159,10 +163,10 @@ operator fun Long.times(impulse: Impulse): Impulse = impulse * this
 operator fun Float.times(impulse: Impulse): Impulse = impulse * this
 operator fun Double.times(impulse: Impulse): Impulse = impulse * this
 
-val Int.newton_seconds get()= Impulse(this * Impulse.Newton_Seconds)
-val Long.newton_seconds get()= Impulse(this * Impulse.Newton_Seconds)
-val Float.newton_seconds get()= Impulse(this * Impulse.Newton_Seconds)
-val Double.newton_seconds get()= Impulse(this * Impulse.Newton_Seconds)
+val Int.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
+val Long.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
+val Float.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
+val Double.newtonSeconds get()= Impulse(this * Impulse.Newton_Seconds)
 
 
 // --- Temperature
@@ -193,10 +197,10 @@ operator fun Long.times(squareDuration: SquareDuration): SquareDuration = square
 operator fun Float.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
 operator fun Double.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
 
-val Int.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
-val Long.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
-val Float.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
-val Double.square_seconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Int.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Long.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Float.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Double.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
 
 // -- Cubic Duration
 operator fun Int.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
@@ -204,7 +208,7 @@ operator fun Long.times(cubicDuration: CubicDuration): CubicDuration = cubicDura
 operator fun Float.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
 operator fun Double.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
 
-val Int.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
-val Long.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
-val Float.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
-val Double.cubic_seconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Int.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Long.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Float.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Double.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)

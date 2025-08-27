@@ -22,19 +22,19 @@ val allTypes = mapOf<FlexibleUnit, String>(
 val allPhysicTypes = allTypes.mapKeys { (k, _) -> k.toOutOfBoundsUnit().unit }
 
 val numberExtensionStrings = mapOf<FlexibleUnit, String>(
-    Pair(Area(1.0), "1.square_meters"),
-    Pair(Acceleration(1.0), "1.meters_per_second_squared"),
-    Pair(CubicDuration(1.0), "1.cubic_seconds"),
+    Pair(Area(1.0), "1.squareMeters"),
+    Pair(Acceleration(1.0), "1.metersPerSecondSquared"),
+    Pair(CubicDuration(1.0), "1.cubicSeconds"),
     Pair( Distance(1.0), "1.meters"),
     Pair(DurationWrapper(1.seconds), "1.seconds"),
     Pair(Energy(1.0), "1.joule"),
     Pair(Frequency(1.0), "1.hertz"),
-    Pair(Impulse(1.0), "1.newton_seconds"),
+    Pair(Impulse(1.0), "1.newtonSeconds"),
     Pair(Mass(1), "1.grams"),
     Pair(Power(1.0), "1.watts"),
     Pair(Force(1.0), "1.newton"),
-    Pair(Speed(1.0), "1.meters_per_second"),
-    Pair(SquareDuration(1.0), "1.square_seconds"),
+    Pair(Speed(1.0), "1.metersPerSecond"),
+    Pair(SquareDuration(1.0), "1.squareSeconds"),
     Pair(Volume(1.0), "1.cubicMeters"),
 )
 

@@ -44,10 +44,10 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
 
     operator fun div(other: Energy): Double = rawValue / other.rawValue
     operator fun div(distance: Distance): Force = Force(rawValue / distance.inMeters)
-    operator fun div(speed: Speed): Impulse = (inJoule / speed.inMetersPerSecond).newton_seconds
+    operator fun div(speed: Speed): Impulse = (inJoule / speed.inMetersPerSecond).newtonSeconds
     operator fun div(duration: Duration): Power = Power(rawValue / duration.asSeconds)
     operator fun div(force: Force): Distance = (rawValue / force.rawValue).meters
-    operator fun div(impulse: Impulse): Speed = (inJoule / impulse.inNewtonSeconds).meters_per_second
+    operator fun div(impulse: Impulse): Speed = (inJoule / impulse.inNewtonSeconds).metersPerSecond
     operator fun div(power: Power): Duration = (inJoule / power.inWatts).seconds
 
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {

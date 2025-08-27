@@ -4,7 +4,7 @@ import edu.kit.ifv.units.Mass
 import edu.kit.ifv.units.Power
 import edu.kit.ifv.units.Temperature
 import edu.kit.ifv.units.cubicMeters
-import edu.kit.ifv.units.cubic_seconds
+import edu.kit.ifv.units.cubicSeconds
 import edu.kit.ifv.units.degrees
 import edu.kit.ifv.units.euros
 import edu.kit.ifv.units.kilograms
@@ -14,9 +14,9 @@ import edu.kit.ifv.units.max
 import edu.kit.ifv.units.meters
 import edu.kit.ifv.units.min
 import edu.kit.ifv.units.newton
-import edu.kit.ifv.units.newton_seconds
+import edu.kit.ifv.units.newtonSeconds
 import edu.kit.ifv.units.radians
-import edu.kit.ifv.units.square_seconds
+import edu.kit.ifv.units.squareSeconds
 import edu.kit.ifv.units.wrap
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -76,9 +76,9 @@ class RangeTest {
 
     @Test
     fun impulseTest() {
-        val a = 0.0.newton_seconds
-        val b = 2.0.newton_seconds
-        val c = Double.MAX_VALUE.newton_seconds
+        val a = 0.0.newtonSeconds
+        val b = 2.0.newtonSeconds
+        val c = Double.MAX_VALUE.newtonSeconds
 
         assertEquals(c, max(c,b))
         assertEquals(a, min(a,b))
@@ -237,9 +237,9 @@ class RangeTest {
 
     @Test
     fun squareDurationTest() {
-        val a = 5.square_seconds
-        val b = 1000000.square_seconds
-        val c = 100000000.square_seconds
+        val a = 5.squareSeconds
+        val b = 1000000.squareSeconds
+        val c = 100000000.squareSeconds
 
         assertEquals(c, max(c,b))
         assertEquals(a, min(a,b))
@@ -253,9 +253,9 @@ class RangeTest {
 
     @Test
     fun cubicDurationTest() {
-        val a = 5.cubic_seconds
-        val b = 1000000.cubic_seconds
-        val c = 100000000.cubic_seconds
+        val a = 5.cubicSeconds
+        val b = 1000000.cubicSeconds
+        val c = 100000000.cubicSeconds
 
         assertEquals(c, max(c,b))
         assertEquals(a, min(a,b))

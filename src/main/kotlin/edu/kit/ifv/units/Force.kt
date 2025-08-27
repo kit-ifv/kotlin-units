@@ -49,14 +49,14 @@ value class Force internal constructor(val rawValue: Double): Comparable<Force>,
 
     //--- Define different operations below:
     operator fun times(distance: Distance): Energy = (inNewton * distance.inMeters).joule
-    operator fun times(duration: Duration): Impulse = (inNewton * duration.asSeconds).newton_seconds
+    operator fun times(duration: Duration): Impulse = (inNewton * duration.asSeconds).newtonSeconds
     operator fun times(speed: Speed): Power = (inNewton * speed.inMetersPerSecond).watts
 
 
     operator fun div(other: Force): Double = rawValue / other.rawValue
-    operator fun div(mass: Mass): Acceleration = (inNewton / mass.inKilograms).meters_per_second_squared
+    operator fun div(mass: Mass): Acceleration = (inNewton / mass.inKilograms).metersPerSecondSquared
     operator fun div(acceleration: Acceleration): Mass = (inNewton / acceleration.inMetersPerSecondsSquared).kilograms
-    operator fun div(frequency: Frequency): Impulse = (inNewton / frequency.inHertz).newton_seconds
+    operator fun div(frequency: Frequency): Impulse = (inNewton / frequency.inHertz).newtonSeconds
     operator fun div(impulse: Impulse): Frequency = (inNewton / impulse.inNewtonSeconds).hertz
 
 

@@ -38,7 +38,7 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration>, Flexib
     operator fun times(squareDuration: SquareDuration): Distance
         = (inMetersPerSecondsSquared * squareDuration.inSquareSeconds).meters
     operator fun div(frequency: Frequency): Speed
-        = (this.inMetersPerSecondsSquared * frequency.inHertz).meters_per_second
+        = (this.inMetersPerSecondsSquared * frequency.inHertz).metersPerSecond
     operator fun div(speed: Speed): Frequency
         = (this.inMetersPerSecondsSquared * speed.inMetersPerSecond).hertz
 

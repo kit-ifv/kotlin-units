@@ -16,11 +16,11 @@ class OutOfBoundsTest {
         assertEquals(PhysicsUnit(1,-1, 0),
             1.kmh.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1,-1, 1),
-            1.newton_seconds.toOutOfBoundsUnit().unit)
+            1.newtonSeconds.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -2, 1),
             1.0.newton.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -1, 1),
-            1.newton_seconds.toOutOfBoundsUnit().unit)
+            1.newtonSeconds.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0, -1, 0),
             (1 / 1.seconds).toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(2, -2, 1),
@@ -30,12 +30,12 @@ class OutOfBoundsTest {
         assertEquals(PhysicsUnit(3, 0, 0),
             1.cubicMeters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(2, 0, 0),
-            1.square_meters.toOutOfBoundsUnit().unit)
+            1.squareMeters.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(1, -2, 0),
             ((1.meters / 1.seconds ) / 1.seconds) .toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0, 2, 0),
-            1.square_seconds.toOutOfBoundsUnit().unit)
+            1.squareSeconds.toOutOfBoundsUnit().unit)
         assertEquals(PhysicsUnit(0, 3, 0),
-            1.cubic_seconds.toOutOfBoundsUnit().unit)
+            1.cubicSeconds.toOutOfBoundsUnit().unit)
     }
 }

@@ -33,11 +33,11 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
     inline val  inCubicHours: Double get() = rawValue/CUBIC_HOURS
 
     //--- Define different operations below:
-    operator fun times(frequency: Frequency): SquareDuration = (inCubicSeconds  * frequency.inHertz).square_seconds
+    operator fun times(frequency: Frequency): SquareDuration = (inCubicSeconds  * frequency.inHertz).squareSeconds
     operator fun times(duration: Duration) = (inCubicSeconds  * duration.asSeconds).seconds
 
     operator fun div(other: CubicDuration): Double = inCubicSeconds / other.rawValue
-    operator fun div(duration: Duration): SquareDuration = (inCubicSeconds  / duration.asSeconds).square_seconds
+    operator fun div(duration: Duration): SquareDuration = (inCubicSeconds  / duration.asSeconds).squareSeconds
     operator fun div(squareDuration: SquareDuration): Duration
         = (inCubicSeconds  / squareDuration.inSquareSeconds).seconds
 

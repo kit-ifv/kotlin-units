@@ -34,19 +34,19 @@ class DurationWrapper(val duration: Duration): FlexibleUnit, Comparable<Duration
 
     //--- Define different operations below:
     operator fun times(other: Duration): SquareDuration = SquareDuration(this.asSeconds * other.asSeconds)
-    operator fun times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
+    operator fun times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).squareSeconds
     operator fun times(squareDuration: SquareDuration): CubicDuration
-            = (this.asSeconds * squareDuration.inSquareSeconds).cubic_seconds
+            = (this.asSeconds * squareDuration.inSquareSeconds).cubicSeconds
     operator fun times(acceleration: Acceleration): Speed
-            = (this.asSeconds * acceleration.inMetersPerSecondsSquared).meters_per_second
+            = (this.asSeconds * acceleration.inMetersPerSecondsSquared).metersPerSecond
     operator fun times(power: Power): Energy
             = (this.asSeconds * power.inWatts).joule
     operator fun times(force: Force): Impulse
-            = (this.asSeconds * force.inNewton).newton_seconds
+            = (this.asSeconds * force.inNewton).newtonSeconds
     operator fun times(speed: Speed): Distance
             = (this.asSeconds * speed.inMetersPerSecond).meters
 
-    operator fun div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).square_seconds
+    operator fun div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).squareSeconds
     operator fun div(squareDuration: SquareDuration): Frequency
             = (this.asSeconds / squareDuration.inSquareSeconds).hertz
 
@@ -64,19 +64,19 @@ class DurationWrapper(val duration: Duration): FlexibleUnit, Comparable<Duration
 //--- Define different operations below:
 
 operator fun Duration.times(other: Duration): SquareDuration = SquareDuration(this.asSeconds * other.asSeconds)
-operator fun Duration.times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).square_seconds
+operator fun Duration.times(other: DurationWrapper): SquareDuration = (this.asSeconds * other.asSeconds).squareSeconds
 operator fun Duration.times(squareDuration: SquareDuration): CubicDuration
-    = (this.asSeconds * squareDuration.inSquareSeconds).cubic_seconds
+    = (this.asSeconds * squareDuration.inSquareSeconds).cubicSeconds
 operator fun Duration.times(acceleration: Acceleration): Speed
-    = (this.asSeconds * acceleration.inMetersPerSecondsSquared).meters_per_second
+    = (this.asSeconds * acceleration.inMetersPerSecondsSquared).metersPerSecond
 operator fun Duration.times(power: Power): Energy
     = (this.asSeconds * power.inWatts).joule
 operator fun Duration.times(force: Force): Impulse
-    = (this.asSeconds * force.inNewton).newton_seconds
+    = (this.asSeconds * force.inNewton).newtonSeconds
 operator fun Duration.times(speed: Speed): Distance
     = (this.asSeconds * speed.inMetersPerSecond).meters
 
-operator fun Duration.div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).square_seconds
+operator fun Duration.div(frequency: Frequency): SquareDuration = (this.asSeconds / frequency.inHertz).squareSeconds
 operator fun Duration.div(squareDuration: SquareDuration): Frequency
 = (this.asSeconds / squareDuration.inSquareSeconds).hertz
 

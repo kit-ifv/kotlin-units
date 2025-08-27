@@ -36,7 +36,7 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> , Fl
 
     //--- Define different operations below:
     operator fun div(other: Mass): Double = rawValue.toDouble() / other.rawValue
-    operator fun times(speed:Speed): Impulse = (inKilograms * speed.inMetersPerSecond).newton_seconds
+    operator fun times(speed:Speed): Impulse = (inKilograms * speed.inMetersPerSecond).newtonSeconds
     operator fun times(acceleration: Acceleration): Force
         = (inKilograms * acceleration.inMetersPerSecondsSquared).newton
 
