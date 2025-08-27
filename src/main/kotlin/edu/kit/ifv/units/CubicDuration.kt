@@ -57,3 +57,27 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
         const val CUBIC_HOURS = 3600*3600*3600
     }
 }
+
+fun min(a: CubicDuration, b: CubicDuration): CubicDuration {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: CubicDuration, b: CubicDuration): CubicDuration {
+    if (a > b) return a
+    return b
+}
+
+fun CubicDuration.coerceIn(min: CubicDuration, max: CubicDuration): CubicDuration {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun CubicDuration.coerceAtLeast(min: CubicDuration): CubicDuration {
+    return  max(this, min)
+}
+
+fun CubicDuration.coerceAtMost(max: CubicDuration): CubicDuration {
+    return min(this, max)
+}

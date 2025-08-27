@@ -62,3 +62,27 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
         const val SQUARE_HOURS = 3600*3600
     }
 }
+
+fun min(a: SquareDuration, b: SquareDuration): SquareDuration {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: SquareDuration, b: SquareDuration): SquareDuration {
+    if (a > b) return a
+    return b
+}
+
+fun SquareDuration.coerceIn(min: SquareDuration, max: SquareDuration): SquareDuration {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun SquareDuration.coerceAtLeast(min: SquareDuration): SquareDuration {
+    return  max(this, min)
+}
+
+fun SquareDuration.coerceAtMost(max: SquareDuration): SquareDuration {
+    return min(this, max)
+}
