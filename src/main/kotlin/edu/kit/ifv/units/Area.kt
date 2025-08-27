@@ -121,3 +121,27 @@ enum class AreaUnit(val scale: Double) {
     SQUARE_INCH(Area.SQUARE_INCH),
     SQUARE_KILOMETERS(Area.SQUARE_KILOMETERS)
 }
+
+fun min(a: Area, b: Area): Area {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Area, b: Area): Area {
+    if (a > b) return a
+    return b
+}
+
+fun Area.coerceIn(min: Area, max: Area): Area {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Area.coerceAtLeast(min: Area): Area {
+    return  max(this, min)
+}
+
+fun Area.coerceAtMost(max: Area): Area {
+    return min(this, max)
+}

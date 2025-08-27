@@ -124,3 +124,27 @@ enum class MassUnit(val scale: Long) {
     KILOGRAM(Mass.KILOGRAM),
     TON(Mass.TON);
 }
+
+fun min(a: Mass, b: Mass): Mass {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Mass, b: Mass): Mass {
+    if (a > b) return a
+    return b
+}
+
+fun Mass.coerceIn(min: Mass, max: Mass): Mass {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Mass.coerceAtLeast(min: Mass): Mass {
+    return  max(this, min)
+}
+
+fun Mass.coerceAtMost(max: Mass): Mass {
+    return min(this, max)
+}

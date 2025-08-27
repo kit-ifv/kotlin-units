@@ -96,3 +96,27 @@ enum class TemperatureUnit(val scale: Long, val offset: Long) {
 
 
 }
+
+fun min(a: Temperature, b: Temperature): Temperature {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Temperature, b: Temperature): Temperature {
+    if (a > b) return a
+    return b
+}
+
+fun Temperature.coerceIn(min: Temperature, max: Temperature): Temperature {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Temperature.coerceAtLeast(min: Temperature): Temperature {
+    return  max(this, min)
+}
+
+fun Temperature.coerceAtMost(max: Temperature): Temperature {
+    return min(this, max)
+}

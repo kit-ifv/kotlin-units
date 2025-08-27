@@ -127,3 +127,27 @@ enum class VolumeUnit(val scale: Double)  {
     LITER(Volume.LITER),
 
 }
+
+fun min(a: Volume, b: Volume): Volume {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Volume, b: Volume): Volume {
+    if (a > b) return a
+    return b
+}
+
+fun Volume.coerceIn(min: Volume, max: Volume): Volume {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Volume.coerceAtLeast(min: Volume): Volume {
+    return  max(this, min)
+}
+
+fun Volume.coerceAtMost(max: Volume): Volume {
+    return min(this, max)
+}

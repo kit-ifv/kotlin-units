@@ -146,3 +146,27 @@ enum class EnergyUnit(val scale: Double) {
     BENZENE_EQUIVALENT(Energy.BENZENE_EQUIVALENT);
 
 }
+
+fun min(a: Energy, b: Energy): Energy {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Energy, b: Energy): Energy {
+    if (a > b) return a
+    return b
+}
+
+fun Energy.coerceIn(min: Energy, max: Energy): Energy {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Energy.coerceAtLeast(min: Energy): Energy {
+    return  max(this, min)
+}
+
+fun Energy.coerceAtMost(max: Energy): Energy {
+    return min(this, max)
+}

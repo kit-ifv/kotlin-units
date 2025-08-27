@@ -108,3 +108,27 @@ fun abs(element: Currency) = Currency(element.rawValue.absoluteValue)
 enum class CurrencyUnit(val scale: Double) {
     EUROS(Currency.EUROS),
 }
+
+fun min(a: Currency, b: Currency): Currency {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Currency, b: Currency): Currency {
+    if (a > b) return a
+    return b
+}
+
+fun Currency.coerceIn(min: Currency, max: Currency): Currency {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Currency.coerceAtLeast(min: Currency): Currency {
+    return  max(this, min)
+}
+
+fun Currency.coerceAtMost(max: Currency): Currency {
+    return min(this, max)
+}

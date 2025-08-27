@@ -132,3 +132,27 @@ enum class PowerUnit(val scale: Double) {
     WATTS(1.0),
     KILOWATTS(1000.0)
 }
+
+fun min(a: Power, b: Power): Power {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Power, b: Power): Power {
+    if (a > b) return a
+    return b
+}
+
+fun Power.coerceIn(min: Power, max: Power): Power {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Power.coerceAtLeast(min: Power): Power {
+    return  max(this, min)
+}
+
+fun Power.coerceAtMost(max: Power): Power {
+    return min(this, max)
+}
