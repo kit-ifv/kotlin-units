@@ -41,8 +41,8 @@ class DurationWrapper(val duration: Duration): FlexibleUnit, Comparable<Duration
             = (this.asSeconds * acceleration.inMetersPerSecondsSquared).meters_per_second
     operator fun times(power: Power): Energy
             = (this.asSeconds * power.inWatts).joule
-    operator fun times(newton: Newton): Impulse
-            = (this.asSeconds * newton.inNewton).newton_seconds
+    operator fun times(force: Force): Impulse
+            = (this.asSeconds * force.inNewton).newton_seconds
     operator fun times(speed: Speed): Distance
             = (this.asSeconds * speed.inMetersPerSecond).meters
 
@@ -71,8 +71,8 @@ operator fun Duration.times(acceleration: Acceleration): Speed
     = (this.asSeconds * acceleration.inMetersPerSecondsSquared).meters_per_second
 operator fun Duration.times(power: Power): Energy
     = (this.asSeconds * power.inWatts).joule
-operator fun Duration.times(newton: Newton): Impulse
-    = (this.asSeconds * newton.inNewton).newton_seconds
+operator fun Duration.times(force: Force): Impulse
+    = (this.asSeconds * force.inNewton).newton_seconds
 operator fun Duration.times(speed: Speed): Distance
     = (this.asSeconds * speed.inMetersPerSecond).meters
 

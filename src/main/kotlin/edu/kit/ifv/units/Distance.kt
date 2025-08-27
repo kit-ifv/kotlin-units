@@ -56,7 +56,7 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
     operator fun times(distance: Distance): Area =  Area(inMeters * distance.inMeters)
     operator fun times(area: Area): Volume = (inMeters * area.inSquareMeters).cubicMeters
     operator fun times(frequency: Frequency): Speed = (inMeters * frequency.inHertz).meters_per_second
-    operator fun times(newton: Newton): Energy = (inMeters * newton.inNewton).joule
+    operator fun times(force: Force): Energy = (inMeters * force.inNewton).joule
 
     operator fun div(distance: Distance): Double =  rawValue.toDouble() / distance.rawValue
     operator fun div(duration: Duration): Speed = Speed(inMeters / duration.asSeconds)

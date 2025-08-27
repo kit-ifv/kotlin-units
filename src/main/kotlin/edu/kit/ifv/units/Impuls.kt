@@ -2,7 +2,6 @@ package edu.kit.ifv.units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
-import kotlin.math.roundToLong
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -33,7 +32,7 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     //--- Define different operations below:
     operator fun times(acceleration: Acceleration): Power
         = (inNewtonSeconds * acceleration.inMetersPerSecondsSquared).watts
-    operator fun times(frequency: Frequency): Newton
+    operator fun times(frequency: Frequency): Force
         = (inNewtonSeconds * frequency.inHertz).newton
     operator fun times(speed: Speed): Energy
         = (inNewtonSeconds * speed.inMetersPerSecond).joule
@@ -42,8 +41,8 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     operator fun div(other: Impulse): Double = rawValue / other.rawValue
     operator fun div(speed: Speed): Mass = (inNewtonSeconds / speed.inMetersPerSecond).kilograms
     operator fun div(mass: Mass): Speed = (inNewtonSeconds / mass.inKilograms).meters_per_second
-    operator fun div(duration: Duration): Newton = (inNewtonSeconds / duration.asSeconds).newton
-    operator fun div(newton: Newton): Duration = (inNewtonSeconds / newton.inNewton).seconds
+    operator fun div(duration: Duration): Force = (inNewtonSeconds / duration.asSeconds).newton
+    operator fun div(force: Force): Duration = (inNewtonSeconds / force.inNewton).seconds
 
 
     override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
@@ -114,4 +113,28 @@ fun abs(element: Impulse) = Impulse(element.rawValue.absoluteValue)
 @Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class ImpulseUnit(val scale: Double)  {
     DEFAULT(1.0),
+}
+
+fun min(a: Impulse, b: Impulse): Impulse {
+    if (a < b) return a
+    return b
+}
+
+fun max(a: Impulse, b: Impulse): Impulse {
+    if (a > b) return a
+    return b
+}
+
+fun Impulse.coerceIn(min: Impulse, max: Impulse): Impulse {
+    if(this < min) return min
+    if(this > max) return max
+    return this
+}
+
+fun Impulse.coerceAtLeast(min: Impulse): Impulse {
+    return  max(this, min)
+}
+
+fun Impulse.coerceAtMost(max: Impulse): Impulse {
+    return min(this, max)
 }

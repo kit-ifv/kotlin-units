@@ -4,7 +4,7 @@ import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
 
-typealias Efficiency = Newton
+typealias Efficiency = Force
 /**
  * A value class representing **Efficiency**, which can be used to model the relationship
  * between energy and distance in various contexts such as car fuel efficiency or mechanical
@@ -18,26 +18,26 @@ typealias Efficiency = Newton
  *
  * @constructor Creates an instance of the `Efficiency` class with the provided raw value.
  *
- * @see Newton for an alias representing the same concept of force per unit distance.
+ * @see Force for an alias representing the same concept of force per unit distance.
  */
 @JvmInline
-value class Newton internal constructor(val rawValue: Double): Comparable<Newton>, FlexibleUnit {
+value class Force internal constructor(val rawValue: Double): Comparable<Force>, FlexibleUnit {
 
 
-    operator fun times(scalar: Double) = Newton(rawValue * scalar)
-    operator fun times(scalar: Float) = Newton(rawValue * scalar)
-    operator fun times(scalar: Int) = Newton((rawValue * scalar))
-    operator fun times(scalar: Long)  = Newton((rawValue * scalar))
+    operator fun times(scalar: Double) = Force(rawValue * scalar)
+    operator fun times(scalar: Float) = Force(rawValue * scalar)
+    operator fun times(scalar: Int) = Force((rawValue * scalar))
+    operator fun times(scalar: Long)  = Force((rawValue * scalar))
 
-    operator fun div(scalar: Double): Newton = Newton(rawValue / scalar)
-    operator fun div(scalar: Float): Newton = Newton(rawValue / scalar)
-    operator fun div(scalar: Int): Newton =  Newton((rawValue / scalar))
-    operator fun div(scalar: Long): Newton = Newton((rawValue / scalar))
+    operator fun div(scalar: Double): Force = Force(rawValue / scalar)
+    operator fun div(scalar: Float): Force = Force(rawValue / scalar)
+    operator fun div(scalar: Int): Force =  Force((rawValue / scalar))
+    operator fun div(scalar: Long): Force = Force((rawValue / scalar))
 
-    operator fun rangeTo(other: Newton): ClosedEfficiencyRange = ClosedEfficiencyRange(this, other)
+    operator fun rangeTo(other: Force): ClosedEfficiencyRange = ClosedEfficiencyRange(this, other)
 
-    operator fun rangeUntil(other: Newton) = OpenEfficiencyRange(this, other)
-    override fun compareTo(other: Newton): Int = rawValue.compareTo(other.rawValue)
+    operator fun rangeUntil(other: Force) = OpenEfficiencyRange(this, other)
+    override fun compareTo(other: Force): Int = rawValue.compareTo(other.rawValue)
 
 
     //--- Define conversions to "naked" number representations here.
@@ -50,7 +50,7 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
     operator fun times(speed: Speed): Power = (inNewton * speed.inMetersPerSecond).watts
 
 
-    operator fun div(other: Newton): Double = rawValue / other.rawValue
+    operator fun div(other: Force): Double = rawValue / other.rawValue
     operator fun div(mass: Mass): Acceleration = (inNewton / mass.inKilograms).meters_per_second_squared
     operator fun div(acceleration: Acceleration): Mass = (inNewton / acceleration.inMetersPerSecondsSquared).kilograms
     operator fun div(frequency: Frequency): Impulse = (inNewton / frequency.inHertz).newton_seconds
@@ -63,26 +63,26 @@ value class Newton internal constructor(val rawValue: Double): Comparable<Newton
     }
 
     companion object {
-        val MAX = Newton(Double.MAX_VALUE)
-        val ZERO = Newton(.0)
+        val MAX = Force(Double.MAX_VALUE)
+        val ZERO = Force(.0)
     }
 }
 
-class ClosedEfficiencyRange(override val start: Newton, override val endInclusive: Newton): ClosedRange<Newton> {
-    override fun contains(value: Newton): Boolean {
+class ClosedEfficiencyRange(override val start: Force, override val endInclusive: Force): ClosedRange<Force> {
+    override fun contains(value: Force): Boolean {
         return value.rawValue in start.rawValue..endInclusive.rawValue
     }
 }
 
-class OpenEfficiencyRange(override val start: Newton, override val endExclusive: Newton): OpenEndRange<Newton> {
-    override fun contains(value: Newton): Boolean {
+class OpenEfficiencyRange(override val start: Force, override val endExclusive: Force): OpenEndRange<Force> {
+    override fun contains(value: Force): Boolean {
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
 
-val Pair<Energy, Distance>.newton: Newton get() = first / second
+val Pair<Energy, Distance>.newton: Force get() = first / second
 
-fun abs(element: Newton) = Newton(element.rawValue.absoluteValue)
+fun abs(element: Force) = Force(element.rawValue.absoluteValue)
 /**
  * I am unaware that there are scales for Efficiency in any meaningful way.
  */
@@ -92,26 +92,26 @@ enum class EfficiencyUnit(val scale: Double)  {
     DEFAULT(1.0),
 }
 
-fun min(a: Newton, b: Newton): Newton {
+fun min(a: Force, b: Force): Force {
     if (a < b) return a
     return b
 }
 
-fun max(a: Newton, b: Newton): Newton {
+fun max(a: Force, b: Force): Force {
     if (a > b) return a
     return b
 }
 
-fun Newton.coerceIn(min: Newton, max: Newton): Newton {
+fun Force.coerceIn(min: Force, max: Force): Force {
     if(this < min) return min
     if(this > max) return max
     return this
 }
 
-fun Newton.coerceAtLeast(min: Newton): Newton {
+fun Force.coerceAtLeast(min: Force): Force {
     return  max(this, min)
 }
 
-fun Newton.coerceAtMost(max: Newton): Newton {
+fun Force.coerceAtMost(max: Force): Force {
     return min(this, max)
 }

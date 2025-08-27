@@ -68,15 +68,15 @@ val Double.kilometers get()= Distance(this * Distance.KILOMETERS)
 
 
 // --- Efficiency
-operator fun Int.times(newton: Newton): Newton = newton * this
-operator fun Long.times(newton: Newton): Newton = newton * this
-operator fun Float.times(newton: Newton): Newton = newton * this
-operator fun Double.times(newton: Newton): Newton = newton * this
+operator fun Int.times(force: Force): Force = force * this
+operator fun Long.times(force: Force): Force = force * this
+operator fun Float.times(force: Force): Force = force * this
+operator fun Double.times(force: Force): Force = force * this
 
-val Int.newton     get()= Newton(this.toDouble())
-val Long.newton    get()= Newton(this.toDouble())
-val Float.newton   get()= Newton(this.toDouble())
-val Double.newton  get()= Newton(this)
+val Int.newton     get()= Force(this.toDouble())
+val Long.newton    get()= Force(this.toDouble())
+val Float.newton   get()= Force(this.toDouble())
+val Double.newton  get()= Force(this)
 
 // --- Energy
 operator fun Int.times(energy: Energy): Energy = energy * this

@@ -32,7 +32,7 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration>, Flexib
     //--- Define different operations below:
     operator fun div(other: Acceleration): Double = rawValue / other.rawValue
     operator fun times(duration: Duration) = Speed(rawValue * duration.asSeconds)
-    operator fun times(mass: Mass): Newton = (inMetersPerSecondsSquared * mass.inKilograms).newton
+    operator fun times(mass: Mass): Force = (inMetersPerSecondsSquared * mass.inKilograms).newton
     operator fun times(impulse: Impulse): Power
         = (inMetersPerSecondsSquared * impulse.inNewtonSeconds).watts
     operator fun times(squareDuration: SquareDuration): Distance

@@ -55,8 +55,8 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed>,
         = (inMetersPerSecond * frequency.inHertz).meters_per_second_squared
     operator fun times(impulse: Impulse): Energy
         = (inMetersPerSecond * impulse.inNewtonSeconds).joule
-    operator fun times(newton: Newton): Power
-            = (inMetersPerSecond * newton.inNewton).watts
+    operator fun times(force: Force): Power
+            = (inMetersPerSecond * force.inNewton).watts
 
 
     operator fun div(duration: Duration): Acceleration = Acceleration(rawValue / duration.asSeconds)

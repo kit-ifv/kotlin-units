@@ -56,9 +56,9 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power>,
         = (inWatts / frequency.inHertz).joule
     operator fun div(impulse: Impulse): Acceleration
         = (inWatts / impulse.inNewtonSeconds).meters_per_second_squared
-    operator fun div(newton: Newton): Speed
-            = (inWatts / newton.inNewton).meters_per_second
-    operator fun div(speed: Speed): Newton
+    operator fun div(force: Force): Speed
+            = (inWatts / force.inNewton).meters_per_second
+    operator fun div(speed: Speed): Force
             = (inWatts / speed.inMetersPerSecond).newton
 
 
