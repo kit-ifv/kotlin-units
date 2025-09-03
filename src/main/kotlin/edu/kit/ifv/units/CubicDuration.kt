@@ -25,6 +25,9 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
     operator fun div(scalar: Int): CubicDuration =  CubicDuration((rawValue / scalar))
     operator fun div(scalar: Long): CubicDuration = CubicDuration((rawValue / scalar))
 
+    operator fun rangeTo(other: CubicDuration): ClosedCubicDurationRange = ClosedCubicDurationRange(this, other)
+
+    operator fun rangeUntil(other: CubicDuration) = OpenCubicDurationRange(this, other)
 
     operator fun rem(other: CubicDuration): CubicDuration = CubicDuration((rawValue % other.rawValue))
     override fun compareTo(other: CubicDuration): Int = rawValue.compareTo(other.rawValue)
@@ -58,6 +61,18 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
         const val CUBIC_SECONDS = 1.0
         const val CUBIC_MINUTES = 60*60*60.0
         const val CUBIC_HOURS = 3600*3600*3600.0
+    }
+}
+
+class ClosedCubicDurationRange(override val start: CubicDuration, override val endInclusive: CubicDuration): ClosedRange<CubicDuration> {
+    override fun contains(value: CubicDuration): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
+    }
+}
+
+class OpenCubicDurationRange(override val start: CubicDuration, override val endExclusive: CubicDuration): OpenEndRange<CubicDuration> {
+    override fun contains(value: CubicDuration): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
 

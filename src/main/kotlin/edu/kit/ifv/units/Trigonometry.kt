@@ -8,6 +8,11 @@ const val DEGREES = 180 / PI
 const val RADIANS = PI / 180
 @JvmInline
 value class Radians(internal val rawValue: Double): Comparable<Radians> {
+
+    operator fun rangeTo(other: Radians): ClosedRadiansRange = ClosedRadiansRange(this, other)
+
+    operator fun rangeUntil(other: Radians) = OpenRadiansRange(this, other)
+
     fun toDegrees(): Degrees {
         return Degrees(rawValue * DEGREES)
     }
@@ -47,9 +52,26 @@ fun Radians.coerceAtMost(max: Radians): Radians {
 }
 
 
+class ClosedRadiansRange(override val start: Radians, override val endInclusive: Radians): ClosedRange<Radians> {
+    override fun contains(value: Radians): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
+    }
+}
+
+class OpenRadiansRange(override val start: Radians, override val endExclusive: Radians): OpenEndRange<Radians> {
+    override fun contains(value: Radians): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
+}
+
 
 @JvmInline
 value class Degrees(internal val rawValue: Double): Comparable<Degrees> {
+
+    operator fun rangeTo(other: Degrees): ClosedDegreesRange = ClosedDegreesRange(this, other)
+
+    operator fun rangeUntil(other: Degrees) = OpenDegreesRange(this, other)
+
     fun toRadians(): Radians {
         return Radians(rawValue * RADIANS)
     }
@@ -59,6 +81,18 @@ value class Degrees(internal val rawValue: Double): Comparable<Degrees> {
 
     override fun compareTo(other: Degrees): Int {
         return this.rawValue.compareTo(other.rawValue)
+    }
+}
+
+class ClosedDegreesRange(override val start: Degrees, override val endInclusive: Degrees): ClosedRange<Degrees> {
+    override fun contains(value: Degrees): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
+    }
+}
+
+class OpenDegreesRange(override val start: Degrees, override val endExclusive: Degrees): OpenEndRange<Degrees> {
+    override fun contains(value: Degrees): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
 
