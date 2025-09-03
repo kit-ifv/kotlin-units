@@ -9,7 +9,7 @@ A Kotlin software package that introduces **type-safe representations for physic
 This package allows developers to perform operations on physical units (e.g., distance, mass, temperature) using intuitive and type-safe syntax. Internally, these unit types are backed by primitive types for performance and compatibility.
 
 - **Simple units** like `Distance`, `Mass`, and `Temperature` are backed by `Long`.
-- **Complex units** like `Area` and `Energy` are backed by `Double`.
+- **Complex units** like `Area`, `Impulse`, `Power`, `Energy`... are backed by `Double`.
 
 > ⚠️ Multiplying simple units can quickly exceed `Long`'s limits. For such scenarios, precision is traded off by using `Double`.
 
@@ -34,8 +34,8 @@ This ensures that most basic units remain integer-representable, minimizing floa
 Each unit type supports the following:
 
 - **Arithmetic operators**:
-    - `+`, `-`, `*` (by scalar), `/` (by scalar), `rem`
-    - every multiplication or division of two types, which results in a unit, defined in this
+    - `+`, `-`, `*` (by scalar), `/` (by scalar), `rem` (remainder only defined for units with `Long` backing)
+    - `*` (by other type), `/` (by other type) is defined. So `1.meters/1.seconds == 1.metersPerSecond`. If  is typesafe which results in a unit, defined in this
       library, is type safe. For example `assertIs<Newton>(1.meters_per_second_squared * 1.kilograms)`. Any other
       multiplication or division of two types will result in an `OutOfBoundsUnit` e.g.
       `assertIs<OutOfBoundsUnit>(1.joule * 1.joule)`.
@@ -43,86 +43,23 @@ Each unit type supports the following:
     - `rangeTo`, `rangeUntil`
 - **Utility functions**:
     - `abs(unit: UnitType)`
-    - Kotlin extensions: `.sumOf()`, `.min()`, `.max()`, `.average()`
+    - Iterable<UnitType> extensions: `sumOf()`, `min()`, `max()`, `.average()`
+    - Kotlin extensions:  `.coerceIn()`, `.coerceAtLeast()`, `.coerceAtMost()`'
+    - 
 
 ### Efficient Range Support
 
 All units offer specialized implementations of `ClosedRange` and `OpenEndRange` tailored to their respective types.  
-This design avoids boxing overhead that would occur with generic `ClosedRange<T>` use. For example, the `Distance` type defines `rangeTo` and `rangeUntil` operators that return concrete range classes (`ClosedDistanceRange`, `OpenDistanceRange`), allowing highly efficient `in` checks on the raw numeric value at the JVM level.
+Of course generic ranges also work, but they would use boxing, which is overhead we are trying to avoid.
+(Duration is an exception, as Duration is a Kotlin Native Type, which doesn't )
 
-#### Example: Distance Range Implementation
+## Conversion To Primitive Types
+Types can be converted to primitive numbers using `toInt(ReturnScale)`, `toDouble(ReturnScale)`, `toLong(ReturnScale)`
+Or with self-descriptive conversions like `inKilograms`, `inEuros`... (or `asSeconds` for Durations)
 
-```kotlin
-operator fun Distance.rangeTo(other: Distance): ClosedDistanceRange =
-  ClosedDistanceRange(this, other)
+## Construction Of Types
 
-operator fun Distance.rangeUntil(other: Distance): OpenDistanceRange =
-  OpenDistanceRange(this, other)
-
-class ClosedDistanceRange(
-  override val start: Distance,
-  override val endInclusive: Distance
-) : ClosedRange<Distance> {
-  override fun contains(value: Distance): Boolean {
-    return value.raw in start.raw..endInclusive.raw
-  }
-}
-
-class OpenDistanceRange(
-  override val start: Distance,
-  override val endExclusive: Distance
-) : OpenEndRange<Distance> {
-  override fun contains(value: Distance): Boolean {
-    return value.raw in start.raw..<endExclusive.raw
-  }
-}
-```
-
-## Extension Properties
-
-Each unit provides intuitive extensions for conversion and computation:
-
-### Distance
-
-| Property                | Type    | Description                                |
-|-------------------------|---------|--------------------------------------------|
-| `inWholeMillimeters`    | `Long`  | Rounded using `roundToLong()`              |
-| `inWholeCentimeters`    | `Long`  | Rounded using `roundToLong()`              |
-| `inWholeMeters`         | `Long`  | Rounded using `roundToLong()`              |
-| `inWholeKilometers`     | `Long`  | Rounded using `roundToLong()`              |
-| `inMeters`              | `Double`| Direct double conversion                   |
-| `inKilometers`          | `Double`| Direct double conversion                   |
-
-### Mass
-
-| Property     | Type     | Description                                  |
-|--------------|----------|----------------------------------------------|
-| `inKilograms`| `Double` | Returns the raw kilogram representation      |
-
-### Temperature
-
-- Temperature is internally stored in microkelvin (`Long`).
-- No direct conversion properties are currently available.
-
-### Area
-
-- No direct number conversion properties.
-
-### Currency
-
-| Property     | Type     | Description       |
-|--------------|----------|-------------------|
-| `inEuros`    | `Double` | Returns a double  |
-
-### Efficiency
-
-- No numeric conversion properties.
-
----
-
-## Construction Extensions
-
-Units can be constructed directly from numeric primitives using intuitive Kotlin extensions.
+Units can be constructed directly from `Int`, `Long`, `Float`, and `Double` using intuitive Kotlin extensions.
 
 ```kotlin
 val d = 5.kilometers
@@ -130,45 +67,12 @@ val m = 200.grams
 val temp = 25.celsius
 val price = 10.`€`
 val force = (30.09).newton
-val area = 30.square_meters
+val area = 30.squareMeters
 //...
 ```
 
-```mermaid
-graph TD 
-
-    Distance["Distance (m)"]
-  Area["Area (m²)"]
-  Volume["Volume (m³)"]
-
-
-
-  Frequency["Frequency (s⁻¹)"]
-  Speed["Speed (ms⁻¹)"]
-
-
-  Energy["Energy(kgm²s⁻²)"]
-  Power["Power(kgm²s⁻³)"]
-  Temperature
-  Efficiency["Newton (kgms⁻²) = Efficiency"]
-  Mass["Mass (kg)"]
-  Acceleration["Acceleration (ms⁻²)"]
-    Duration["Duration (s)"]
-      Currency
-
-
- Distance --> |"m"| Area
- Distance --> |"s⁻¹"| Speed
- Area --> |"m⁻¹"| Distance
-  Area --> |"m"| Volume
- Volume --> |"m⁻¹"| Area
- Energy --> |"m⁻¹"| Efficiency
- Frequency --> |"m"| Speed
- Power --> |"s"| Energy
- Energy --> |"s⁻¹"| Power
- Speed --> |"s"| Distance
-Speed --> |"s⁻¹"| Acceleration
-Acceleration --> |"s"| Speed
-Energy --> |"(Newton)⁻¹"| Distance
+or using the good old `number.toXYZ` functions.
+```kotlin
+val impulse = 4.5.toImpulse(ImpulseUnit.Default)
+val tons = 400.923.toMass(MassUnit.TON)
 ```
-

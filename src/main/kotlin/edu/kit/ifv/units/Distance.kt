@@ -31,10 +31,11 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
     operator fun rem(other: Distance): Distance = Distance((rawValue % other.rawValue))
     override fun compareTo(other: Distance): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: DistanceUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: DistanceUnit): Long = rawValue / unit.scale
     fun toDouble(unit: DistanceUnit):Double = rawValue.toDouble() / unit.scale
-    //--- Define conversions to "naked" number representations here.
 
     inline val inWholeMillimeters: Long get() = (rawValue / MILLIMETERS)
     inline val inWholeCentimeters: Long get() = (rawValue / CENTIMETERS)

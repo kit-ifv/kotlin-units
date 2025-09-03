@@ -29,10 +29,11 @@ value class Power internal constructor(val rawValue: Double): Comparable<Power>,
     operator fun rem(other: Power): Power = Power((rawValue % other.rawValue))
     override fun compareTo(other: Power): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: PowerUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: PowerUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: PowerUnit): Double = rawValue / unit.scale
-    //--- Define conversions to "naked" number representations here.
 
     inline val inWatts: Double get() = rawValue / WATTS
 

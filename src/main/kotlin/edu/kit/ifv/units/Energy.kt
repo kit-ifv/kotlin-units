@@ -30,11 +30,11 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
     operator fun rem(other: Energy): Energy = Energy((rawValue % other.rawValue))
     override fun compareTo(other: Energy): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: EnergyUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: EnergyUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: EnergyUnit): Double = rawValue / unit.scale
-
-    //--- Define conversions to "naked" number representations here.
 
     inline val inJoule: Double get() = rawValue / JOULE
     inline val inKiloJoule: Double get() = rawValue / KILOJOULE

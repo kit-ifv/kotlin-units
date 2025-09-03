@@ -26,11 +26,11 @@ value class Area internal constructor(val rawValue: Double): Comparable<Area> , 
     operator fun rem(other: Area): Area = Area((rawValue % other.rawValue))
     override fun compareTo(other: Area): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: AreaUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: AreaUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: AreaUnit):Double = rawValue / unit.scale
-
-    //--- Define conversions to "naked" number representations here.
 
     inline val inSquareMeters: Double get() = rawValue / SQUARE_METERS
     inline val inSquareInch: Double get() = rawValue / SQUARE_INCH

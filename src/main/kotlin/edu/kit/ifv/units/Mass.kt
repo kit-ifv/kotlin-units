@@ -27,11 +27,11 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> , Fl
     operator fun rem(other: Mass): Mass = Mass((rawValue % other.rawValue))
     override fun compareTo(other: Mass): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: MassUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: MassUnit): Long = rawValue / unit.scale
     fun toDouble(unit: MassUnit): Double = rawValue.toDouble() / unit.scale
-
-    //--- Define conversions to "naked" number representations here.
 
     val inKilograms: Double get() = rawValue.toDouble() / KILOGRAM
 

@@ -30,11 +30,11 @@ value class Speed internal constructor(val rawValue: Double): Comparable<Speed>,
     operator fun rem(other: Speed): Speed = Speed((rawValue % other.rawValue))
     override fun compareTo(other: Speed): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: SpeedUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: SpeedUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: SpeedUnit): Double = rawValue / unit.scale
-
-    //--- Define conversions to "naked" number representations here.
 
     inline val inMetersPerSecond: Double get() = rawValue / METER_PER_SECOND
     inline val inKilometersPerHour: Double get() = rawValue / KILOMETER_PER_HOUR

@@ -17,6 +17,12 @@ value class Radians(internal val rawValue: Double): Comparable<Radians> {
         return Degrees(rawValue * DEGREES)
     }
 
+    fun toInt(): Int {
+        return rawValue.toInt()
+    }
+    fun toLong(): Long {
+        return rawValue.toLong()
+    }
     fun toDouble(): Double {
         return rawValue
     }
@@ -74,6 +80,13 @@ value class Degrees(internal val rawValue: Double): Comparable<Degrees> {
 
     fun toRadians(): Radians {
         return Radians(rawValue * RADIANS)
+    }
+
+    fun toInt(): Int {
+        return rawValue.toInt()
+    }
+    fun toLong(): Long {
+        return rawValue.toLong()
     }
     fun toDouble(): Double {
         return rawValue

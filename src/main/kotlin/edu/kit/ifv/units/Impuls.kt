@@ -28,6 +28,10 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
 
     //--- Define conversions to "naked" number representations here.
 
+    fun toInt(unit: ImpulseUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: ImpulseUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: ImpulseUnit): Double = rawValue / unit.scale
+
     inline val inNewtonSeconds: Double get() = rawValue / NEWTON_SECONDS
 
     //--- Define different operations below:
@@ -89,7 +93,7 @@ fun Float.toImpulse(unit: ImpulseUnit): Impulse {
 @OverloadResolutionByLambdaReturnType
 @JvmName("sumOfImpulse")
 fun <T> Iterable<T>.sumOf(selector: (T) -> Impulse): Impulse {
-    var sum = 0.toImpulse(ImpulseUnit.DEFAULT)
+    var sum = 0.toImpulse(ImpulseUnit.NEWTON_SECONDS)
     for (element in this) {
         sum += selector(element)
     }
@@ -99,7 +103,7 @@ fun <T> Iterable<T>.sumOf(selector: (T) -> Impulse): Impulse {
 fun Iterable<Impulse>.min() = minBy { it }
 fun Iterable<Impulse>.max() = maxBy { it }
 fun Iterable<Impulse>.average(): Impulse {
-    var sum = 0.toImpulse(ImpulseUnit.DEFAULT)
+    var sum = 0.toImpulse(ImpulseUnit.NEWTON_SECONDS)
     var count = 0
     for (element in this) {
         sum += element
@@ -112,7 +116,7 @@ fun abs(element: Impulse) = Impulse(element.rawValue.absoluteValue)
 
 
 enum class ImpulseUnit(val scale: Double)  {
-    DEFAULT(1.0),
+    NEWTON_SECONDS(1.0),
 }
 
 fun min(a: Impulse, b: Impulse): Impulse {

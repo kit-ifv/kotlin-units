@@ -29,6 +29,10 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration>, Flexib
 
     //--- Define conversions to "naked" number representations here.
 
+    fun toInt(unit: AccelerationUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: AccelerationUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: AccelerationUnit): Double = rawValue / unit.scale
+
     inline val inMetersPerSecondsSquared: Double get() = rawValue / METER_PER_SECOND_SQUARED
     inline val inEarthGravityGs: Double get() = rawValue / GRAVITY_EARTH
 
@@ -57,6 +61,11 @@ value class Acceleration(val rawValue: Double): Comparable<Acceleration>, Flexib
         const val METER_PER_SECOND_SQUARED = 1.0
         const val GRAVITY_EARTH = 9.81
     }
+}
+
+enum class AccelerationUnit(val scale: Double)  {
+    METER_PER_SECOND_SQUARED(Acceleration.METER_PER_SECOND_SQUARED),
+    GRAVITY_EARTH(Acceleration.GRAVITY_EARTH),
 }
 
 class ClosedAccelerationRange(override val start: Acceleration, override val endInclusive: Acceleration): ClosedRange<Acceleration> {

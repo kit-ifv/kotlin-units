@@ -34,6 +34,10 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
 
     //--- Define conversions to "naked" number representations here.
 
+    fun toInt(unit: SquareDurationUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: SquareDurationUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: SquareDurationUnit): Double = rawValue / unit.scale
+
     inline val inSquareSeconds: Double get() = rawValue/SQUARE_SECONDS
     inline val inSquareMinutes: Double get() = rawValue/SQUARE_MINUTES
     inline val inSquareHours: Double get() = rawValue/SQUARE_HOURS
@@ -79,6 +83,12 @@ class OpenSquareDurationRange(override val start: SquareDuration, override val e
     override fun contains(value: SquareDuration): Boolean {
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
+}
+
+enum class SquareDurationUnit(val scale: Double) {
+    SQUARE_SECONDS(SquareDuration.SQUARE_SECONDS),
+    SQUARE_MINUTES(SquareDuration.SQUARE_MINUTES.toDouble()),
+    SQUARE_HOURS(SquareDuration.SQUARE_HOURS.toDouble()),
 }
 
 @OptIn(ExperimentalTypeInference::class)

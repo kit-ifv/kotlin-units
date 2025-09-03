@@ -27,10 +27,11 @@ value class Currency internal constructor(val rawValue: Double): Comparable<Curr
     operator fun rem(other: Currency): Currency = Currency((rawValue % other.rawValue))
     override fun compareTo(other: Currency): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: CurrencyUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: CurrencyUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: CurrencyUnit): Double = rawValue / unit.scale
-    //--- Define conversions to "naked" number representations here.
 
     val inEuros: Double get() = rawValue / EUROS
 

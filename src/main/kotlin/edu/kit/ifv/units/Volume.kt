@@ -28,11 +28,11 @@ value class Volume internal constructor(val rawValue: Double): Comparable<Volume
     operator fun rem(other: Volume): Volume = Volume((rawValue % other.rawValue))
     override fun compareTo(other: Volume): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: VolumeUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: VolumeUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: VolumeUnit):Double = rawValue / unit.scale
-
-    //--- Define conversions to "naked" number representations here.
 
     inline val inLiter: Double get()= rawValue / LITER
     inline val inCubicMeters: Double get() = rawValue / CUBIC_METER

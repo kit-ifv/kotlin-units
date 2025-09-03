@@ -40,11 +40,11 @@ value class Force internal constructor(val rawValue: Double): Comparable<Force>,
     operator fun rangeUntil(other: Force) = OpenEfficiencyRange(this, other)
     override fun compareTo(other: Force): Int = rawValue.compareTo(other.rawValue)
 
+    //--- Define conversions to "naked" number representations here.
+
     fun toInt(unit: EfficiencyUnit): Int = (rawValue / unit.scale).toInt()
     fun toLong(unit: EfficiencyUnit): Long = (rawValue / unit.scale).toLong()
     fun toDouble(unit: EfficiencyUnit): Double = rawValue / unit.scale
-
-    //--- Define conversions to "naked" number representations here.
 
     inline val inNewton: Double get() = rawValue
 

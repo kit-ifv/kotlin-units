@@ -25,6 +25,10 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
 
     //--- Define conversions to "naked" number representations here.
 
+    fun toInt(unit: FrequencyUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: FrequencyUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: FrequencyUnit): Double = rawValue / unit.scale
+
     inline val inHertz: Double get() = rawValue / HERTZ
 
     //--- Define different operations below:
@@ -47,11 +51,14 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     }
 
     companion object {
-
         val MAX = Frequency(Double.MAX_VALUE)
         val ZERO = Frequency(.0)
         const val HERTZ = 1.0
     }
+}
+
+enum class FrequencyUnit(val scale: Double) {
+    HERTZ(Frequency.HERTZ)
 }
 
 class ClosedFrequencyRange(override val start: Frequency, override val endInclusive: Frequency): ClosedRange<Frequency> {
