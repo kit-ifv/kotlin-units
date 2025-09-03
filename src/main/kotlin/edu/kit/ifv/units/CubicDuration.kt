@@ -1,6 +1,7 @@
 @file:Suppress("unused")
 package edu.kit.ifv.units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -55,9 +56,50 @@ value class CubicDuration internal constructor(val rawValue: Double): Comparable
         val ZERO = CubicDuration(.0)
 
         const val CUBIC_SECONDS = 1.0
-        const val CUBIC_MINUTES = 60*60*60
-        const val CUBIC_HOURS = 3600*3600*3600
+        const val CUBIC_MINUTES = 60*60*60.0
+        const val CUBIC_HOURS = 3600*3600*3600.0
     }
+}
+
+fun Long.toCubicDuration(unit: CubicDurationUnit): CubicDuration {
+    return CubicDuration((this * unit.scale).toDouble())
+}
+fun Double.toCubicDuration(unit: CubicDurationUnit): CubicDuration {
+    return CubicDuration(this * unit.scale)
+}
+fun Int.toCubicDuration(unit: CubicDurationUnit): CubicDuration {
+    return CubicDuration((this * unit.scale).toDouble())
+}
+fun Float.toCubicDuration(unit: CubicDurationUnit): CubicDuration {
+    return CubicDuration((this * unit.scale).toDouble())
+}
+
+enum class CubicDurationUnit(val scale: Double) {
+    CUBIC_SECONDS(CubicDuration.CUBIC_SECONDS),
+    CUBIC_MINUTES(CubicDuration.CUBIC_MINUTES),
+    CUBIC_HOURS(CubicDuration.CUBIC_HOURS),
+}
+
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfCubicDuration")
+fun <T> Iterable<T>.sumOf(selector: (T) -> CubicDuration): CubicDuration {
+    var sum = 0.cubicSeconds
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+fun Iterable<CubicDuration>.min() = minBy { it }
+fun Iterable<CubicDuration>.max() = maxBy { it }
+fun Iterable<CubicDuration>.average(): CubicDuration {
+    var sum = 0.cubicSeconds
+    var count = 0
+    for(element in this) {
+        sum += element
+        count++
+    }
+    return sum / count
 }
 
 fun abs(element: CubicDuration) = CubicDuration(element.rawValue.absoluteValue)
