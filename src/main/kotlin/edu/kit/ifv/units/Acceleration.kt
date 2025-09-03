@@ -1,6 +1,7 @@
 @file:Suppress("unused")
 package edu.kit.ifv.units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
 
@@ -68,6 +69,41 @@ class OpenAccelerationRange(override val start: Acceleration, override val endEx
     override fun contains(value: Acceleration): Boolean {
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
+}
+
+fun Long.toAcceleration(): Acceleration {
+    return Acceleration(this.toDouble())
+}
+fun Double.toAcceleration(): Acceleration {
+    return Acceleration(this)
+}
+fun Int.toAcceleration(): Acceleration {
+    return Acceleration(this.toDouble())
+}
+fun Float.toAcceleration(): Acceleration {
+    return Acceleration(this.toDouble())
+}
+
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfAcceleration")
+fun <T> Iterable<T>.sumOf(selector: (T) -> Acceleration): Acceleration {
+    var sum = 0.metersPerSecondSquared
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+fun Iterable<Acceleration>.min() = minBy { it }
+fun Iterable<Acceleration>.max() = maxBy { it }
+fun Iterable<Acceleration>.average(): Acceleration {
+    var sum = 0.metersPerSecondSquared
+    var count = 0
+    for(element in this) {
+        sum += element
+        count++
+    }
+    return sum / count
 }
 
 fun abs(element: Acceleration) = Acceleration(element.rawValue.absoluteValue)
