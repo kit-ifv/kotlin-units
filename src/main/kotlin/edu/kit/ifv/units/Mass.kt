@@ -21,9 +21,7 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> , Fl
     operator fun div(scalar: Long): Mass = Mass((rawValue / scalar))
 
     operator fun rangeTo(other: Mass): ClosedMassRange = ClosedMassRange(this, other)
-
     operator fun rangeUntil(other: Mass) =OpenMassRange(this, other)
-
     operator fun rem(other: Mass): Mass = Mass((rawValue % other.rawValue))
     override fun compareTo(other: Mass): Int = rawValue.compareTo(other.rawValue)
 

@@ -21,10 +21,9 @@ value class Impulse internal constructor(val rawValue: Double) : Comparable<Impu
     operator fun div(scalar: Long): Impulse = Impulse((rawValue / scalar))
 
     operator fun rangeTo(other: Impulse): ClosedImpulseRange = ClosedImpulseRange(this, other)
-
     operator fun rangeUntil(other: Impulse) = OpenImpulseRange(this, other)
     override fun compareTo(other: Impulse): Int = rawValue.compareTo(other.rawValue)
-
+    operator fun rem(other: Impulse): Impulse = Impulse((rawValue % other.rawValue))
 
     //--- Define conversions to "naked" number representations here.
 

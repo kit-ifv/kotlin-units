@@ -34,7 +34,7 @@ This ensures that most basic units remain integer-representable, minimizing floa
 Each unit type supports the following:
 
 - **Arithmetic operators**:
-    - `+`, `-`, `*` (by scalar), `/` (by scalar), `rem` (remainder only defined for units with `Long` backing)
+    - `+`, `-`, `*` (by scalar), `/` (by scalar), `rem`
     - `*` (by other type), `/` (by other type) is defined. So `1.meters/1.seconds == 1.metersPerSecond`. If  is typesafe which results in a unit, defined in this
       library, is type safe. For example `assertIs<Newton>(1.meters_per_second_squared * 1.kilograms)`. Any other
       multiplication or division of two types will result in an `OutOfBoundsUnit` e.g.
@@ -53,7 +53,7 @@ All units offer specialized implementations of `ClosedRange` and `OpenEndRange` 
 Of course generic ranges also work, but they would use boxing, which is overhead we are trying to avoid.
 (Duration is an exception, as Duration is a Kotlin Native Type, which doesn't )
 
-## Conversion To Primitive Types
+## Conversion UnitType $\rightarrow$ Number
 Types can be converted to primitive numbers using `toInt(ReturnScale)`, `toDouble(ReturnScale)`, `toLong(ReturnScale)`
 Or with self-descriptive conversions like `inKilograms`, `inEuros`... (or `asSeconds` for Durations)
 

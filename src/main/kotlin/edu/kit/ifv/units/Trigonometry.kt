@@ -12,6 +12,7 @@ value class Radians(internal val rawValue: Double): Comparable<Radians> {
     operator fun rangeTo(other: Radians): ClosedRadiansRange = ClosedRadiansRange(this, other)
 
     operator fun rangeUntil(other: Radians) = OpenRadiansRange(this, other)
+    operator fun rem(other: Radians): Radians = Radians((rawValue % other.rawValue))
 
     fun toDegrees(): Degrees {
         return Degrees(rawValue * DEGREES)
@@ -77,6 +78,8 @@ value class Degrees(internal val rawValue: Double): Comparable<Degrees> {
     operator fun rangeTo(other: Degrees): ClosedDegreesRange = ClosedDegreesRange(this, other)
 
     operator fun rangeUntil(other: Degrees) = OpenDegreesRange(this, other)
+
+    operator fun rem(other: Degrees): Degrees = Degrees((rawValue % other.rawValue))
 
     fun toRadians(): Radians {
         return Radians(rawValue * RADIANS)

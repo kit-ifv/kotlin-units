@@ -16,6 +16,7 @@ value class Temperature internal constructor(val rawValue: Long) : Comparable<Te
     override fun compareTo(other: Temperature): Int {
         return rawValue.compareTo(other.rawValue)
     }
+    operator fun rem(other: Temperature): Temperature = Temperature((rawValue % other.rawValue))
 
     //--- Define conversions to "naked" number representations here.
 

@@ -82,6 +82,8 @@ class OutOfBoundsUnit(val rawValue: Double, val unit: PhysicsUnit): FlexibleUnit
     override fun div(other: FlexibleUnit): OutOfBoundsUnit {
         return this / other.toOutOfBoundsUnit()
     }
+
+    operator fun rem(other: Energy): Energy = Energy((rawValue % other.rawValue))
 }
 
 

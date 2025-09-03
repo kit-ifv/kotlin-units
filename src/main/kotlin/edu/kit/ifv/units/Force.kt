@@ -39,6 +39,7 @@ value class Force internal constructor(val rawValue: Double): Comparable<Force>,
 
     operator fun rangeUntil(other: Force) = OpenEfficiencyRange(this, other)
     override fun compareTo(other: Force): Int = rawValue.compareTo(other.rawValue)
+    operator fun rem(other: Force): Force = Force((rawValue % other.rawValue))
 
     //--- Define conversions to "naked" number representations here.
 
