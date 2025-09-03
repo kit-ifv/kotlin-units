@@ -60,7 +60,24 @@ class DurationWrapper(val duration: Duration): FlexibleUnit, Comparable<Duration
     override fun compareTo(other: DurationWrapper): Int {
         return this.duration.compareTo(other.duration)
     }
+
+    operator fun DurationWrapper.rangeTo(other: DurationWrapper): ClosedDurationWrapperRange = ClosedDurationWrapperRange(this, other)
+
+    operator fun DurationWrapper.rangeUntil(other: DurationWrapper) = OpenDurationWrapperRange(this, other)
 }
+
+class ClosedDurationWrapperRange(override val start: DurationWrapper, override val endInclusive: DurationWrapper): ClosedRange<DurationWrapper> {
+    override fun contains(value: DurationWrapper): Boolean {
+        return value.asSeconds in start.asSeconds..endInclusive.asSeconds
+    }
+}
+
+class OpenDurationWrapperRange(override val start: DurationWrapper, override val endExclusive: DurationWrapper): OpenEndRange<DurationWrapper> {
+    override fun contains(value: DurationWrapper): Boolean {
+        return value.asSeconds in start.asSeconds..<endExclusive.asSeconds
+    }
+}
+
 
 //--- Define different operations below:
 
@@ -135,3 +152,20 @@ fun DurationWrapper.coerceAtMost(max: DurationWrapper): DurationWrapper {
 }
 
 fun abs(element: DurationWrapper) = DurationWrapper(element.duration.absoluteValue)
+
+
+operator fun Duration.rangeTo(other: Duration): ClosedDurationRange = ClosedDurationRange(this, other)
+
+operator fun Duration.rangeUntil(other: Duration) = OpenDurationRange(this, other)
+
+class ClosedDurationRange(override val start: Duration, override val endInclusive: Duration): ClosedRange<Duration> {
+    override fun contains(value: Duration): Boolean {
+        return value.asSeconds in start.asSeconds..endInclusive.asSeconds
+    }
+}
+
+class OpenDurationRange(override val start: Duration, override val endExclusive: Duration): OpenEndRange<Duration> {
+    override fun contains(value: Duration): Boolean {
+        return value.asSeconds in start.asSeconds..<endExclusive.asSeconds
+    }
+}
