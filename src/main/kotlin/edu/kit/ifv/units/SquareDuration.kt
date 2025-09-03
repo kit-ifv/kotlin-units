@@ -1,6 +1,7 @@
 @file:Suppress("unused")
 package edu.kit.ifv.units
 
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -24,6 +25,9 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
     operator fun div(scalar: Int): SquareDuration =  SquareDuration((rawValue / scalar))
     operator fun div(scalar: Long): SquareDuration = SquareDuration((rawValue / scalar))
 
+    operator fun rangeTo(other: SquareDuration): ClosedSquareDurationRange = ClosedSquareDurationRange(this, other)
+
+    operator fun rangeUntil(other: SquareDuration) = OpenSquareDurationRange(this, other)
 
     operator fun rem(other: SquareDuration): SquareDuration = SquareDuration((rawValue % other.rawValue))
     override fun compareTo(other: SquareDuration): Int = rawValue.compareTo(other.rawValue)
@@ -63,6 +67,40 @@ value class SquareDuration internal constructor(val rawValue: Double): Comparabl
         const val SQUARE_MINUTES = 60*60
         const val SQUARE_HOURS = 3600*3600
     }
+}
+
+class ClosedSquareDurationRange(override val start: SquareDuration, override val endInclusive: SquareDuration): ClosedRange<SquareDuration> {
+    override fun contains(value: SquareDuration): Boolean {
+        return value.rawValue in start.rawValue..endInclusive.rawValue
+    }
+}
+
+class OpenSquareDurationRange(override val start: SquareDuration, override val endExclusive: SquareDuration): OpenEndRange<SquareDuration> {
+    override fun contains(value: SquareDuration): Boolean {
+        return value.rawValue in start.rawValue..<endExclusive.rawValue
+    }
+}
+
+@OptIn(ExperimentalTypeInference::class)
+@OverloadResolutionByLambdaReturnType
+@JvmName("sumOfSquareDuration")
+fun <T> Iterable<T>.sumOf(selector: (T) -> SquareDuration): SquareDuration {
+    var sum = 0.0
+    for (element in this) {
+        sum += selector(element).rawValue
+    }
+    return SquareDuration(sum)
+}
+fun Iterable<SquareDuration>.min() = minBy { it }
+fun Iterable<SquareDuration>.max() = maxBy { it }
+fun Iterable<SquareDuration>.average(): SquareDuration {
+    var sum = 0.0
+    var count = 0
+    for(element in this) {
+        sum += element.rawValue
+        count++
+    }
+    return SquareDuration(sum / count)
 }
 
 

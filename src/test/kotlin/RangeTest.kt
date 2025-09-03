@@ -241,7 +241,7 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
-        assert(b in a..b) // rangeTo and rangeUntil operator
+        assert(b in a..b) // duration is a kotlin own type and does box. Can't really do much about it
         assertFalse(b in a..<b)
     }
 
