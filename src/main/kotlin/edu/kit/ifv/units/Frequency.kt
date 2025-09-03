@@ -19,6 +19,10 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     operator fun div(scalar: Long): Frequency = Frequency((rawValue / scalar))
     override fun compareTo(other: Frequency): Int = rawValue.compareTo(other.rawValue)
 
+    operator fun rangeTo(other: Frequency): ClosedFrequencyRange = ClosedFrequencyRange(this, other)
+
+    operator fun rangeUntil(other: Frequency) = OpenFrequencyRange(this, other)
+
     //--- Define conversions to "naked" number representations here.
 
     inline val inHertz: Double get() = rawValue / HERTZ
@@ -61,6 +65,7 @@ class OpenFrequencyRange(override val start: Frequency, override val endExclusiv
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
+
 @OptIn(ExperimentalTypeInference::class)
 @OverloadResolutionByLambdaReturnType
 @JvmName("sumOfFrequency")

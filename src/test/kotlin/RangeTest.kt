@@ -12,6 +12,7 @@ import edu.kit.ifv.units.kilowatthours
 import edu.kit.ifv.units.kmh
 import edu.kit.ifv.units.max
 import edu.kit.ifv.units.meters
+import edu.kit.ifv.units.metersPerSecond
 import edu.kit.ifv.units.min
 import edu.kit.ifv.units.newton
 import edu.kit.ifv.units.newtonSeconds
@@ -19,7 +20,9 @@ import edu.kit.ifv.units.radians
 import edu.kit.ifv.units.squareSeconds
 import edu.kit.ifv.units.wrap
 import org.junit.jupiter.api.Test
+import kotlin.assert
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -40,6 +43,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -56,6 +61,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -72,6 +79,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -88,6 +97,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -104,6 +115,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -120,6 +133,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -136,6 +151,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -152,6 +169,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -168,6 +187,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -184,6 +205,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -200,6 +223,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -216,6 +241,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -232,6 +259,9 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
+
     }
 
 
@@ -249,6 +279,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -265,6 +297,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -281,6 +315,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -297,6 +333,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -313,6 +351,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -329,5 +369,7 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 }
