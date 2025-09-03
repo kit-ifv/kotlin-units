@@ -1,10 +1,10 @@
-# 📦 Units Kotlin Package
+# Units Kotlin Package
 
 A Kotlin software package that introduces **type-safe representations for physical units** by wrapping primitive numeric types like `Long` and `Double`. This approach eliminates the need for manual conversion and mitigates rounding errors for most fundamental unit types.
 
 ---
 
-## 🧠 Overview
+## Overview
 
 This package allows developers to perform operations on physical units (e.g., distance, mass, temperature) using intuitive and type-safe syntax. Internally, these unit types are backed by primitive types for performance and compatibility.
 
@@ -15,7 +15,7 @@ This package allows developers to perform operations on physical units (e.g., di
 
 ---
 
-## 📐 Base Units & Scaling
+## Base Units & Scaling
 
 All simple units use **micro-scale representations** to maximize precision:
 
@@ -29,7 +29,7 @@ This ensures that most basic units remain integer-representable, minimizing floa
 
 ---
 
-## 🔁 Supported Operations
+## Supported Operations
 
 Each unit type supports the following:
 
@@ -45,7 +45,7 @@ Each unit type supports the following:
     - `abs(unit: UnitType)`
     - Kotlin extensions: `.sumOf()`, `.min()`, `.max()`, `.average()`
 
-### 🔢 Efficient Range Support
+### Efficient Range Support
 
 All units offer specialized implementations of `ClosedRange` and `OpenEndRange` tailored to their respective types.  
 This design avoids boxing overhead that would occur with generic `ClosedRange<T>` use. For example, the `Distance` type defines `rangeTo` and `rangeUntil` operators that return concrete range classes (`ClosedDistanceRange`, `OpenDistanceRange`), allowing highly efficient `in` checks on the raw numeric value at the JVM level.
@@ -78,11 +78,11 @@ class OpenDistanceRange(
 }
 ```
 
-## 🔧 Extension Properties
+## Extension Properties
 
 Each unit provides intuitive extensions for conversion and computation:
 
-### 📏 Distance
+### Distance
 
 | Property                | Type    | Description                                |
 |-------------------------|---------|--------------------------------------------|
@@ -93,34 +93,34 @@ Each unit provides intuitive extensions for conversion and computation:
 | `inMeters`              | `Double`| Direct double conversion                   |
 | `inKilometers`          | `Double`| Direct double conversion                   |
 
-### ⚖️ Mass
+### Mass
 
 | Property     | Type     | Description                                  |
 |--------------|----------|----------------------------------------------|
 | `inKilograms`| `Double` | Returns the raw kilogram representation      |
 
-### 🌡️ Temperature
+### Temperature
 
 - Temperature is internally stored in microkelvin (`Long`).
 - No direct conversion properties are currently available.
 
-### 📐 Area
+### Area
 
 - No direct number conversion properties.
 
-### 💶 Currency
+### Currency
 
 | Property     | Type     | Description       |
 |--------------|----------|-------------------|
 | `inEuros`    | `Double` | Returns a double  |
 
-### ⚡ Efficiency
+### Efficiency
 
 - No numeric conversion properties.
 
 ---
 
-## 🏗️ Construction Extensions
+## Construction Extensions
 
 Units can be constructed directly from numeric primitives using intuitive Kotlin extensions.
 
