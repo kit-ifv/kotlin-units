@@ -1,4 +1,5 @@
-package units
+@file:Suppress("unused")
+package edu.kit.ifv.units
 
 import kotlin.time.Duration
 
@@ -17,11 +18,26 @@ operator fun Long.div(duration: Duration) = Frequency(this / duration.asSeconds)
 operator fun Float.div(duration: Duration) = Frequency(this / duration.asSeconds)
 operator fun Double.div(duration: Duration) = Frequency(this / duration.asSeconds)
 
+val Int.Hz get()= Frequency(this * Frequency.HERTZ)
+val Long.Hz get() = Frequency(this * Frequency.HERTZ)
+val Float.Hz get() = Frequency(this * Frequency.HERTZ)
+val Double.Hz get() = Frequency(this * Frequency.HERTZ)
+
+val Int.hertz get()= Frequency(this * Frequency.HERTZ)
+val Long.hertz get() = Frequency(this * Frequency.HERTZ)
+val Float.hertz get() = Frequency(this * Frequency.HERTZ)
+val Double.hertz get() = Frequency(this * Frequency.HERTZ)
+
 // --- Area
 operator fun Int.times(area: Area): Area = area * this
 operator fun Long.times(area: Area): Area = area * this
 operator fun Float.times(area: Area): Area = area * this
 operator fun Double.times(area: Area): Area = area * this
+
+val Int.squareMeters get()= Area(this * Area.SQUARE_METERS)
+val Long.squareMeters get() = Area(this * Area.SQUARE_METERS)
+val Float.squareMeters get() = Area(this * Area.SQUARE_METERS)
+val Double.squareMeters get() = Area(this * Area.SQUARE_METERS)
 
 // --- Currency
 operator fun Int.times(currency: Currency): Currency = currency * this
@@ -56,11 +72,16 @@ val Float.kilometers get()=  Distance(this * Distance.KILOMETERS)
 val Double.kilometers get()= Distance(this * Distance.KILOMETERS)
 
 
-// --- Efficiency
-operator fun Int.times(newton: Newton): Newton = newton * this
-operator fun Long.times(newton: Newton): Newton = newton * this
-operator fun Float.times(newton: Newton): Newton = newton * this
-operator fun Double.times(newton: Newton): Newton = newton * this
+// --- Efficiency/Force
+operator fun Int.times(force: Force): Force = force * this
+operator fun Long.times(force: Force): Force = force * this
+operator fun Float.times(force: Force): Force = force * this
+operator fun Double.times(force: Force): Force = force * this
+
+val Int.newton     get()= Force(this.toDouble())
+val Long.newton    get()= Force(this.toDouble())
+val Float.newton   get()= Force(this.toDouble())
+val Double.newton  get()= Force(this)
 
 // --- Energy
 operator fun Int.times(energy: Energy): Energy = energy * this
@@ -89,15 +110,15 @@ operator fun Long.times(mass: Mass): Mass = mass * this
 operator fun Float.times(mass: Mass): Mass = mass * this
 operator fun Double.times(mass: Mass): Mass = mass * this
 
-val Int.grams get()= this.toMass(MassUnit.GRAM)
-val Long.grams get()= this.toMass(MassUnit.GRAM)
-val Float.grams get()= this.toMass(MassUnit.GRAM)
-val Double.grams get()= this.toMass(MassUnit.GRAM)
+val Int.grams get()= Mass(this * Mass.GRAM)
+val Long.grams get()= Mass(this * Mass.GRAM)
+val Float.grams get()= Mass((this * Mass.GRAM).toLong())
+val Double.grams get()= Mass((this * Mass.GRAM).toLong())
 
-val Int.kilograms get()= this.toMass(MassUnit.KILOGRAM)
-val Long.kilograms get()= this.toMass(MassUnit.KILOGRAM)
-val Float.kilograms get()= this.toMass(MassUnit.KILOGRAM)
-val Double.kilograms get()= this.toMass(MassUnit.KILOGRAM)
+val Int.kilograms get()= Mass(this * Mass.KILOGRAM)
+val Long.kilograms get()= Mass(this * Mass.KILOGRAM)
+val Float.kilograms get()= Mass((this * Mass.KILOGRAM).toLong())
+val Double.kilograms get()= Mass((this * Mass.KILOGRAM).toLong())
 
 // --- Power
 operator fun Int.times(power: Power): Power = power * this
@@ -105,10 +126,10 @@ operator fun Long.times(power: Power): Power = power * this
 operator fun Float.times(power: Power): Power = power * this
 operator fun Double.times(power: Power): Power = power * this
 
-val Int.watts get()= this.toPower(PowerUnit.WATTS)
-val Long.watts get()= this.toPower(PowerUnit.WATTS)
-val Float.watts get()= this.toPower(PowerUnit.WATTS)
-val Double.watts get()= this.toPower(PowerUnit.WATTS)
+val Int.watts get()= Power((this * Power.WATTS).toDouble())
+val Long.watts get()= Power((this * Power.WATTS).toDouble())
+val Float.watts get()= Power((this * Power.WATTS).toDouble())
+val Double.watts get()= Power((this * Power.WATTS))
 
 // --- Speed
 operator fun Int.times(speed: Speed): Speed = speed * this
@@ -120,6 +141,34 @@ val Int.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Long.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Float.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
 val Double.kmh get()= Speed(this * Speed.KILOMETER_PER_HOUR)
+
+val Int.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+val Long.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+val Float.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+val Double.metersPerSecond get()= Speed(this * Speed.METER_PER_SECOND)
+
+// --- Acceleration
+operator fun Int.times(acceleration: Acceleration): Acceleration = acceleration * this
+operator fun Long.times(acceleration: Acceleration): Acceleration = acceleration * this
+operator fun Float.times(acceleration: Acceleration): Acceleration = acceleration * this
+operator fun Double.times(acceleration: Acceleration): Acceleration = acceleration * this
+
+val Int.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Long.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Float.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+val Double.metersPerSecondSquared get()= Acceleration(this * Acceleration.METER_PER_SECOND_SQUARED)
+
+// --- Impulse
+operator fun Int.times(impulse: Impulse): Impulse = impulse * this
+operator fun Long.times(impulse: Impulse): Impulse = impulse * this
+operator fun Float.times(impulse: Impulse): Impulse = impulse * this
+operator fun Double.times(impulse: Impulse): Impulse = impulse * this
+
+val Int.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+val Long.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+val Float.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+val Double.newtonSeconds get()= Impulse(this * Impulse.NEWTON_SECONDS)
+
 
 // --- Temperature
 val Int.celsius get()= this.toTemperature(TemperatureUnit.CELSIUS)
@@ -142,3 +191,25 @@ val Int.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Long.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Float.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
 val Double.cubicMeters: Volume get() = Volume(this * Volume.CUBIC_METER)
+
+// -- SquareDuration
+operator fun Int.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+operator fun Long.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+operator fun Float.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+operator fun Double.times(squareDuration: SquareDuration): SquareDuration = squareDuration * this
+
+val Int.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Long.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Float.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+val Double.squareSeconds: SquareDuration get() = SquareDuration(this * SquareDuration.SQUARE_SECONDS)
+
+// -- Cubic Duration
+operator fun Int.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+operator fun Long.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+operator fun Float.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+operator fun Double.times(cubicDuration: CubicDuration): CubicDuration = cubicDuration * this
+
+val Int.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Long.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Float.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)
+val Double.cubicSeconds: CubicDuration get() = CubicDuration(this * CubicDuration.CUBIC_SECONDS)

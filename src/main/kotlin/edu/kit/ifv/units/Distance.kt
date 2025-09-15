@@ -1,4 +1,5 @@
-package units
+@file:Suppress("unused")
+package edu.kit.ifv.units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
@@ -6,7 +7,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @JvmInline
-value class Distance internal constructor(val rawValue: Long) : Comparable<Distance> {
+value class Distance internal constructor(val rawValue: Long) : Comparable<Distance>, FlexibleUnit {
     internal constructor(doubleValue: Double): this(doubleValue.toLong())
     internal constructor(floatValue: Float): this(floatValue.toLong())
 
@@ -30,19 +31,11 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
     operator fun rem(other: Distance): Distance = Distance((rawValue % other.rawValue))
     override fun compareTo(other: Distance): Int = rawValue.compareTo(other.rawValue)
 
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toInt(unit: DistanceUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toLong(unit: DistanceUnit): Long = rawValue / unit.scale
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toDouble(unit: DistanceUnit):Double = rawValue.toDouble() / unit.scale
     //--- Define conversions to "naked" number representations here.
+
+    fun toInt(unit: DistanceUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: DistanceUnit): Long = rawValue / unit.scale
+    fun toDouble(unit: DistanceUnit):Double = rawValue.toDouble() / unit.scale
 
     inline val inWholeMillimeters: Long get() = (rawValue / MILLIMETERS)
     inline val inWholeCentimeters: Long get() = (rawValue / CENTIMETERS)
@@ -53,18 +46,23 @@ value class Distance internal constructor(val rawValue: Long) : Comparable<Dista
     inline val inKilometers: Double get() = rawValue.toDouble() / KILOMETERS
 
     //--- Define different operations below:
-    operator fun times(distance: Distance): Area {
-        return Area(inMeters * distance.inMeters)
-    }
-    operator fun div(distance: Distance): Double {
-        return rawValue.toDouble() / distance.rawValue
-    }
-    operator fun div(duration: Duration): Speed {
-        return Speed(inMeters / duration.asSeconds)
-    }
+    operator fun times(distance: Distance): Area =  Area(inMeters * distance.inMeters)
+    operator fun times(area: Area): Volume = (inMeters * area.inSquareMeters).cubicMeters
+    operator fun times(frequency: Frequency): Speed = (inMeters * frequency.inHertz).metersPerSecond
+    operator fun times(force: Force): Energy = (inMeters * force.inNewton).joule
 
-    operator fun div(speed: Speed): Duration {
-        return (inMeters / speed.rawValue).seconds
+    operator fun div(distance: Distance): Double =  rawValue.toDouble() / distance.rawValue
+    operator fun div(duration: Duration): Speed = Speed(inMeters / duration.asSeconds)
+    operator fun div(speed: Speed): Duration = (inMeters / speed.rawValue).seconds
+    operator fun div(squareDur: SquareDuration): Acceleration
+        = (inMeters / squareDur.inSquareSeconds).metersPerSecondSquared
+    operator fun div(acceleration: Acceleration): SquareDuration
+        = (inMeters / acceleration.inMetersPerSecondsSquared).squareSeconds
+
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inMeters,
+            PhysicsUnit(1, 0, 0))
     }
 
     companion object {
@@ -144,7 +142,7 @@ fun Iterable<Distance>.average(): Distance {
 }
 
 fun abs(element: Distance) = Distance(element.rawValue.absoluteValue)
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
+
 enum class DistanceUnit(val scale: Long, val symbol: String) {
     MICROMETERS(Distance.MICROMETERS, "µm"),
     MILLIMETERS(Distance.MILLIMETERS, "mm"),

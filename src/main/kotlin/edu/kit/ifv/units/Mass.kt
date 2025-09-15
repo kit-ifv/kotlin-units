@@ -1,10 +1,11 @@
-package units
+@file:Suppress("unused")
+package edu.kit.ifv.units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 
 @JvmInline
-value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
+value class Mass internal constructor(val rawValue: Long): Comparable<Mass> , FlexibleUnit {
 
     operator fun unaryMinus(): Mass = Mass(-rawValue)
     operator fun plus(other: Mass) = Mass(rawValue + other.rawValue)
@@ -20,30 +21,28 @@ value class Mass internal constructor(val rawValue: Long): Comparable<Mass> {
     operator fun div(scalar: Long): Mass = Mass((rawValue / scalar))
 
     operator fun rangeTo(other: Mass): ClosedMassRange = ClosedMassRange(this, other)
-
     operator fun rangeUntil(other: Mass) =OpenMassRange(this, other)
-
     operator fun rem(other: Mass): Mass = Mass((rawValue % other.rawValue))
     override fun compareTo(other: Mass): Int = rawValue.compareTo(other.rawValue)
 
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toInt(unit: MassUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toLong(unit: MassUnit): Long = rawValue / unit.scale
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toDouble(unit: MassUnit): Double = rawValue.toDouble() / unit.scale
     //--- Define conversions to "naked" number representations here.
+
+    fun toInt(unit: MassUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: MassUnit): Long = rawValue / unit.scale
+    fun toDouble(unit: MassUnit): Double = rawValue.toDouble() / unit.scale
 
     val inKilograms: Double get() = rawValue.toDouble() / KILOGRAM
 
     //--- Define different operations below:
     operator fun div(other: Mass): Double = rawValue.toDouble() / other.rawValue
+    operator fun times(speed:Speed): Impulse = (inKilograms * speed.inMetersPerSecond).newtonSeconds
+    operator fun times(acceleration: Acceleration): Force
+        = (inKilograms * acceleration.inMetersPerSecondsSquared).newton
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inKilograms, PhysicsUnit(0,0,1))
+    }
+
     companion object {
 
         val MAX = Mass(Long.MAX_VALUE)
@@ -108,7 +107,6 @@ fun Iterable<Mass>.average(): Mass {
 }
 fun abs(element: Mass) = Mass(element.rawValue.absoluteValue)
 
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class MassUnit(val scale: Long) {
     MICROGRAM(Mass.MICROGRAM),
     MILLIGRAM(Mass.MILLIGRAM),

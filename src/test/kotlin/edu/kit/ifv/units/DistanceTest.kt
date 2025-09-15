@@ -1,12 +1,7 @@
-import units.Distance
-import units.average
-import units.kilometers
-import units.meters
-import units.sumOf
-import units.times
+package edu.kit.ifv.units
+
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.time.Duration.Companion.minutes
 
 
 class DistanceTest {

@@ -1,10 +1,13 @@
-package units
+@file:Suppress("unused")
+package edu.kit.ifv.units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @JvmInline
-value class Frequency internal constructor(val rawValue: Double) : Comparable<Frequency> {
+value class Frequency internal constructor(val rawValue: Double) : Comparable<Frequency>, FlexibleUnit {
     operator fun times(scalar: Double) = Frequency(rawValue * scalar)
     operator fun times(scalar: Float) = Frequency(rawValue * scalar)
     operator fun times(scalar: Int) = Frequency((rawValue * scalar))
@@ -14,20 +17,48 @@ value class Frequency internal constructor(val rawValue: Double) : Comparable<Fr
     operator fun div(scalar: Float): Frequency = Frequency(rawValue / scalar)
     operator fun div(scalar: Int): Frequency =  Frequency((rawValue / scalar))
     operator fun div(scalar: Long): Frequency = Frequency((rawValue / scalar))
+
     override fun compareTo(other: Frequency): Int = rawValue.compareTo(other.rawValue)
+    operator fun rangeTo(other: Frequency): ClosedFrequencyRange = ClosedFrequencyRange(this, other)
+    operator fun rangeUntil(other: Frequency) = OpenFrequencyRange(this, other)
+    operator fun rem(other: Frequency): Frequency = Frequency((rawValue % other.rawValue))
 
     //--- Define conversions to "naked" number representations here.
 
+    fun toInt(unit: FrequencyUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: FrequencyUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: FrequencyUnit): Double = rawValue / unit.scale
+
+    inline val inHertz: Double get() = rawValue / HERTZ
 
     //--- Define different operations below:
-    operator fun div(other: Frequency): Double = rawValue / other.rawValue
     operator fun times(other: Distance): Speed = Speed(rawValue * other.inMeters)
-    companion object {
+    operator fun times(squareDuration: SquareDuration): Duration = (inHertz * squareDuration.inSquareSeconds).seconds
+    operator fun times(cubicDuration: CubicDuration): SquareDuration
+        = (inHertz * cubicDuration.inCubicSeconds).squareSeconds
+    operator fun times(energy: Energy): Power
+        = (inHertz * energy.inJoule).watts
+    operator fun times(impulse: Impulse): Force
+        = (inHertz * impulse.inNewtonSeconds).newton
+    operator fun times(speed: Speed): Acceleration
+        = (inHertz * speed.inMetersPerSecond).metersPerSecondSquared
 
+    operator fun div(other: Frequency): Double = rawValue / other.rawValue
+
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inHertz, PhysicsUnit(0,-1,0))
+    }
+
+    companion object {
         val MAX = Frequency(Double.MAX_VALUE)
         val ZERO = Frequency(.0)
         const val HERTZ = 1.0
     }
+}
+
+enum class FrequencyUnit(val scale: Double) {
+    HERTZ(Frequency.HERTZ)
 }
 
 class ClosedFrequencyRange(override val start: Frequency, override val endInclusive: Frequency): ClosedRange<Frequency> {
@@ -41,6 +72,7 @@ class OpenFrequencyRange(override val start: Frequency, override val endExclusiv
         return value.rawValue in start.rawValue..<endExclusive.rawValue
     }
 }
+
 @OptIn(ExperimentalTypeInference::class)
 @OverloadResolutionByLambdaReturnType
 @JvmName("sumOfFrequency")
@@ -62,6 +94,7 @@ fun Iterable<Frequency>.average(): Frequency {
     }
     return Frequency(sum / count)
 }
+
 fun abs(element: Frequency) = Frequency(element.rawValue.absoluteValue)
 
 fun min(a: Frequency, b: Frequency): Frequency {

@@ -1,6 +1,4 @@
-
-import units.kmh
-import units.meters
+package edu.kit.ifv.units
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.minutes

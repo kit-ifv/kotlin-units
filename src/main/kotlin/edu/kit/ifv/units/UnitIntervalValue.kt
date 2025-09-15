@@ -1,4 +1,5 @@
-package units
+@file:Suppress("unused")
+package edu.kit.ifv.units
 
 /**
  * A value class representing a value in bounds of the unit interval [0, 1]

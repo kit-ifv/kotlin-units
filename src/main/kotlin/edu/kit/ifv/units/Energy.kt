@@ -1,12 +1,14 @@
-package units
+@file:Suppress("unused")
+package edu.kit.ifv.units
 
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.math.absoluteValue
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 
 @JvmInline
-value class Energy internal constructor(val rawValue: Double): Comparable<Energy> {
+value class Energy internal constructor(val rawValue: Double): Comparable<Energy>, FlexibleUnit {
 
     operator fun unaryMinus(): Energy = Energy(-rawValue)
     operator fun plus(other: Energy) = Energy(rawValue + other.rawValue)
@@ -28,27 +30,30 @@ value class Energy internal constructor(val rawValue: Double): Comparable<Energy
     operator fun rem(other: Energy): Energy = Energy((rawValue % other.rawValue))
     override fun compareTo(other: Energy): Int = rawValue.compareTo(other.rawValue)
 
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toInt(unit: EnergyUnit): Int = (rawValue / unit.scale).toInt()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toLong(unit: EnergyUnit): Long = (rawValue / unit.scale).toLong()
-    @Deprecated("Conversions via .toNumber(unit) should no longer be used, if you require a type add it to the library ",
-        ReplaceWith("use Unit.as/inXXX for direct conversion")
-    )
-    fun toDouble(unit: EnergyUnit): Double = rawValue / unit.scale
     //--- Define conversions to "naked" number representations here.
 
+    fun toInt(unit: EnergyUnit): Int = (rawValue / unit.scale).toInt()
+    fun toLong(unit: EnergyUnit): Long = (rawValue / unit.scale).toLong()
+    fun toDouble(unit: EnergyUnit): Double = rawValue / unit.scale
+
+    inline val inJoule: Double get() = rawValue / JOULE
+    inline val inKiloJoule: Double get() = rawValue / KILOJOULE
+    inline val inKiloWattHours: Double get() = rawValue / KILOWATTHOUR
 
     //--- Define different operations below:
-    operator fun div(other: Energy): Double = rawValue / other.rawValue
-    operator fun div(distance: Distance): Newton = Newton(rawValue / distance.inMeters)
-    operator fun div(duration: Duration): Power = Power(rawValue / duration.asSeconds)
+    operator fun times(frequency: Frequency): Power = (inJoule * frequency.inHertz).watts
 
-    operator fun div(newton: Newton): Distance = (rawValue / newton.rawValue).meters
+    operator fun div(other: Energy): Double = rawValue / other.rawValue
+    operator fun div(distance: Distance): Force = Force(rawValue / distance.inMeters)
+    operator fun div(speed: Speed): Impulse = (inJoule / speed.inMetersPerSecond).newtonSeconds
+    operator fun div(duration: Duration): Power = Power(rawValue / duration.asSeconds)
+    operator fun div(force: Force): Distance = (rawValue / force.rawValue).meters
+    operator fun div(impulse: Impulse): Speed = (inJoule / impulse.inNewtonSeconds).metersPerSecond
+    operator fun div(power: Power): Duration = (inJoule / power.inWatts).seconds
+
+    override fun toOutOfBoundsUnit(): OutOfBoundsUnit {
+        return OutOfBoundsUnit(inJoule, PhysicsUnit(2,-2,1))
+    }
 
     companion object {
         val MAX = Energy(Double.MAX_VALUE)
@@ -126,7 +131,6 @@ fun Iterable<Energy>.average(): Energy {
 
 fun abs(element: Energy) = Energy(element.rawValue.absoluteValue)
 
-@Deprecated("Enum scale values should not be used, rather they should be defined as Unit.companion.ConstVals")
 enum class EnergyUnit(val scale: Double) {
     JOULE(Energy.JOULE),
     KILOJOULE(Energy.KILOJOULE),

@@ -1,24 +1,28 @@
+import edu.kit.ifv.units.Acceleration
+import edu.kit.ifv.units.Frequency
+import edu.kit.ifv.units.Mass
+import edu.kit.ifv.units.Power
+import edu.kit.ifv.units.Temperature
+import edu.kit.ifv.units.cubicMeters
+import edu.kit.ifv.units.cubicSeconds
+import edu.kit.ifv.units.degrees
+import edu.kit.ifv.units.euros
+import edu.kit.ifv.units.kilograms
+import edu.kit.ifv.units.kilowatthours
+import edu.kit.ifv.units.kmh
+import edu.kit.ifv.units.max
+import edu.kit.ifv.units.meters
+import edu.kit.ifv.units.metersPerSecond
+import edu.kit.ifv.units.min
+import edu.kit.ifv.units.newton
+import edu.kit.ifv.units.newtonSeconds
+import edu.kit.ifv.units.radians
+import edu.kit.ifv.units.squareSeconds
+import edu.kit.ifv.units.wrap
 import org.junit.jupiter.api.Test
-import units.Acceleration
-import units.Frequency
-import units.Mass
-import units.Newton
-import units.Power
-import units.Temperature
-import units.coerceAtLeast
-import units.coerceAtMost
-import units.coerceIn
-import units.cubicMeters
-import units.degrees
-import units.euros
-import units.kilograms
-import units.kilowatthours
-import units.kmh
-import units.max
-import units.meters
-import units.min
-import units.radians
+import kotlin.assert
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -39,6 +43,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -55,6 +61,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -71,13 +79,15 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
-    fun newtonTest() {
-        val a = Newton(0.0)
-        val b = Newton(2.0)
-        val c = Newton(Double.MAX_VALUE)
+    fun impulseTest() {
+        val a = 0.0.newtonSeconds
+        val b = 2.0.newtonSeconds
+        val c = Double.MAX_VALUE.newtonSeconds
 
         assertEquals(c, max(c,b))
         assertEquals(a, min(a,b))
@@ -87,6 +97,26 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
+    }
+
+    @Test
+    fun forceTest() {
+        val a = 0.0.newton
+        val b = 2.0.newton
+        val c = Double.MAX_VALUE.newton
+
+        assertEquals(c, max(c,b))
+        assertEquals(a, min(a,b))
+        assertEquals(b, a.coerceIn(b,c))
+        assertEquals(b, c.coerceIn(a, b))
+        assertEquals(b, b.coerceIn(a,c))
+        assertEquals(c, c.coerceIn(a,c))
+        assertEquals(c, a.coerceAtLeast(c))
+        assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -103,6 +133,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -119,6 +151,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -135,6 +169,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -151,6 +187,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -167,6 +205,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -183,6 +223,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -199,6 +241,64 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // duration is a kotlin own type and does box. Can't really do much about it
+        assertFalse(b in a..<b)
+    }
+
+    @Test
+    fun durationWrapperTest() {
+        val a = 5.seconds.wrap
+        val b = 1000000.minutes.wrap
+        val c = 100000000.hours.wrap
+
+        assertEquals(c, max(c,b))
+        assertEquals(a, min(a,b))
+        assertEquals(b, a.coerceIn(b,c))
+        assertEquals(b, c.coerceIn(a, b))
+        assertEquals(b, b.coerceIn(a,c))
+        assertEquals(c, c.coerceIn(a,c))
+        assertEquals(c, a.coerceAtLeast(c))
+        assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
+
+    }
+
+
+    @Test
+    fun squareDurationTest() {
+        val a = 5.squareSeconds
+        val b = 1000000.squareSeconds
+        val c = 100000000.squareSeconds
+
+        assertEquals(c, max(c,b))
+        assertEquals(a, min(a,b))
+        assertEquals(b, a.coerceIn(b,c))
+        assertEquals(b, c.coerceIn(a, b))
+        assertEquals(b, b.coerceIn(a,c))
+        assertEquals(c, c.coerceIn(a,c))
+        assertEquals(c, a.coerceAtLeast(c))
+        assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
+    }
+
+    @Test
+    fun cubicDurationTest() {
+        val a = 5.cubicSeconds
+        val b = 1000000.cubicSeconds
+        val c = 100000000.cubicSeconds
+
+        assertEquals(c, max(c,b))
+        assertEquals(a, min(a,b))
+        assertEquals(b, a.coerceIn(b,c))
+        assertEquals(b, c.coerceIn(a, b))
+        assertEquals(b, b.coerceIn(a,c))
+        assertEquals(c, c.coerceIn(a,c))
+        assertEquals(c, a.coerceAtLeast(c))
+        assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -215,6 +315,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -231,6 +333,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -247,6 +351,8 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 
     @Test
@@ -263,5 +369,7 @@ class RangeTest {
         assertEquals(c, c.coerceIn(a,c))
         assertEquals(c, a.coerceAtLeast(c))
         assertEquals(b, c.coerceAtMost(b))
+        assert(b in a..b) // rangeTo and rangeUntil operator
+        assertFalse(b in a..<b)
     }
 }

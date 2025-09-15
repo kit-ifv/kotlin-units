@@ -1,6 +1,6 @@
+package edu.kit.ifv.units
+
 import org.junit.jupiter.api.Test
-import units.cubicMeters
-import units.meters
 import kotlin.test.assertEquals
 
 class VolumeTest {
