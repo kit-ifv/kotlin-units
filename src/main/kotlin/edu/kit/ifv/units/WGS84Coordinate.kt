@@ -12,28 +12,36 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
 
-interface Coordinate {
-    val latitudeRadians: Radians
+interface KCoordinate {
+    val x: Double
+    val y: Double
+    fun distance(other: KCoordinate): Distance {
+
+        return sqrt(x * other.x + y * other.y).meters
+    }
+
+}
+
+// Certain numbers such as the radius of the earth or the fact that the maximum latitude is 90 does not feel like magic
+@Suppress("MagicNumber")
+class WGS84Coordinate(
+    val latitudeRadians: Radians,
     val longitudeRadians: Radians
+) : KCoordinate {
+
 
     val latitudeDegrees: Double
         get() = latitudeRadians.toDegrees().toDouble()
 
     val longitudeDegrees: Double
         get() = longitudeRadians.toDegrees().toDouble()
-
-    fun distance(other: Coordinate): Distance
-}
-
-// Certain numbers such as the radius of the earth or the fact that the maximum latitude is 90 does not feel like magic
-@Suppress("MagicNumber")
-class GPSCoordinate(
-    override val latitudeRadians: Radians,
-    override val longitudeRadians: Radians
-) : Coordinate {
+    override val x get() = longitudeDegrees
+    override val y: Double
+        get() = latitudeDegrees
 
 
-    override fun distance(other: Coordinate): Distance{
+
+    fun distance(other: WGS84Coordinate): Distance{
         val deltaLat = this.latitudeRadians.toDouble() - other.latitudeRadians.toDouble()
         val deltaLong = this.longitudeRadians.toDouble() - other.longitudeRadians.toDouble()
 
@@ -56,7 +64,7 @@ class GPSCoordinate(
 
     override fun equals(other: Any?): Boolean {
 
-        return other is GPSCoordinate
+        return other is WGS84Coordinate
                 && abs(latitudeRadians.toDouble() - other.latitudeRadians.toDouble()) < DEVIATION_MILLIMETERS
                 && abs(longitudeRadians.toDouble() - other.longitudeRadians.toDouble()) < DEVIATION_MILLIMETERS
 
@@ -69,12 +77,12 @@ class GPSCoordinate(
     }
 
     companion object {
-        fun decimalDegree(lat: Double, lon: Double): GPSCoordinate {
+        fun decimalDegree(lat: Double, lon: Double): WGS84Coordinate {
             assert(lat in MIN_LAT..MAX_LAT)
             assert(lon in MIN_LONG..MAX_LON)
-            return GPSCoordinate(lat.degrees.toRadians(), lon.degrees.toRadians())
+            return WGS84Coordinate(lat.degrees.toRadians(), lon.degrees.toRadians())
         }
-        fun degreesMinutes(lat: Int, latMinute : Double, lon: Int, lonMinute: Double): GPSCoordinate {
+        fun degreesMinutes(lat: Int, latMinute : Double, lon: Int, lonMinute: Double): WGS84Coordinate {
             assert(latMinute in 0.0..<60.0)
             assert(lonMinute in 0.0..<60.0)
             return decimalDegree(lat + latMinute / 60, lon + lonMinute / 60)
@@ -82,7 +90,7 @@ class GPSCoordinate(
         @Suppress("LongParameterList") //Unfortunately that is the amount of parameters when parsing this format
         fun degreesMinutesSeconds(
             lat: Int, latMinute: Int, latSecond: Double,
-            lon: Int, lonMinute: Int, lonSecond: Double): GPSCoordinate {
+            lon: Int, lonMinute: Int, lonSecond: Double): WGS84Coordinate {
             assert(latMinute in 0..59)
             assert(lonMinute in 0..59)
             assert(latSecond in 0.0..<60.0)
@@ -93,8 +101,8 @@ class GPSCoordinate(
 }
 
 @Suppress("MagicNumber")
-fun Pair<Number, Number>.toCoordinate(): GPSCoordinate {
-    return GPSCoordinate.decimalDegree(this.first.toDouble(), this.second.toDouble())
+fun Pair<Number, Number>.toCoordinate(): WGS84Coordinate {
+    return WGS84Coordinate.decimalDegree(this.first.toDouble(), this.second.toDouble())
 }
 /**
  * Source of the calculation https://github.com/Turbo87/utm/blob/master/utm/conversion.py python package adapted
@@ -246,7 +254,7 @@ object Converter {
      * @param zone the zone number
      * @param hemisphere the Hemisphere
      */
-    fun toWGS84(east: Double, north: Double, zone: Int, hemisphere: Hemisphere): GPSCoordinate {
+    fun toWGS84(east: Double, north: Double, zone: Int, hemisphere: Hemisphere): WGS84Coordinate {
         val x = east - 500000
         val y = north - hemisphere.offset
 
@@ -293,7 +301,7 @@ object Converter {
                 d5 / 120 * (5 - 2 * c + 28 * pTan2 - 3 * c2 + 8 * E_P2 + 24 * pTan4)) / pCos
 
         val l2 = angle(longitude + centralMeridian(zone).toRadians().toDouble())
-        return GPSCoordinate(Radians(latitude), Radians(l2))
+        return WGS84Coordinate(Radians(latitude), Radians(l2))
     }
 
 
@@ -304,7 +312,7 @@ object Converter {
  * A class representing a UTM position consisting of an easting, a northing and a zone and hemisphere
  */
 data class UTMPosition(val e: Double, val n: Double, val zone: Int, val hemisphere: Hemisphere) {
-    fun toWGS84(): GPSCoordinate {
+    fun toWGS84(): WGS84Coordinate {
         return Converter.toWGS84(e, n, zone, hemisphere)
     }
 }
