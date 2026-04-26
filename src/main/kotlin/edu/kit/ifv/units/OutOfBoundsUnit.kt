@@ -126,9 +126,9 @@ class PhysicsUnit(val meterExponent: Int, val secondsExponent: Int, val kgExpone
 
     /**
      * Adds the exponents together.
-     * @return a new PhysicsUnit with subtracted exponents.
+     * @return a new PhysicsUnit with added exponents.
      */
-    operator fun times (other: PhysicsUnit): PhysicsUnit {
+    operator fun times(other: PhysicsUnit): PhysicsUnit {
         return PhysicsUnit(
             meterExponent + other.meterExponent,
             secondsExponent + other.secondsExponent,
@@ -138,7 +138,7 @@ class PhysicsUnit(val meterExponent: Int, val secondsExponent: Int, val kgExpone
     /**
      * @return a new PhysicsUnit with `this` exponents subtracted by `other`'s exponents.
      */
-    operator fun div (other: PhysicsUnit): PhysicsUnit {
+    operator fun div(other: PhysicsUnit): PhysicsUnit {
         return PhysicsUnit(
             meterExponent - other.meterExponent,
             secondsExponent - other.secondsExponent,
