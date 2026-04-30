@@ -2,19 +2,34 @@ package edu.kit.ifv.units.arrays
 
 import java.io.BufferedWriter
 import java.nio.file.Path
+import java.util.Locale
+import java.util.Locale.getDefault
 import kotlin.io.path.Path
 import kotlin.io.path.createFile
 import kotlin.io.path.deleteIfExists
 
 
 val allTypes: List<ArrayTypeDescriptor> = listOf(
-    temperatureArray,
+    accelerationArray,
     areaArray,
+    cubicDurationArray,
+    currencyArray,
+    distanceArray,
+    energyArray,
+    forceArray,
+    frequencyArray,
+    impulseArray,
+    massArray,
+    powerArray,
     speedArray,
+    squareDurationArray,
+    temperatureArray,
+    radiansArray,
+    degreesArray,
     volumeArray
 )
 
-val targetDirectory: String = "src/main/kotlin/edu/kit/ifv/units/arrays/"
+const val targetDirectory: String = "src/main/kotlin/edu/kit/ifv/units/arrays/"
 
 fun main() {
     println("Generating arrays for types: ${allTypes.map { it.className }}")
@@ -71,7 +86,7 @@ fun BufferedWriter.writeClassDescription(type: ArrayTypeDescriptor) {
     write("""
         /**
         * This class is a typed array for ${type.className}. At runtime, it is converted to a regular java array
-        * of the backing type ${type.rawValueType} (${type.rawValueType}[]).
+        * of the backing type ${type.rawValueType.lowercase(getDefault())} (${type.rawValueType.lowercase(getDefault())}[]).
         */
     """.trimIndent()
     )
