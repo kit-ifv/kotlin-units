@@ -19,11 +19,20 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.register("deleteGeneratedArrays") {
-    description = "Deletes all Array class files in the arrays folder"
+tasks.register("cleanGeneratedArrays") {
+    description = "Deletes all files which end with `Array.kt` in the " +
+            "`src/main/kotlin/edu/kit/ifv/units/arrays/` folder"
     delete(fileTree("src/main/kotlin/edu/kit/ifv/units/arrays").matching {
         include("*Array.kt")
     })
+}
+
+tasks.register<JavaExec>("generateArrays") {
+    dependsOn("cleanGeneratedArrays")
+    description = "Generates all type specific arrays like TemperatureArray, EnergyArray,... in " +
+            "`src/main/kotlin/edu/kit/ifv/units/arrays/`"
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("edu.kit.ifv.units.arrays.ArrayGenKt")
 }
 
 kotlin {
