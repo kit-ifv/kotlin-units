@@ -10,6 +10,8 @@ import kotlin.io.path.deleteIfExists
 val allTypes: List<ArrayTypeDescriptor> = listOf(
     temperatureArray,
     areaArray,
+    speedArray,
+    volumeArray
 )
 
 val targetDirectory: String = "src/main/kotlin/edu/kit/ifv/units/arrays/"
@@ -91,7 +93,7 @@ fun BufferedWriter.writeClassAndConstructors(type: ArrayTypeDescriptor) {
             // Developer-Note: This class was generated automatically and likely will again in the future, you might 
             // want to edit the code-generation instead of this class specifically. You can find the generating 
             // main-function in `src/test/edu/kit/ifv/units/arrays/ArrayGen.kt`.
-            // The gradle task `generateArrays` regenerates all Array classes.
+            // The Gradle task `generateArrays` regenerates all Array classes.
             
             constructor(size: Int): this(${type.rawValueType}Array(size))
             constructor(size: Int, init: (index: Int) -> ${type.className}): this(${type.rawValueType}Array(size) { index -> init(index).rawValue })

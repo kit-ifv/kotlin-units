@@ -68,3 +68,13 @@ val areaArray: ArrayTypeDescriptor = ArrayTypeDescriptor(
     className = "Area",
     rawValueType = "Double"
 )
+
+val volumeArray: ArrayTypeDescriptor = ArrayTypeDescriptor(
+    className = "Volume",
+    rawValueType = "Double"
+)
+
+val speedArray: ArrayTypeDescriptor = ArrayTypeDescriptor(
+    className = "Speed",
+    rawValueType = "Double"
+)
