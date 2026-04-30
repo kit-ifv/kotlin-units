@@ -33,12 +33,14 @@ fun prepareFile(dir: Path) {
 fun arrayFileContent(type: ArrayTypeDescriptor, writer: BufferedWriter) {
     writer.writeHead(type)
     writer.writeClassAndConstructors(type)
-    writer.writeExtensionFunctions(type)
+    writer.writeFunctions(type)
     writer.newLine()
     writer.write("""
     }
+    
     """.trimIndent()
     )
+    writer.writeExtensionFunctions(type)
 }
 
 fun BufferedWriter.writeHead(type: ArrayTypeDescriptor) {
@@ -52,10 +54,17 @@ fun BufferedWriter.writeHead(type: ArrayTypeDescriptor) {
     )
 }
 
-fun BufferedWriter.writeExtensionFunctions(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeFunctions(type: ArrayTypeDescriptor) {
     for (function in type.functions) {
-
         write(function.print(type.className, type.rawValueType))
+        newLine()
+    }
+}
+
+fun BufferedWriter.writeExtensionFunctions(type: ArrayTypeDescriptor) {
+    for (extensionFunction in type.extensionFunctions) {
+        write(extensionFunction.print(type.className, type.rawValueType))
+        newLine()
     }
 }
 
