@@ -19,6 +19,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.register("deleteGeneratedArrays") {
+    description = "Deletes all Array class files in the arrays folder"
+    delete(fileTree("src/main/kotlin/edu/kit/ifv/units/arrays").matching {
+        include("*Array.kt")
+    })
+}
+
 kotlin {
     jvmToolchain(21)
 }
