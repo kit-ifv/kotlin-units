@@ -30,5 +30,12 @@ val allFunctions: List<ArrayFunction> = listOf(
         """
         fun sum() = $className(rawValues.sum())
     """.trimIndent()
+    },
+    ArrayFunction(
+        "itterator"
+    ) {className, _ ->
+        """
+        fun iterator(): ${className}Iterator = ${className}Iterator(rawValues)
+    """.trimIndent()
     }
 )

@@ -57,6 +57,7 @@ fun arrayFileContent(type: ArrayTypeDescriptor, writer: BufferedWriter) {
     writer.writeClassAndConstructors(type)
     writer.writeClassValues(type)
     writer.writeFunctions(type)
+    writer.writeCompanion(type)
     writer.writeEndOfClass()
     writer.writeExtensionFunctions(type)
 }
@@ -105,6 +106,21 @@ fun BufferedWriter.writeClassDescription(type: ArrayTypeDescriptor) {
         */
     """.trimIndent()
     )
+}
+
+fun BufferedWriter.writeCompanion(type: ArrayTypeDescriptor) {
+    newLine()
+    newLine()
+    writeIndented("""
+        companion object {
+            class ${type.className}Iterator(rawValues: ${type.rawValueType}Array) : Iterator<${type.className}> {
+                val internalIterator = rawValues.iterator()
+                override fun next(): ${type.className} = ${type.className}(internalIterator.next())
+                override fun hasNext(): Boolean = internalIterator.hasNext()
+            }
+        }
+    """.trimIndent())
+
 }
 
 fun BufferedWriter.writeEndOfClass() {
