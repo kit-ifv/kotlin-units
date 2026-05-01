@@ -32,10 +32,10 @@ val allFunctions: List<ArrayFunction> = listOf(
     """.trimIndent()
     },
     ArrayFunction(
-        "itterator"
+        "iterator"
     ) {className, _ ->
         """
-        fun iterator(): ${className}Iterator = ${className}Iterator(rawValues)
+        fun iterator(): ${className}Iterator = ${className}Iterator(rawValues.iterator())
     """.trimIndent()
     }
 )

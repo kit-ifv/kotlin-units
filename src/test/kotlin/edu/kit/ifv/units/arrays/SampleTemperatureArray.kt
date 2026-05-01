@@ -20,7 +20,7 @@ value class SampleTemperatureArray internal constructor(private val rawValues: L
 
     fun sum() = Temperature(rawValues.sum())
 
-    fun iterator(): TemperatureIterator = TemperatureIterator(rawValues)
+    fun iterator(): TemperatureIterator = TemperatureIterator(rawValues.iterator())
 
     fun test() {
         val iterator = iterator()
@@ -32,10 +32,10 @@ value class SampleTemperatureArray internal constructor(private val rawValues: L
 
 
     companion object {
-        class TemperatureIterator(rawValues: LongArray) : Iterator<Temperature> {
-            val internalIterator = rawValues.iterator()
-            override fun next(): Temperature = Temperature(internalIterator.next())
-            override fun hasNext(): Boolean = internalIterator.hasNext()
+        @JvmInline
+        value class TemperatureIterator internal constructor(val iterator: LongIterator): Iterator<Temperature> {
+            override fun next(): Temperature = Temperature(iterator.next())
+            override fun hasNext(): Boolean = iterator.hasNext()
         }
     }
 }

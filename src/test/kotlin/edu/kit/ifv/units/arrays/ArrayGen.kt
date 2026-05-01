@@ -113,10 +113,10 @@ fun BufferedWriter.writeCompanion(type: ArrayTypeDescriptor) {
     newLine()
     writeIndented("""
         companion object {
-            class ${type.className}Iterator(rawValues: ${type.rawValueType}Array) : Iterator<${type.className}> {
-                val internalIterator = rawValues.iterator()
-                override fun next(): ${type.className} = ${type.className}(internalIterator.next())
-                override fun hasNext(): Boolean = internalIterator.hasNext()
+            @JvmInline
+            value class ${type.className}Iterator internal constructor(val iterator: ${type.rawValueType}Iterator): Iterator<${type.className}> {
+                override fun next(): ${type.className} = ${type.className}(iterator.next())
+                override fun hasNext(): Boolean = iterator.hasNext()
             }
         }
     """.trimIndent())
