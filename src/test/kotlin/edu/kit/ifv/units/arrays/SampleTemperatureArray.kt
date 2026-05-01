@@ -9,6 +9,7 @@ value class SampleTemperatureArray internal constructor(private val rawValues: L
     constructor(src: Array<Temperature>): this(src.map { it.rawValue }.toLongArray())
     constructor(src: Collection<Temperature>): this(src.map { it.rawValue }.toLongArray())
 
+    val size: Int get() = rawValues.size
     operator fun get(index: Int) = Temperature(rawValues[index])
 
     operator fun set(index: Int, value: Temperature) {

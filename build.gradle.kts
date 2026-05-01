@@ -25,6 +25,7 @@ tasks.register("cleanGeneratedArrays") {
     delete(fileTree("src/main/kotlin/edu/kit/ifv/units/arrays").matching {
         include("*Array.kt")
     })
+
 }
 
 tasks.register<JavaExec>("generateArrays") {

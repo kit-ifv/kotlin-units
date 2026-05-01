@@ -2,10 +2,11 @@ package edu.kit.ifv.units.arrays
 
 import java.io.BufferedWriter
 import java.nio.file.Path
-import java.util.Locale
 import java.util.Locale.getDefault
 import kotlin.io.path.Path
+import kotlin.io.path.createDirectories
 import kotlin.io.path.createFile
+import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
 
 
@@ -37,20 +38,24 @@ fun main() {
     for (type in allTypes) {
         val targetFile = Path(targetDirectory  + type.className + "Array.kt")
         prepareFile(targetFile)
+
         targetFile.toFile().bufferedWriter().use { out ->
             arrayFileContent(type, out)
         }
     }
 }
-fun prepareFile(dir: Path) {
-    dir.deleteIfExists()
-    dir.createFile()
+
+fun prepareFile(file: Path) {
+    file.deleteIfExists()
+    file.createParentDirectories()
+    if(!file.toFile().exists()) file.createFile()
 }
 
 fun arrayFileContent(type: ArrayTypeDescriptor, writer: BufferedWriter) {
     writer.writeHead(type)
     writer.writeClassDescription(type)
     writer.writeClassAndConstructors(type)
+    writer.writeClassValues(type)
     writer.writeFunctions(type)
     writer.writeEndOfClass()
     writer.writeExtensionFunctions(type)
@@ -70,14 +75,24 @@ fun BufferedWriter.writeHead(type: ArrayTypeDescriptor) {
 fun BufferedWriter.writeFunctions(type: ArrayTypeDescriptor) {
     for (function in type.functions) {
         newLine()
+        newLine()
         writeIndented(function.print(type.className, type.rawValueType))
+    }
+}
+
+fun BufferedWriter.writeClassValues(type: ArrayTypeDescriptor) {
+    for (value in type.classValues) {
+        newLine()
+        newLine()
+        writeIndented(value.print(type.className, type.rawValueType))
     }
 }
 
 fun BufferedWriter.writeExtensionFunctions(type: ArrayTypeDescriptor) {
     for (extensionFunction in type.extensionFunctions) {
-        write(extensionFunction.print(type.className, type.rawValueType))
         newLine()
+        newLine()
+        write(extensionFunction.print(type.className, type.rawValueType))
     }
 }
 
@@ -111,10 +126,13 @@ fun BufferedWriter.writeClassAndConstructors(type: ArrayTypeDescriptor) {
             // The Gradle task `generateArrays` regenerates all Array classes.
             
             constructor(size: Int): this(${type.rawValueType}Array(size))
-            constructor(size: Int, init: (index: Int) -> ${type.className}): this(${type.rawValueType}Array(size) { index -> init(index).rawValue })
-            constructor(src: Array<${type.className}>): this(src.map { it.rawValue }.to${type.rawValueType}Array())
-            constructor(src: Collection<${type.className}>): this(src.map { it.rawValue }.to${type.rawValueType}Array())
             
+            constructor(size: Int, init: (index: Int) -> ${type.className}): 
+                this(${type.rawValueType}Array(size) { index -> init(index).rawValue })
+                
+            constructor(src: Array<${type.className}>): this(src.map { it.rawValue }.to${type.rawValueType}Array())
+            
+            constructor(src: Collection<${type.className}>): this(src.map { it.rawValue }.to${type.rawValueType}Array())
         """.trimIndent()
     )
 }
