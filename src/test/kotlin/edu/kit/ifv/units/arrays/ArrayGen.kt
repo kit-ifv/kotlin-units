@@ -10,32 +10,13 @@ import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
 
 
-val allTypes: List<ArrayTypeDescriptor> = listOf(
-    accelerationArray,
-    areaArray,
-    cubicDurationArray,
-    currencyArray,
-    distanceArray,
-    energyArray,
-    forceArray,
-    frequencyArray,
-    impulseArray,
-    massArray,
-    powerArray,
-    speedArray,
-    squareDurationArray,
-    temperatureArray,
-    radiansArray,
-    degreesArray,
-    volumeArray
-)
 
 const val targetDirectory: String = "src/main/kotlin/edu/kit/ifv/units/arrays/"
 
 fun main() {
-    println("Generating arrays for types: ${allTypes.map { it.className }}")
+    println("Generating arrays for types: ${ArrayType.entries.map { it.className }}")
     println("Target directory: $targetDirectory")
-    for (type in allTypes) {
+    for (type in ArrayType.entries) {
         val targetFile = Path(targetDirectory  + type.className + "Array.kt")
         prepareFile(targetFile)
 
@@ -51,7 +32,7 @@ fun prepareFile(file: Path) {
     if(!file.toFile().exists()) file.createFile()
 }
 
-fun arrayFileContent(type: ArrayTypeDescriptor, writer: BufferedWriter) {
+fun arrayFileContent(type: ArrayType, writer: BufferedWriter) {
     writer.writeHead(type)
     writer.writeClassDescription(type)
     writer.writeClassAndConstructors(type)
@@ -62,7 +43,7 @@ fun arrayFileContent(type: ArrayTypeDescriptor, writer: BufferedWriter) {
     writer.writeExtensionFunctions(type)
 }
 
-fun BufferedWriter.writeHead(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeHead(type: ArrayType) {
     write(
         """
         package edu.kit.ifv.units.arrays
@@ -73,7 +54,7 @@ fun BufferedWriter.writeHead(type: ArrayTypeDescriptor) {
     newLine()
 }
 
-fun BufferedWriter.writeFunctions(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeFunctions(type: ArrayType) {
     for (function in type.functions) {
         newLine()
         newLine()
@@ -81,7 +62,7 @@ fun BufferedWriter.writeFunctions(type: ArrayTypeDescriptor) {
     }
 }
 
-fun BufferedWriter.writeClassValues(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeClassValues(type: ArrayType) {
     for (value in type.classValues) {
         newLine()
         newLine()
@@ -89,7 +70,7 @@ fun BufferedWriter.writeClassValues(type: ArrayTypeDescriptor) {
     }
 }
 
-fun BufferedWriter.writeExtensionFunctions(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeExtensionFunctions(type: ArrayType) {
     for (extensionFunction in type.extensionFunctions) {
         newLine()
         newLine()
@@ -97,7 +78,7 @@ fun BufferedWriter.writeExtensionFunctions(type: ArrayTypeDescriptor) {
     }
 }
 
-fun BufferedWriter.writeClassDescription(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeClassDescription(type: ArrayType) {
     newLine()
     write("""
         /**
@@ -108,7 +89,7 @@ fun BufferedWriter.writeClassDescription(type: ArrayTypeDescriptor) {
     )
 }
 
-fun BufferedWriter.writeCompanion(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeCompanion(type: ArrayType) {
     newLine()
     newLine()
     writeIndented("""
@@ -129,7 +110,7 @@ fun BufferedWriter.writeEndOfClass() {
     newLine()
 }
 
-fun BufferedWriter.writeClassAndConstructors(type: ArrayTypeDescriptor) {
+fun BufferedWriter.writeClassAndConstructors(type: ArrayType) {
     newLine()
     write(
         """
