@@ -3,6 +3,12 @@ package edu.kit.ifv.units.arrays
 enum class ArrayType(
     val className: String,
     val rawValueType: String,
+    val constructor: (value: String) -> String = { value -> "$className(${value})" },
+    val rawValueAccess: (element: String) -> String = { element -> "$element.rawValue" },
+    val imports: String =
+        """
+            import edu.kit.ifv.units.$className
+        """.trimIndent(),
     val classValues: List<ArrayValue> = ArrayValue.entries,
     val functions: List<ArrayInternalFunction> = ArrayInternalFunction.entries,
     val extensionFunctions: List<ArrayExtensionFunction> = ArrayExtensionFunction.entries
@@ -77,6 +83,12 @@ enum class ArrayType(
     ),
     DURATION(
         className = "Duration", // TODO Duration is different...
-        rawValueType = "Double"
+        rawValueType = "Long",
+        constructor = { value -> "($value).nanoseconds" },
+        rawValueAccess = { element -> "$element.inWholeNanoseconds" },
+        imports= """  
+            import kotlin.time.Duration
+            import kotlin.time.Duration.Companion.nanoseconds
+        """.trimIndent(),
     )
 }

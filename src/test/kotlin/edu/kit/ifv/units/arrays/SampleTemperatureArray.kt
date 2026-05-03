@@ -1,6 +1,9 @@
 package edu.kit.ifv.units.arrays
 
 import edu.kit.ifv.units.Temperature
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.nanoseconds
 
 @JvmInline
 value class SampleTemperatureArray internal constructor(private val rawValues: LongArray) {
@@ -21,15 +24,6 @@ value class SampleTemperatureArray internal constructor(private val rawValues: L
     fun sum() = Temperature(rawValues.sum())
 
     fun iterator(): TemperatureIterator = TemperatureIterator(rawValues.iterator())
-
-    fun test() {
-        val iterator = iterator()
-        while (iterator.hasNext()) {
-            val next = iterator.next()
-            println(next)
-        }
-    }
-
 
     companion object {
         @JvmInline

@@ -47,10 +47,11 @@ fun BufferedWriter.writeHead(type: ArrayType) {
     write(
         """
         package edu.kit.ifv.units.arrays
-
-        import edu.kit.ifv.units.${type.className}
         """.trimIndent()
     )
+    newLine()
+    newLine()
+    write(type.imports)
     newLine()
 }
 
@@ -58,7 +59,7 @@ fun BufferedWriter.writeFunctions(type: ArrayType) {
     for (function in type.functions) {
         newLine()
         newLine()
-        writeIndented(function.print(type.className, type.rawValueType))
+        writeIndented(function.print(type))
     }
 }
 
@@ -96,7 +97,7 @@ fun BufferedWriter.writeCompanion(type: ArrayType) {
         companion object {
             @JvmInline
             value class ${type.className}Iterator internal constructor(val iterator: ${type.rawValueType}Iterator): Iterator<${type.className}> {
-                override fun next(): ${type.className} = ${type.className}(iterator.next())
+                override fun next(): ${type.className} = ${type.constructor("iterator.next()")}
                 override fun hasNext(): Boolean = iterator.hasNext()
             }
         }
@@ -125,11 +126,11 @@ fun BufferedWriter.writeClassAndConstructors(type: ArrayType) {
             constructor(size: Int): this(${type.rawValueType}Array(size))
             
             constructor(size: Int, init: (index: Int) -> ${type.className}): 
-                this(${type.rawValueType}Array(size) { index -> init(index).rawValue })
+                this(${type.rawValueType}Array(size) { index -> ${type.rawValueAccess("init(index)")} })
                 
-            constructor(src: Array<${type.className}>): this(src.map { it.rawValue }.to${type.rawValueType}Array())
+            constructor(src: Array<${type.className}>): this(src.map { ${type.rawValueAccess("it")} }.to${type.rawValueType}Array())
             
-            constructor(src: Collection<${type.className}>): this(src.map { it.rawValue }.to${type.rawValueType}Array())
+            constructor(src: Collection<${type.className}>): this(src.map { ${type.rawValueAccess("it")} }.to${type.rawValueType}Array())
         """.trimIndent()
     )
 }
