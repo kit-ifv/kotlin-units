@@ -1,5 +1,8 @@
 package edu.kit.ifv.units.arrays
 
+/**
+ * All extension functions a type array could define for other types.
+ */
 enum class ArrayExtensionFunction(val print: (className: String, type: String) -> String) {
     COLLECTION_TO_TYPED_ARRAY({ className, _ ->
         """

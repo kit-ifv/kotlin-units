@@ -1,5 +1,8 @@
 package edu.kit.ifv.units.arrays
 
+/**
+ * All functions a type array could expose.
+ */
 enum class ArrayInternalFunction(val print: (type: ArrayType) -> String) {
     GETTER({ type ->
         """
