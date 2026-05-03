@@ -10,7 +10,7 @@ enum class ArrayExtensionFunction(val print: (className: String, type: String) -
         """.trimIndent()
     }),
     ARRAY_TO_TYPED_ARRAY({ className, _ ->
-            """
+        """
         fun Array<$className>.to${className}Array() = ${className}Array(this)
         """.trimIndent()
         }
