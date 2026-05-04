@@ -1,3 +1,5 @@
+package array
+
 import java.io.BufferedWriter
 import java.nio.file.Path
 import java.util.Locale.getDefault
@@ -119,7 +121,7 @@ fun BufferedWriter.writeClassAndConstructors(type: ArrayType) {
              
             // Developer-Note: This class was generated automatically and likely will again in the future, you might 
             // want to edit the code-generation instead of this class specifically. You can find the generating 
-            // main-function in `src/test/edu/kit/ifv/units/arrays/ArrayGen.kt`.
+            // array.main-function in `src/test/edu/kit/ifv/units/arrays/ArrayGen.kt`.
             // The Gradle task `generateArrays` regenerates all Array classes.
             
             constructor(size: Int): this(${type.rawValueType}Array(size))

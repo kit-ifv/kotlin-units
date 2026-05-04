@@ -1,3 +1,5 @@
+package array
+
 /**
  * A descriptor for an array.
  * This contains the most important strings and string constructors for the generation of unit specific arrays like

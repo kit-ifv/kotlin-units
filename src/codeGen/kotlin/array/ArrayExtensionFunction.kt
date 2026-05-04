@@ -1,3 +1,5 @@
+package array
+
 /**
  * All extension functions a type array could define for other types.
  */

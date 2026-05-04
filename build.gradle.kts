@@ -38,7 +38,7 @@ tasks.register<JavaExec>("generateArrays") {
     description = "Generates all type specific arrays like TemperatureArray, EnergyArray,... in " +
             "`src/main/kotlin/edu/kit/ifv/units/arrays/`"
     classpath = sourceSets.getByName("codeGen").runtimeClasspath
-    mainClass.set("ArrayGenKt")
+    mainClass.set("array/ArrayGenKt")
 }
 
 tasks.register("printSourceSetInformation"){
@@ -46,7 +46,7 @@ tasks.register("printSourceSetInformation"){
     doLast{
         sourceSets.forEach { srcSet ->
             println("[${srcSet.name}]")
-            println("-->Source directories: ${srcSet.allJava.srcDirs}")
+            println("-->Source directories: ${srcSet.allSource.srcDirs}")
             println("-->Output directories: ${srcSet.output.classesDirs.files}")
         }
     }

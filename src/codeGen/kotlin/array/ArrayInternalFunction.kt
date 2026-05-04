@@ -1,3 +1,5 @@
+package array
+
 /**
  * All functions a type array could expose.
  */
