@@ -5,7 +5,9 @@ import kotlin.time.Duration.Companion.nanoseconds
 
 
 fun test() {
-//    val arrayNotBox = listOf(4.minutes, 5.nanoseconds).toDurationArray()
-//    val first = arrayNotBox[0]
-//    val second = arrayNotBox[1]
+    val arrayNotBox = listOf(4.minutes, 5.nanoseconds).toDurationArray()
+    val first = arrayNotBox[0]
+    val second = arrayNotBox[1]
+    val sum = arrayNotBox[0]
+    assert(first + second == sum)
 }

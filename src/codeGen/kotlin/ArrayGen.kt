@@ -1,18 +1,17 @@
-package edu.kit.ifv.units.arrays
-
 import java.io.BufferedWriter
 import java.nio.file.Path
 import java.util.Locale.getDefault
 import kotlin.io.path.Path
-import kotlin.io.path.createDirectories
 import kotlin.io.path.createFile
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
 
-
-
 const val targetDirectory: String = "src/main/kotlin/edu/kit/ifv/units/arrays/"
 
+/**
+ * Run this class to generate all arrays in the `targetDirectory`. You can also run the Gradle task `generateArrays`
+ * under `other`.
+ */
 fun main() {
     println("Generating arrays for types: ${ArrayType.entries.map { it.className }}")
     println("Target directory: $targetDirectory")

@@ -1,5 +1,3 @@
-package edu.kit.ifv.units.arrays
-
 /**
  * All functions a type array could expose.
  */

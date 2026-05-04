@@ -1,5 +1,3 @@
-package edu.kit.ifv.units.arrays
-
 /**
  * All value fields a type array could have.
  */
