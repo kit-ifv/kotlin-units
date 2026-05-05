@@ -55,5 +55,26 @@ enum class ArrayInternalFunction(val print: (type: ArrayType) -> String) {
             */
             fun any(predicate: (${type.className}) -> Boolean): Boolean  = rawValues.any { predicate(${type.constructor("it")}) }
         """.trimIndent()
-    })
+    }),
+    ASSOCIATE({type ->
+        """
+        fun <K, V> associate(transform: (${type.className}) -> Pair<K, V>): Map<K, V> 
+            = rawValues.associate { transform(${type.constructor("it")}) }
+    """.trimIndent()
+    }),
+    ASSOCIATE_BY({type ->
+        """
+        fun <K> associateBy(keySelector: (${type.className}) -> K): Map<K, ${type.className}> 
+            = associate { keySelector(it) to it }
+    """.trimIndent()
+    }),
+    ASSOCIATE_BY_2({type ->
+        """
+        fun <K, V> associateBy(keySelector: (${type.className}) -> K, valueTransform: (${type.className}) -> V): Map<K, V> 
+            = associate { keySelector(it) to valueTransform(it)}
+    """.trimIndent()
+    }),
+
+
+
 }
