@@ -76,7 +76,7 @@ fun BufferedWriter.writeExtensionFunctions(type: ArrayType) {
     for (extensionFunction in type.extensionFunctions) {
         newLine()
         newLine()
-        write(extensionFunction.print(type.className, type.rawValueType))
+        write(extensionFunction.print(type))
     }
 }
 
