@@ -74,7 +74,17 @@ enum class ArrayInternalFunction(val print: (type: ArrayType) -> String) {
             = associate { keySelector(it) to valueTransform(it)}
     """.trimIndent()
     }),
-
-
+    ASSOCIATEWITH({type ->
+        """
+        fun <V> associateWith(valueSelector: (${type.className}) -> V): Map<${type.className}, V> 
+            = associate {it to valueSelector(it)}
+    """.trimIndent()
+    }),
+    AVERAGE({type ->
+        """
+        fun average(): ${type.className}
+            = ${type.constructor("rawValues.average()")}
+    """.trimIndent()
+    }),
 
 }
