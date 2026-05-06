@@ -135,7 +135,7 @@ fun benchmarkAccess(size: Int, numAccesses: Int) {
         }
     }
 
-    println("Testing random  access time for arrays of size $size and $numAccesses many accesses")
+    println("Testing random  access time for arrays of size $size and $numAccesses accesses")
     println("List took          $listAccess ns (poor list)")
     println("Generic Array took $genericArrayAccess ns")
     println("TypeArray took     $typeArrayAccess ns\n")
