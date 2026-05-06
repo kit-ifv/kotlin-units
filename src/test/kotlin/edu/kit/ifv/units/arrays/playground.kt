@@ -1,18 +1,34 @@
 @file:Suppress("unused")
 package edu.kit.ifv.units.arrays
 
+import edu.kit.ifv.units.euros
 import edu.kit.ifv.units.joule
 import kotlin.random.Random
+import kotlin.random.nextInt
 import kotlin.system.measureNanoTime
 import kotlin.time.Duration.Companion.nanoseconds
 
 
 fun main() {
+    benchmarkAccess(50, 50)
+    benchmarkAccess(50, 5000)
+    benchmarkAccess(50, 5000000)
+    benchmarkAccess(50000, 50)
+    benchmarkAccess(50000, 5000)
+    benchmarkAccess(50000, 5000000)
+    benchmarkAccess(50000000, 50)
+    benchmarkAccess(50000000, 5000)
+    benchmarkAccess(50000000, 5000000)
+}
+
+fun benchmarkSumSteps() {
     println("Benchmarking sum:")
-
-    println("testing size 50")
+    println("\ntesting size 10")
+    benchmarkSum(10)
+    println("\n\ntesting size 50")
     benchmarkSum(50)
-
+    println("\n\ntesting size 100")
+    benchmarkSum(100)
     println("\n\ntesting size 500")
     benchmarkSum(500)
     println("\n\ntesting size 5000")
@@ -21,12 +37,7 @@ fun main() {
     benchmarkSum(50000)
     println("\n\ntesting size 500000")
     benchmarkSum(500000)
-    println("\n\ntesting size 5000000")
-    benchmarkSum(5000000)
-    println("\n\ntesting size 50000000")
-    benchmarkSum(50000000)
 }
-
 
 fun benchmarkArray() {
     val size = 50000000
@@ -91,4 +102,41 @@ fun benchmarkSum(size: Int = 50) {
     println("Array<Energy> took        ${boxTime.nanoseconds.inWholeNanoseconds}ns")
     println("EnergyArray took          ${nonBoxTime.nanoseconds.inWholeNanoseconds}ns")
     println("List<Energy> took         ${listTime.nanoseconds.inWholeNanoseconds}ns")
+}
+
+fun benchmarkAccess(size: Int, numAccesses: Int) {
+
+    val list = buildList {
+        repeat(size) {
+            add(Random.nextDouble().euros)
+        }
+    }
+    val boxArray = list.toTypedArray()
+    val nonBox = boxArray.toCurrencyArray()
+
+    val listAccess = measureNanoTime {
+        repeat(numAccesses) {
+            val elem = Random.nextInt(0..< size)
+            val value = list[elem]
+        }
+    }
+
+    val genericArrayAccess = measureNanoTime {
+        repeat(numAccesses) {
+            val elem = Random.nextInt(0..< size)
+            val value = boxArray[elem]
+        }
+    }
+
+    val typeArrayAccess = measureNanoTime {
+        repeat(numAccesses) {
+            val elem = Random.nextInt(0..< size)
+            val value = nonBox[elem]
+        }
+    }
+
+    println("Testing random  access time for arrays of size $size and $numAccesses many accesses")
+    println("List took          $listAccess ns (poor list)")
+    println("Generic Array took $genericArrayAccess ns")
+    println("TypeArray took     $typeArrayAccess ns\n")
 }
