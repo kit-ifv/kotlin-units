@@ -90,11 +90,12 @@ enum class ArrayType(
     ),
     TEMPERATURE(
         className = "Temperature",
-        rawValueType = "Long"
+        rawValueType = "Long",
+        functions = ArrayInternalFunction.entries - ArrayInternalFunction.SUM
     ),
     VOLUME(
         className = "Volume",
-        rawValueType = "Double"
+        rawValueType = "Double",
     ),
     DURATION(
         className = "Duration",
