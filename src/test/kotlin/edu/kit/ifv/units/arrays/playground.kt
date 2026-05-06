@@ -83,12 +83,12 @@ fun benchmarkSum(size: Int = 50) {
     val listTime = measureNanoTime {
         resList = (list.sumOf { it.inJoule }).joule
     }
-    println("Result is box: $resBox")
-    println("Result non-box: $resNonBox")
-    println("Result list: $resList")
+    println("Result Array<Energy>: $resBox")
+    println("Result EnergyArray:   $resNonBox")
+    println("Result List<Energy>:  $resList")
     println("Result is equal: ${resBox == resNonBox && resBox == resList}")
     require(resBox == resNonBox && resBox == resList)
-    println("Box took        ${boxTime.nanoseconds.inWholeNanoseconds}ns")
-    println("Non-Box took    ${nonBoxTime.nanoseconds.inWholeNanoseconds}ns")
-    println("List took       ${listTime.nanoseconds.inWholeNanoseconds}ns")
+    println("Array<Energy> took        ${boxTime.nanoseconds.inWholeNanoseconds}ns")
+    println("EnergyArray took          ${nonBoxTime.nanoseconds.inWholeNanoseconds}ns")
+    println("List<Energy> took         ${listTime.nanoseconds.inWholeNanoseconds}ns")
 }
