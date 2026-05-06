@@ -1,39 +1,39 @@
 package edu.kit.ifv.units.arrays
 
 import edu.kit.ifv.units.joule
-import edu.kit.ifv.units.kilowatthours
+import kotlin.random.Random
 import kotlin.system.measureNanoTime
 import kotlin.time.Duration.Companion.nanoseconds
 
 
 fun main() {
-    val size = 50000000
+    val size = 100000
     val list = buildList {
-        for (i in 0 until size) {
-            add(i.kilowatthours)
+        repeat(size) {
+            add(Random.nextDouble().joule)
         }
     }
     val boxArray = list.toTypedArray()
     val nonBox = boxArray.toEnergyArray()
 
-    var res1 = 0.joule
+    var resBox = 0.joule
     val boxTime = measureNanoTime {
-        res1 = (boxArray.sumOf { it.rawValue }).joule
+        resBox = (boxArray.sumOf { it.rawValue }).joule / boxArray.size
     }
-    var res2 = 0.joule
+    var resNonBox = 0.joule
     val nonBoxTime = measureNanoTime {
-        res2 = nonBox.sum()
+        resNonBox = nonBox.average()
     }
 
     var resList = 0.joule
     val listTime = measureNanoTime {
-        resList = (list.sumOf { it.rawValue }).joule
+        resList = (list.sumOf { it.rawValue }).joule / list.size
     }
-    println("Result is box: $res1")
-    println("Result non-box: $res2")
+    println("Result is box: $resBox")
+    println("Result non-box: $resNonBox")
     println("Result list: $resList")
-    println("Result is equal: ${res1 == res2 && res1 == resList}")
-    println("Box took ${boxTime.nanoseconds.inWholeMilliseconds}ms")
-    println("Non-Box took ${nonBoxTime.nanoseconds.inWholeMilliseconds}ms")
-    println("List took ${listTime.nanoseconds.inWholeMilliseconds}ms")
+    println("Result is equal: ${resBox == resNonBox && resBox == resList}")
+    println("Box took        ${boxTime.nanoseconds.inWholeNanoseconds}ns")
+    println("Non-Box took    ${nonBoxTime.nanoseconds.inWholeNanoseconds}ns")
+    println("List took       ${listTime.nanoseconds.inWholeNanoseconds}ns")
 }
