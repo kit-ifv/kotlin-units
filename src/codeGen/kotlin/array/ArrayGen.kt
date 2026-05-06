@@ -47,6 +47,7 @@ fun arrayFileContent(type: ArrayType, writer: BufferedWriter) {
 fun BufferedWriter.writeHead(type: ArrayType) {
     write(
         """
+        @file:Suppress("unused")
         package edu.kit.ifv.units.arrays
         """.trimIndent()
     )

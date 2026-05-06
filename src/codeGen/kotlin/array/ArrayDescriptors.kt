@@ -82,10 +82,10 @@ enum class ArrayType(
     ),
     RADIANS(
         className = "Radians",
-        rawValueType = "Double", // TODO this class is special, what functions does it use, or rather not use?
+        rawValueType = "Double",
     ),
     DEGREES(
-        className = "Degrees", // TODO this class is special, what functions does it use, or rather not use?
+        className = "Degrees",
         rawValueType = "Double",
     ),
     TEMPERATURE(

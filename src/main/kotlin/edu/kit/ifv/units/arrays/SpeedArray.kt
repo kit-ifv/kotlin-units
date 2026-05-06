@@ -1,0 +1,136 @@
+@file:Suppress("unused")
+package edu.kit.ifv.units.arrays
+
+import edu.kit.ifv.units.Speed
+
+/**
+* This class is a typed array for Speed. At runtime, it is converted to a regular java array
+* of the backing type double (double[]).
+*/
+@JvmInline
+value class SpeedArray internal constructor(private val rawValues: DoubleArray) {
+     
+    // Developer-Note: This class was generated automatically and likely will again in the future, you might 
+    // want to edit the code-generation instead of this class specifically. You can find the generating 
+    // array.main-function in `src/test/edu/kit/ifv/units/arrays/ArrayGen.kt`.
+    // The Gradle task `generateArrays` regenerates all Array classes.
+    
+    constructor(size: Int): this(DoubleArray(size))
+    
+    constructor(size: Int, init: (index: Int) -> Speed): 
+        this(DoubleArray(size) { index -> init(index).rawValue })
+        
+    constructor(src: Array<Speed>): this(src.map { it.rawValue }.toDoubleArray())
+    
+    constructor(src: Collection<Speed>): this(src.map { it.rawValue }.toDoubleArray())
+
+    /**
+    * How many entries the array has.
+    */
+    val size: Int get() = rawValues.size
+
+    /**
+    * IntRange of all valid indices of this array.
+    */
+    val indices: IntRange get() = rawValues.indices
+
+    /**
+    * Last valid index of this array.
+    */
+    val lastIndex: Int get() = rawValues.lastIndex
+
+    operator fun get(index: Int) = Speed(rawValues[index])
+
+    operator fun set(index: Int, value: Speed) {
+        rawValues[index] = value.rawValue
+    }
+
+    fun mean() = Speed(rawValues.sum() / rawValues.size)
+
+    fun sum() = Speed(rawValues.sum())
+
+    fun iterator(): SpeedIterator = SpeedIterator(rawValues.iterator())
+
+    /**
+    * @returns true if all elements of this array match the given predicate.
+    */
+    fun all(predicate: (Speed) -> Boolean): Boolean 
+        = rawValues.all { predicate(Speed(it)) }
+
+    /**
+    * @returns true if this array contains at least one element.
+    */
+    fun any(): Boolean = rawValues.any()
+
+    /**
+    * @returns true if at least one element of this array matches the given predicate.
+    */
+    fun any(predicate: (Speed) -> Boolean): Boolean  = rawValues.any { predicate(Speed(it)) }
+
+    /**
+    * @returns true if this array has no elements.
+    */
+    fun none(): Boolean = rawValues.none()
+
+    /**
+    * @returns true if no element of this array matches the given predicate.
+    */
+    fun none(predicate: (Speed) -> Boolean): Boolean  = rawValues.none { predicate(Speed(it)) }
+
+    fun <K, V> associate(transform: (Speed) -> Pair<K, V>): Map<K, V> 
+        = rawValues.associate { transform(Speed(it)) }
+
+    fun <K> associateBy(keySelector: (Speed) -> K): Map<K, Speed> 
+        = associate { keySelector(it) to it }
+
+    fun <K, V> associateBy(keySelector: (Speed) -> K, valueTransform: (Speed) -> V): Map<K, V> 
+        = associate { keySelector(it) to valueTransform(it)}
+
+    fun <V> associateWith(valueSelector: (Speed) -> V): Map<Speed, V> 
+        = associate {it to valueSelector(it)}
+
+    fun average(): Speed
+        = Speed(rawValues.average().toDouble())
+
+    /**
+    * Returns the largest element.
+    */
+    fun max(): Speed
+        = Speed(rawValues.max())
+
+    /**
+    * Returns the smallest element.
+    */
+    fun min(): Speed
+        = Speed(rawValues.min())
+
+    /**
+    * Returns a list containing only elements matching the given predicate.
+    */
+    fun filter(predicate: (Speed) -> Boolean): List<Speed>
+        = buildList { 
+            for (element in rawValues) {
+                val converted = Speed(element)
+                if (predicate(converted)) add(converted)
+            }
+         }
+
+    /**
+     * Returns a list containing the results of applying the given transform function to each element in the original array.
+     */
+     fun <R> map(transform: (Speed) -> R): List<R> =
+        rawValues.map { transform(Speed(it)) }
+
+    companion object {
+        @JvmInline
+        value class SpeedIterator internal constructor(val iterator: DoubleIterator): Iterator<Speed> {
+            override fun next(): Speed = Speed(iterator.next())
+            override fun hasNext(): Boolean = iterator.hasNext()
+        }
+    }
+}
+
+
+fun Collection<Speed>.toSpeedArray() = SpeedArray(this)
+
+fun Array<Speed>.toSpeedArray() = SpeedArray(this)
