@@ -45,9 +45,9 @@ value class DegreesArray internal constructor(private val rawValues: DoubleArray
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Degrees(rawValues.sum() / rawValues.size)
+    fun mean() = Degrees(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Degrees(rawValues.sum())
+    fun sum() = Degrees(rawValues.sumOf { it })
 
     fun iterator(): DegreesIterator = DegreesIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class DegreesArray internal constructor(private val rawValues: DoubleArray
     fun <V> associateWith(valueSelector: (Degrees) -> V): Map<Degrees, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Degrees
-        = Degrees(rawValues.average().toDouble())
+    fun average(): Degrees = mean()
 
     /**
     * Returns the largest element.

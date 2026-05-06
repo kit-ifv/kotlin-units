@@ -45,9 +45,9 @@ value class SpeedArray internal constructor(private val rawValues: DoubleArray) 
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Speed(rawValues.sum() / rawValues.size)
+    fun mean() = Speed(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Speed(rawValues.sum())
+    fun sum() = Speed(rawValues.sumOf { it })
 
     fun iterator(): SpeedIterator = SpeedIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class SpeedArray internal constructor(private val rawValues: DoubleArray) 
     fun <V> associateWith(valueSelector: (Speed) -> V): Map<Speed, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Speed
-        = Speed(rawValues.average().toDouble())
+    fun average(): Speed = mean()
 
     /**
     * Returns the largest element.

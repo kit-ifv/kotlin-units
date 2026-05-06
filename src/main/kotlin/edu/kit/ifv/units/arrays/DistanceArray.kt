@@ -45,9 +45,9 @@ value class DistanceArray internal constructor(private val rawValues: LongArray)
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Distance(rawValues.sum() / rawValues.size)
+    fun mean() = Distance(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Distance(rawValues.sum())
+    fun sum() = Distance(rawValues.sumOf { it })
 
     fun iterator(): DistanceIterator = DistanceIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class DistanceArray internal constructor(private val rawValues: LongArray)
     fun <V> associateWith(valueSelector: (Distance) -> V): Map<Distance, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Distance
-        = Distance(rawValues.average().toLong())
+    fun average(): Distance = mean()
 
     /**
     * Returns the largest element.

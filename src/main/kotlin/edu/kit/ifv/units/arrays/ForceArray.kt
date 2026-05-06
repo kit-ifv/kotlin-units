@@ -45,9 +45,9 @@ value class ForceArray internal constructor(private val rawValues: DoubleArray) 
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Force(rawValues.sum() / rawValues.size)
+    fun mean() = Force(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Force(rawValues.sum())
+    fun sum() = Force(rawValues.sumOf { it })
 
     fun iterator(): ForceIterator = ForceIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class ForceArray internal constructor(private val rawValues: DoubleArray) 
     fun <V> associateWith(valueSelector: (Force) -> V): Map<Force, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Force
-        = Force(rawValues.average().toDouble())
+    fun average(): Force = mean()
 
     /**
     * Returns the largest element.

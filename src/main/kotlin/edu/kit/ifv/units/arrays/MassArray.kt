@@ -45,9 +45,9 @@ value class MassArray internal constructor(private val rawValues: LongArray) {
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Mass(rawValues.sum() / rawValues.size)
+    fun mean() = Mass(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Mass(rawValues.sum())
+    fun sum() = Mass(rawValues.sumOf { it })
 
     fun iterator(): MassIterator = MassIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class MassArray internal constructor(private val rawValues: LongArray) {
     fun <V> associateWith(valueSelector: (Mass) -> V): Map<Mass, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Mass
-        = Mass(rawValues.average().toLong())
+    fun average(): Mass = mean()
 
     /**
     * Returns the largest element.

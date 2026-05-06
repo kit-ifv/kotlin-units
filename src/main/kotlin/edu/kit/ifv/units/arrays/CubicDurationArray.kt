@@ -45,9 +45,9 @@ value class CubicDurationArray internal constructor(private val rawValues: Doubl
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = CubicDuration(rawValues.sum() / rawValues.size)
+    fun mean() = CubicDuration(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = CubicDuration(rawValues.sum())
+    fun sum() = CubicDuration(rawValues.sumOf { it })
 
     fun iterator(): CubicDurationIterator = CubicDurationIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class CubicDurationArray internal constructor(private val rawValues: Doubl
     fun <V> associateWith(valueSelector: (CubicDuration) -> V): Map<CubicDuration, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): CubicDuration
-        = CubicDuration(rawValues.average().toDouble())
+    fun average(): CubicDuration = mean()
 
     /**
     * Returns the largest element.

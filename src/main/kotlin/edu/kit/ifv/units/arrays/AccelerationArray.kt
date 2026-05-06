@@ -45,9 +45,9 @@ value class AccelerationArray internal constructor(private val rawValues: Double
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Acceleration(rawValues.sum() / rawValues.size)
+    fun mean() = Acceleration(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Acceleration(rawValues.sum())
+    fun sum() = Acceleration(rawValues.sumOf { it })
 
     fun iterator(): AccelerationIterator = AccelerationIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class AccelerationArray internal constructor(private val rawValues: Double
     fun <V> associateWith(valueSelector: (Acceleration) -> V): Map<Acceleration, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Acceleration
-        = Acceleration(rawValues.average().toDouble())
+    fun average(): Acceleration = mean()
 
     /**
     * Returns the largest element.

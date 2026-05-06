@@ -45,9 +45,9 @@ value class AreaArray internal constructor(private val rawValues: DoubleArray) {
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Area(rawValues.sum() / rawValues.size)
+    fun mean() = Area(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Area(rawValues.sum())
+    fun sum() = Area(rawValues.sumOf { it })
 
     fun iterator(): AreaIterator = AreaIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class AreaArray internal constructor(private val rawValues: DoubleArray) {
     fun <V> associateWith(valueSelector: (Area) -> V): Map<Area, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Area
-        = Area(rawValues.average().toDouble())
+    fun average(): Area = mean()
 
     /**
     * Returns the largest element.

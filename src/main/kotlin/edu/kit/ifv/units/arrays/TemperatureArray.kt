@@ -45,7 +45,7 @@ value class TemperatureArray internal constructor(private val rawValues: LongArr
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Temperature(rawValues.sum() / rawValues.size)
+    fun mean() = Temperature(rawValues.sumOf { it } / rawValues.size)
 
     fun iterator(): TemperatureIterator = TemperatureIterator(rawValues.iterator())
 
@@ -87,8 +87,7 @@ value class TemperatureArray internal constructor(private val rawValues: LongArr
     fun <V> associateWith(valueSelector: (Temperature) -> V): Map<Temperature, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Temperature
-        = Temperature(rawValues.average().toLong())
+    fun average(): Temperature = mean()
 
     /**
     * Returns the largest element.

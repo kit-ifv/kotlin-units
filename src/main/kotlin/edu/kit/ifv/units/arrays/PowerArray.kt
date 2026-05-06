@@ -45,9 +45,9 @@ value class PowerArray internal constructor(private val rawValues: DoubleArray) 
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Power(rawValues.sum() / rawValues.size)
+    fun mean() = Power(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Power(rawValues.sum())
+    fun sum() = Power(rawValues.sumOf { it })
 
     fun iterator(): PowerIterator = PowerIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class PowerArray internal constructor(private val rawValues: DoubleArray) 
     fun <V> associateWith(valueSelector: (Power) -> V): Map<Power, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Power
-        = Power(rawValues.average().toDouble())
+    fun average(): Power = mean()
 
     /**
     * Returns the largest element.

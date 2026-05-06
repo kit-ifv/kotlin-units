@@ -46,9 +46,9 @@ value class DurationArray internal constructor(private val rawValues: LongArray)
         rawValues[index] = value.inWholeNanoseconds
     }
 
-    fun mean() = (rawValues.sum() / rawValues.size).nanoseconds
+    fun mean() = (rawValues.sumOf { it } / rawValues.size).nanoseconds
 
-    fun sum() = (rawValues.sum()).nanoseconds
+    fun sum() = (rawValues.sumOf { it }).nanoseconds
 
     fun iterator(): DurationIterator = DurationIterator(rawValues.iterator())
 
@@ -90,8 +90,7 @@ value class DurationArray internal constructor(private val rawValues: LongArray)
     fun <V> associateWith(valueSelector: (Duration) -> V): Map<Duration, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Duration
-        = (rawValues.average().toLong()).nanoseconds
+    fun average(): Duration = mean()
 
     /**
     * Returns the largest element.

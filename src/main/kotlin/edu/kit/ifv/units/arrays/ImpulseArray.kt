@@ -45,9 +45,9 @@ value class ImpulseArray internal constructor(private val rawValues: DoubleArray
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Impulse(rawValues.sum() / rawValues.size)
+    fun mean() = Impulse(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Impulse(rawValues.sum())
+    fun sum() = Impulse(rawValues.sumOf { it })
 
     fun iterator(): ImpulseIterator = ImpulseIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class ImpulseArray internal constructor(private val rawValues: DoubleArray
     fun <V> associateWith(valueSelector: (Impulse) -> V): Map<Impulse, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Impulse
-        = Impulse(rawValues.average().toDouble())
+    fun average(): Impulse = mean()
 
     /**
     * Returns the largest element.

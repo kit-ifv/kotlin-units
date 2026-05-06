@@ -45,9 +45,9 @@ value class CurrencyArray internal constructor(private val rawValues: DoubleArra
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Currency(rawValues.sum() / rawValues.size)
+    fun mean() = Currency(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Currency(rawValues.sum())
+    fun sum() = Currency(rawValues.sumOf { it })
 
     fun iterator(): CurrencyIterator = CurrencyIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class CurrencyArray internal constructor(private val rawValues: DoubleArra
     fun <V> associateWith(valueSelector: (Currency) -> V): Map<Currency, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Currency
-        = Currency(rawValues.average().toDouble())
+    fun average(): Currency = mean()
 
     /**
     * Returns the largest element.

@@ -18,12 +18,12 @@ enum class ArrayInternalFunction(val print: (type: ArrayType) -> String) {
     }),
     MEAN({ type ->
         """
-            fun mean() = ${type.constructor("rawValues.sum() / rawValues.size")}
+            fun mean() = ${type.constructor("rawValues.sumOf { it } / rawValues.size")}
         """.trimIndent()
     }),
     SUM({ type ->
         """
-            fun sum() = ${type.constructor("rawValues.sum()")}
+            fun sum() = ${type.constructor("rawValues.sumOf { it }")}
         """.trimIndent()
     }),
     ITERATOR({ type ->
@@ -98,8 +98,7 @@ enum class ArrayInternalFunction(val print: (type: ArrayType) -> String) {
     }),
     AVERAGE({ type ->
         """
-        fun average(): ${type.className}
-            = ${type.constructor("rawValues.average().to${type.rawValueType}()")}
+        fun average(): ${type.className} = mean()
     """.trimIndent()
     }),
     MAX({ type ->

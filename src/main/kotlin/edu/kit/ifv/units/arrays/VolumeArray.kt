@@ -45,9 +45,9 @@ value class VolumeArray internal constructor(private val rawValues: DoubleArray)
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Volume(rawValues.sum() / rawValues.size)
+    fun mean() = Volume(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Volume(rawValues.sum())
+    fun sum() = Volume(rawValues.sumOf { it })
 
     fun iterator(): VolumeIterator = VolumeIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class VolumeArray internal constructor(private val rawValues: DoubleArray)
     fun <V> associateWith(valueSelector: (Volume) -> V): Map<Volume, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Volume
-        = Volume(rawValues.average().toDouble())
+    fun average(): Volume = mean()
 
     /**
     * Returns the largest element.

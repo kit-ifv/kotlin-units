@@ -45,9 +45,9 @@ value class FrequencyArray internal constructor(private val rawValues: DoubleArr
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Frequency(rawValues.sum() / rawValues.size)
+    fun mean() = Frequency(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Frequency(rawValues.sum())
+    fun sum() = Frequency(rawValues.sumOf { it })
 
     fun iterator(): FrequencyIterator = FrequencyIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class FrequencyArray internal constructor(private val rawValues: DoubleArr
     fun <V> associateWith(valueSelector: (Frequency) -> V): Map<Frequency, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Frequency
-        = Frequency(rawValues.average().toDouble())
+    fun average(): Frequency = mean()
 
     /**
     * Returns the largest element.

@@ -45,9 +45,9 @@ value class EnergyArray internal constructor(private val rawValues: DoubleArray)
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Energy(rawValues.sum() / rawValues.size)
+    fun mean() = Energy(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Energy(rawValues.sum())
+    fun sum() = Energy(rawValues.sumOf { it })
 
     fun iterator(): EnergyIterator = EnergyIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class EnergyArray internal constructor(private val rawValues: DoubleArray)
     fun <V> associateWith(valueSelector: (Energy) -> V): Map<Energy, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Energy
-        = Energy(rawValues.average().toDouble())
+    fun average(): Energy = mean()
 
     /**
     * Returns the largest element.

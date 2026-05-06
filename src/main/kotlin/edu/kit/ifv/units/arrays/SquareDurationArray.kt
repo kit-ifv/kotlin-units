@@ -45,9 +45,9 @@ value class SquareDurationArray internal constructor(private val rawValues: Doub
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = SquareDuration(rawValues.sum() / rawValues.size)
+    fun mean() = SquareDuration(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = SquareDuration(rawValues.sum())
+    fun sum() = SquareDuration(rawValues.sumOf { it })
 
     fun iterator(): SquareDurationIterator = SquareDurationIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class SquareDurationArray internal constructor(private val rawValues: Doub
     fun <V> associateWith(valueSelector: (SquareDuration) -> V): Map<SquareDuration, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): SquareDuration
-        = SquareDuration(rawValues.average().toDouble())
+    fun average(): SquareDuration = mean()
 
     /**
     * Returns the largest element.

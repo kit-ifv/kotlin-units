@@ -45,9 +45,9 @@ value class RadiansArray internal constructor(private val rawValues: DoubleArray
         rawValues[index] = value.rawValue
     }
 
-    fun mean() = Radians(rawValues.sum() / rawValues.size)
+    fun mean() = Radians(rawValues.sumOf { it } / rawValues.size)
 
-    fun sum() = Radians(rawValues.sum())
+    fun sum() = Radians(rawValues.sumOf { it })
 
     fun iterator(): RadiansIterator = RadiansIterator(rawValues.iterator())
 
@@ -89,8 +89,7 @@ value class RadiansArray internal constructor(private val rawValues: DoubleArray
     fun <V> associateWith(valueSelector: (Radians) -> V): Map<Radians, V> 
         = associate {it to valueSelector(it)}
 
-    fun average(): Radians
-        = Radians(rawValues.average().toDouble())
+    fun average(): Radians = mean()
 
     /**
     * Returns the largest element.
