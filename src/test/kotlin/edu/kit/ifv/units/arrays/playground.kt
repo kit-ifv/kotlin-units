@@ -105,6 +105,11 @@ fun benchmarkSum(size: Int = 50) {
 }
 
 fun benchmarkAccess(size: Int, numAccesses: Int) {
+    val randomAccessIndex = buildList {
+        repeat(numAccesses) {
+            add(Random.nextInt(0..< size))
+        }
+    }
 
     val list = buildList {
         repeat(size) {
@@ -115,23 +120,20 @@ fun benchmarkAccess(size: Int, numAccesses: Int) {
     val nonBox = boxArray.toCurrencyArray()
 
     val listAccess = measureNanoTime {
-        repeat(numAccesses) {
-            val elem = Random.nextInt(0..< size)
-            val value = list[elem]
+        for (i in randomAccessIndex) {
+            list[i]
         }
     }
 
     val genericArrayAccess = measureNanoTime {
-        repeat(numAccesses) {
-            val elem = Random.nextInt(0..< size)
-            val value = boxArray[elem]
+        for (i in randomAccessIndex) {
+            boxArray[i]
         }
     }
 
     val typeArrayAccess = measureNanoTime {
-        repeat(numAccesses) {
-            val elem = Random.nextInt(0..< size)
-            val value = nonBox[elem]
+        for (i in randomAccessIndex) {
+            nonBox[i]
         }
     }
 
