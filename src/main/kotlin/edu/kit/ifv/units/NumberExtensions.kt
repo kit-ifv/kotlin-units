@@ -176,6 +176,11 @@ val Long.celsius get()= this.toTemperature(TemperatureUnit.CELSIUS)
 val Float.celsius get()= this.toTemperature(TemperatureUnit.CELSIUS)
 val Double.celsius get()= this.toTemperature(TemperatureUnit.CELSIUS)
 
+val Int.kelvin get()= this.toTemperature(TemperatureUnit.KELVIN)
+val Long.kelvin get()= this.toTemperature(TemperatureUnit.KELVIN)
+val Float.kelvin get()= this.toTemperature(TemperatureUnit.KELVIN)
+val Double.kelvin get()= this.toTemperature(TemperatureUnit.KELVIN)
+
 // --- Volume
 operator fun Int.times(volume: Volume): Volume = volume * this
 operator fun Long.times(volume: Volume): Volume = volume * this

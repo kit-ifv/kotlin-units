@@ -4,8 +4,6 @@ plugins {
 }
 group = "edu.kit.ifv.mobitopp"
 
-
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -17,6 +15,41 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.register("cleanGeneratedArrays") {
+    description = "Deletes all files which end with `Array.kt` in the " +
+            "`src/main/kotlin/edu/kit/ifv/units/arrays/` folder."
+    delete(fileTree("src/main/kotlin/edu/kit/ifv/units/arrays").matching {
+        include("*Array.kt")
+    })
+
+}
+
+sourceSets {
+    create("codeGen") {
+        kotlin.srcDirs("src/codeGenSource/kotlin")
+    }
+}
+
+
+tasks.register<JavaExec>("generateArrays") {
+    dependsOn("cleanGeneratedArrays")
+    description = "Generates all type specific arrays like TemperatureArray, EnergyArray,... in " +
+            "`src/main/kotlin/edu/kit/ifv/units/arrays/`"
+    classpath = sourceSets.getByName("codeGen").runtimeClasspath
+    mainClass.set("array/ArrayGenKt")
+}
+
+tasks.register("printSourceSetInformation"){
+    description = "Prints all source sets with their directories"
+    doLast{
+        sourceSets.forEach { srcSet ->
+            println("[${srcSet.name}]")
+            println("-->Source directories: ${srcSet.allSource.srcDirs}")
+            println("-->Output directories: ${srcSet.output.classesDirs.files}")
+        }
+    }
 }
 
 kotlin {
