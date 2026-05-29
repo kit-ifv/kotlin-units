@@ -1,6 +1,8 @@
 plugins {
     kotlin("jvm") version "2.2.0"
     id("maven-publish")
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
+    id("signing")
 }
 group = "edu.kit.ifv.mobitopp"
 
@@ -55,81 +57,113 @@ tasks.register("printSourceSetInformation"){
 kotlin {
     jvmToolchain(21)
 }
-allprojects {
-    apply(plugin = "maven-publish")
 
-    project.group = "edu.kit.ifv.mobitopp"
 
-    afterEvaluate {
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
-        if (checkProperty("doPublish")) {
-            /* mobiTopp publishing process (see .gitlab-ci.yml)
-             * Parameters such as "doPublish" must be passed in gradle command:
-             *  - ./gradlew <TASKS> publish -PdoPublish=true -Pparam=value...
-             * Lookup of parameters doPublish and isRelease returns true if they are specified and their value reads "true".
-             * Other required parameters must be specified, otherwise an error is thrown.
-             *
-             * The pipeline build version is used as the published artifacts version string.
-             *  - uses parameter: "buildVersion"
-             *
-             * Every merge on main is published to local repo: see deploy-job
-             *  - checks: doPublish=true, isRelease=false
-             *  - requires parameters: "localUrl", "localRepoUser" and "localRepoPassword"
-             *
-             * Public releases must be published manually:
-             *  - checks: doPublish=true, isRelease=true
-             *  - requires parameters: "publicUrl", "publicRepoUser" and "publicRepoPassword"
-             */
 
-            project.version = requireProperty("buildVersion")
-            println("Setup publishing configuration for ${group}:${project.name}:${version}.")
+if (checkProperty("doPublish")) {
+    /* mobiTopp publishing process (see .gitlab-ci.yml)
+        * Parameters such as "doPublish" must be passed in gradle command:
+        *  - ./gradlew <TASKS> -PdoPublish=true -Pparam=value...
+        * Lookup of parameters doPublish and isRelease returns true if they are specified and their value reads "true".
+        * Other required parameters must be specified, otherwise an error is thrown.
+        *
+        * The pipeline build version is used as the published artifacts version string.
+        *  - uses parameter: "buildVersion"
+        *
+        * Every merge on main is published to local repo: see deploy-job
+        *  - checks: doPublish=true, isRelease=false
+        *  - gradle task: publish
+        *  - requires parameters: "localUrl", "localRepoUser" and "localRepoPassword"
+        *
+        * Public releases must be published manually:
+        *  - checks: doPublish=true, isRelease=true
+        *  - gradle tasks: publishToSonatype closeSonatypeStagingRepository
+        *  - requires parameters: sonatypeUsername, sonatypePassword signing.keyId signing.password signing.secretKeyRingFile
+        */
 
-            publishing {
+    project.version = requireProperty("buildVersion")
+    println("Setup publishing configuration for ${group}:${project.name}:${version}.")
 
-                publications {
-                    register("mavenData", MavenPublication::class) {
-                        from(components["kotlin"]) // For Kotlin projects
-                        groupId = group.toString()
-                        artifactId = project.name
-                        version = project.version.toString()
+    val githubURL: String = "github.com/kit-ifv/kotlin-units"
+    val projectDescription: String = "A collection of kotlin value classes for units of measurement. Uses zero-cost abstraction for type safety at compile-time and high performance at run-time."
+    publishing {
+
+        publications {
+            create<MavenPublication>("mavenData") {
+                from(components["java"])
+                groupId = group.toString()
+                artifactId = project.name
+                version = project.version.toString()
+
+                pom {
+                    name.set(project.name)
+                    description.set(projectDescription)
+                    url.set("https://$githubURL")
+
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://mit-license.org")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("id")
+                            name.set("name")
+                            email.set("mail")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:git:https://$githubURL.git")
+                        developerConnection.set("scm:git:ssh://git@$githubURL.git")
+                        url.set("https://$githubURL")
                     }
                 }
+            }
+        }
 
-                repositories {
-                    if (checkProperty("isRelease")) {
-                        println("Activate: publish public release!")
-                        println("WARNING: Public release still deactivated!")
+        repositories {
+            if (checkProperty("isRelease")) {
+                println("Activate: publish public release!")
 
-                        //  Keep for first public release of reengineered mobitopp
-                        //maven {
-                        //    name = "PublicRepo"
-                        //    url = uri(requireProperty("publicUrl"))
-                        //    credentials {
-                        //        username = requireProperty("publicRepoUser")
-                        //        password = requireProperty("publicRepoPassword")
-                        //    }
-                        //}
+                signing {
+                    sign(publishing.publications)
+                }
 
-                    } else {
-                        println("Activate: publish local build!")
-                        maven {
-                            name = "LocalRepo"
-                            url = uri(requireProperty("localUrl"))
-                            credentials {
-                                username = requireProperty("localRepoUser")
-                                password = requireProperty("localRepoPassword")
-                            }
+                nexusPublishing {
+                    repositories {
+                        // see https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#configuration
+                        sonatype {
+                            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+                            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
                         }
                     }
                 }
 
+            } else {
+                println("Activate: publish local build!")
+                maven {
+                    name = "LocalRepo"
+                    url = uri(requireProperty("localUrl"))
+                    credentials {
+                        username = requireProperty("localRepoUser")
+                        password = requireProperty("localRepoPassword")
+                    }
+                }
             }
-
         }
 
     }
 
 }
+
 
 fun requireProperty(property: String, orElse: String? = null): String =
     requireNotNull(project.findProperty(property) as? String ?: orElse) {
